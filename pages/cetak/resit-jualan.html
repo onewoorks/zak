@@ -37,6 +37,8 @@
                 </div>
 
                 <div style="margin-top:15px;">
+                    <div class="row">
+                        <div class="col-sm-9">
                     <table>
                         <tr>
                             <th style='width: 80px;'>Kepada</th>
@@ -49,6 +51,22 @@
                             <td>{{jualkepada.alamatkedai}}</td>
                         </tr>
                     </table>
+                        </div>
+                        <div class="col-sm-3">
+                            <table>
+                                <tr>
+                                    <td style="width: 80px;">&nbsp;</td>
+                                    <td style="width: 10px;"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <th>Tarikh</th>
+                                    <td>:</td>
+                                    <td>{{tarikhini}}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </header>
             <section>
@@ -74,7 +92,7 @@
                         </tr>
                         <tr ng-repeat="list in itemList">
                             <td class='text-center'>{{(list.isempty) ? '&nbsp;':$index+1}}</td>
-                            <td class='text-center'>{{list.tarikh}}</td>
+                            <td class='text-center'>{{list.tarikh_jual}}</td>
                             <td>{{list.perkara}}</td>
                             <td class='text-center'>{{list.market}}</td>
                             <td class='text-center'>{{list.berat_jual}} {{ (list.berat_jual != 'null' ) ? '' : 'kg'}}</td>

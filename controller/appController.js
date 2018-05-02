@@ -46,6 +46,7 @@ zakApp.controller('transactionController', ['$scope', '$http', '$location', func
         $scope.addToList = function () {
             var harga = (($scope.market - $scope.tolak) * $scope.berat).toFixed(2);
             var hargaSplit = harga.toString().split('.');
+            $scope.tarikhini = $('input[name=tarikh]').val();
             var formData = {
                 cawangan: $scope.cawangan,
                 tarikh: $('input[name=tarikh]').val(),
@@ -58,7 +59,7 @@ zakApp.controller('transactionController', ['$scope', '$http', '$location', func
                 harga: numberWithCommas(hargaSplit[0]),
                 hargaSen: hargaSplit[1],
                 hargaClean: harga
-            }
+            };
 
             itemList.push(formData);
             jumlahJualan();
