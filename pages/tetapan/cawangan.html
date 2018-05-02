@@ -1,0 +1,35 @@
+<div class='container-fluid' ng-controller="cawanganController">
+    <div class='page-header hidden-print'>
+        <h1>Senarai Cawangan</h1>
+    </div>
+    
+    <div class="panel panel-primary">
+        <div class="panel-heading">Senarai Cawangan</div>
+        <div class="panel-body">
+            <table class="table table-bordered table-condensed">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Nama Cawangan</th>
+                        <th>Alamat</th>
+                        <th>No Telefon</th>
+                        <th>GST</th>
+                        <th>Tindakan</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="list in listCawangan">
+                        <td>{{$index+1}}</td>
+                        <td>{{list.nama_cawangan}}</td>
+                        <td>{{list.alamat}}</td>
+                        <td>{{list.no_telefon}}</td>
+                        <td class="text-right">{{list.no_gst }}</td>
+                        <td class="text-center">
+                            <div class="btn btn-danger btn-xs">Buang</div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

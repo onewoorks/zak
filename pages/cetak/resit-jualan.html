@@ -1,0 +1,120 @@
+
+<html ng-app="zakPrintApp">
+    <head>
+        <title>Tax Invoice</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href='http://localhost/Zak_v2/public_html/assets/bootstrap/css/bootstrap.min.css' />
+        <link rel="stylesheet" href='http://localhost/Zak_v2/public_html/assets/bootstrap/css/bootstrap-theme.min.css' />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paper-css/0.3.0/paper.css" media="print" />
+        <script src='http://localhost/Zak_v2/public_html/assets/jquery/jquery-3.1.1.js'></script>
+        <script src='http://localhost/Zak_v2/public_html/assets/bootstrap/js/bootstrap.min.js'></script>
+        <script src='http://localhost/Zak_v2/public_html/assets/angular/angular.min.js'></script>
+        <script src='http://localhost/Zak_v2/public_html/controller/printController.js'></script>
+        <style>
+            @media print{
+                .doNotPrint{display:none !important;}
+                table { font-size: 0.8em; border:#000;}
+                .table-bordered { border:1px solid #000;}
+            }
+            @media screen {
+                html { padding:10px;}
+            }
+        </style>
+    </head>
+    <body>
+        <div class='container-fluid' ng-controller="printController">
+            <header>
+                <div class='row'>
+                    <div class='col-xs-6 text-left'><strong>TAX INVOICE</strong></div>
+                    <div class='col-xs-6 text-right'><strong>NO BIL : {{ ("00000000" + nobil).slice(-8)}} </strong></div>
+                </div>
+                <div class='text-center' >
+                    <h3>{{kedai.namakedai}}</h3>
+                    <div>{{kedai.no_gst}}</div>
+                    <div>{{kedai.alamatkedai}}</div>
+                    <div>{{kedai.telefon}}</div>
+                </div>
+
+                <div style="margin-top:15px;">
+                    <table>
+                        <tr>
+                            <th style='width: 80px;'>Kepada</th>
+                            <th style='width: 10px;'>:</th>
+                            <td>{{jualkepada.namacawangan}}</td>
+                        </tr>
+                        <tr>
+                            <th>Alamat</th>
+                            <th>:</th>
+                            <td>{{jualkepada.alamatkedai}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </header>
+            <section>
+                <br>
+                <table class='table table-bordered table-condensed'>
+                    <thead>
+                        <tr>
+                            <th class='text-center' style='vertical-align: middle' rowspan="2">NO</th>
+                            <th class='text-center' style='vertical-align: middle' rowspan="2">TARIKH</th>
+                            <th class='text-center' style='vertical-align: middle' rowspan="2">PERKARA</th>
+                            <th class='text-center' style='vertical-align: middle' rowspan="2">MARKET</th>
+                            <th class='text-center' style='vertical-align: middle' rowspan="2">BERAT</th>
+                            <th class='text-center' style='vertical-align: middle' colspan="2">HARGA</th>
+                        </tr>
+                        <tr>
+                            <th class='text-center' >RM</th>
+                            <th class='text-center' >SEN</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-if="itemList.length == 0">
+                            <td colspan="7"><i>Tiada makluat jualan setakat ini</i></td>
+                        </tr>
+                        <tr ng-repeat="list in itemList">
+                            <td class='text-center'>{{(list.isempty) ? '&nbsp;':$index+1}}</td>
+                            <td class='text-center'>{{list.tarikh}}</td>
+                            <td>{{list.perkara}}</td>
+                            <td class='text-center'>{{list.market}}</td>
+                            <td class='text-center'>{{list.berat_jual}} {{ (list.berat_jual != 'null' ) ? '' : 'kg'}}</td>
+                            <td class='text-right'>{{list.harga_jual| number:0}}</td>
+                            <td class='text-left'>{{list.harga_jual.split('.')[1]}}</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td class='text-right' colspan="5">Jumlah</td>
+                            <td class='text-right'>{{jumlah| number:0}}</td>
+                            <td>{{jumlahSen}}</td>
+                        </tr>
+                        <tr>
+                            <td class='text-right' colspan="5">Adjust</td>
+                            <td class='text-right'>{{adjust}}</td>
+                            <td>{{adjustSen}}</td>
+                        </tr>
+                        <tr>
+                            <td class='text-right' colspan="5">Jumlah Seterusnya</td>
+                            <td>{{jumlahSeterusnya}}</td>
+                            <td>{{jumlahSeterusnyaSen}}</td>
+                        </tr>
+                        <tr>
+                            <td class='text-right' colspan="5">GST 6%</td>
+                            <td class='text-right'>{{jumlahGst| number }}</td>
+                            <td>{{jumlahGstSen}}</td>
+                        </tr>
+                        <tr>
+                            <td class='text-right' colspan="5">Jumlah RM</td>
+                            <td class='text-right'>{{jumlahBesar| number}}</td>
+                            <td>{{jumlahBesarSen}}</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </section>
+            <div class="text-center">
+                <button class='btn btn-primary doNotPrint' ng-click='printResit()'>Cetak Resit</button>
+                <button class='btn btn-primary doNotPrint' ng-click='tutupWindow()'>Tutup</button>
+            </div>
+        </div>
+    </body>
+</html>

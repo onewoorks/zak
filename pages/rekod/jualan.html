@@ -1,0 +1,39 @@
+<div class='container-fluid' ng-controller="rekodJualanController">
+    <div class='page-header doNotPrint'>
+        <h1>Rekod Jualan</h1>
+    </div>
+
+    <div class="panel panel-primary doNotPrint">
+        <div class="panel-heading">SENARAI JUALAN</div>
+        <div class="panel-body">
+            <table class="table table-bordered table-condensed">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Tarikh</th>
+                        <th>No Resit</th>
+                        <th>Jual Kepada</th>
+                        <th>Berat Jual</th>
+                        <th>Jumlah Jualan</th>
+                        <th>GST</th>
+                        <th>Tindakan</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="list in listJualan">
+                        <td>{{$index + 1}}</td>
+                        <td>{{list.tarikh_jual}}</td>
+                        <td class="text-center">{{("00000000" + list.resit).slice( - 8)}}</td>
+                        <td>{{list.nama_cawangan}}</td>
+                        <td class="text-right">{{ list.berat_jual | number:2}} kg</td>
+                        <td class="text-right">{{list.harga_jual| number:2 }}</td>
+                        <td class="text-right">{{list.harga_gst| number:2}}</td>
+                        <td class="text-center">
+                            <div class="btn btn-success btn-xs" ng-click="cetakInvois(list.resit)">Cetak</div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

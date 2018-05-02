@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html ng-app="zakApp">
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href='assets/bootstrap/css/bootstrap.min.css' />
+        <link rel="stylesheet" href='assets/bootstrap/css/bootstrap-theme.min.css' />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paper-css/0.3.0/paper.css" media="print" />
+        <link rel="stylesheet" href='assets/libs/datepicker/datepicker.css' />
+    <body>
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">ZAK v2</a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="#">Home</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Action</a></li>
+                                <li><a href="#">Another action</a></li>
+                                <li><a href="#">Something else here</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li class="dropdown-header">Nav header</li>
+                                <li><a href="#">Separated link</a></li>
+                                <li><a href="#">One more separated link</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="../navbar/">Default</a></li>
+                        <li><a href="../navbar-static-top/">Static top</a></li>
+                        <li class="active"><a href="./">Fixed top <span class="sr-only">(current)</span></a></li>
+                    </ul>
+                </div><!--/.nav-collapse -->
+            </div>
+        </nav>
+        
+        <div class='container-fluid' ng-controller="transactionController" style="margin-top:40px;">
+            <div class='page-header hidden-print'>
+                <h1>Maklumat Transaksi</h1>
+            </div>
+            <div class='row'>
+                <div class='col-sm-4 hidden-print'>
+                    <div class='panel panel-primary'>
+                        <div class='panel-heading'>
+                            MAKLUMAT JUALAN
+                        </div>
+                        <div class='panel-body'>
+                            <form class='form-horizontal'>
+                                <div class='form-group'>
+                                    <label class='col-xs-5 control-label'>Jual Kepada</label>
+                                    <div class='col-xs-6' style='margin-right:0'>
+                                        <select class='form-control' ng-model='cawangan' ng-change='pickCawangan()' required >
+                                            <option ng-repeat="cawangan in listCawangan" ng-value='cawangan.id'>{{cawangan.nama_cawangan}}</option>
+                                        </select>
+                                    </div>
+                                    <div class='col-xs-1' style='padding-left:0; margin-left:-13px'>
+                                        <div class='btn btn-default' data-toggle="modal" data-target="#myModal" >+</div>
+                                    </div>
+                                </div>
+
+                                <div class='form-group'>
+                                    <label class='col-sm-5 control-label'>Tarikh</label>
+                                    <div class='col-sm-7'>
+                                        <input type='text' class='form-control dp' name='tarikh' ng-model='tarikh'  required/>
+                                    </div>
+                                </div>
+
+                                <hr>
+
+                                <div class='form-group'>
+                                    <label class='col-sm-5 control-label'>Perkara</label>
+                                    <div class='col-sm-7'>
+                                        <input type='text' class='form-control' ng-model='perkara'  required/>
+                                    </div>
+                                </div>
+
+
+                                <div class='form-group'>
+                                    <label class='col-sm-5 control-label'>Market</label>
+                                    <div class='col-sm-7'>
+                                        <input type='text' class='form-control' ng-model="market"  required/>
+                                    </div>
+                                </div>
+
+                                <div class='form-group'>
+                                    <label class='col-sm-5 control-label'>Tolak</label>
+                                    <div class='col-sm-7'>
+                                        <input type='text' class='form-control' ng-model='tolak'  required/>
+                                    </div>
+                                </div>
+
+                                <div class='form-group'>
+                                    <label class='col-sm-5 control-label'>Berat Jual</label>
+                                    <div class='col-sm-7'>
+                                        <div class='input-group'>
+                                            <input type='text' class='form-control' ng-model='berat'  required/>
+                                            <span class='input-group-addon'>kg</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class='form-group'>
+                                    <label class='col-sm-5 control-label'>GST</label>
+                                    <div class='col-sm-7'>
+                                        <label class='radio-inline'>
+                                            <input type='radio' ng-value='0' ng-model="gst" /> ZR 0%
+                                        </label>
+                                        <label class='radio-inline'>
+                                            <input type='radio' ng-value='6' ng-model='gst' ng-checked="true" checked/> SR 6%
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <hr>
+
+                                <div class='form-group'>
+                                    <div class='col-sm-12 text-right'>
+                                        <button class='btn btn-default' type='reset'> Reset</button>
+                                        <button class='btn btn-primary' type='button' ng-click='addToList()'> Masuk Senarai Jualan</button>
+                                    </div>
+                                </div>
+                            </form>        
+                        </div>
+                    </div>
+
+                </div>
+                <div class='col-sm-8 hidden-print'>
+                    <div class='panel panel-primary'>
+                        <div class='panel-heading'>PREVIEW RESIT</div>
+                        <div class='panel-body'>
+                            <header>
+                                <div class='row'>
+                                    <div class='col-xs-6 text-left'><strong>TAX INVOICE</strong></div>
+                                    <div class='col-xs-6 text-right' style='right:120px;'><strong>NO BIL : </strong></div>
+                                </div>
+                                <div class='text-center'>
+                                    <h3>{{kedai.namakedai}}</h3>
+                                    <div>{{kedai.no_gst}}</div>
+                                    <div>{{kedai.alamatkedai}}</div>
+                                    <div>{{kedai.telefon}}</div>
+                                </div>
+
+                                <div>
+                                    <br>
+                                    <table>
+                                        <tr>
+                                            <th style='width: 80px;'>Kepada</th>
+                                            <th style='width: 10px;'>:</th>
+                                            <td>{{jualkepada.namacawangan}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Alamat</th>
+                                            <th>:</th>
+                                            <td>{{jualkepada.alamatkedai}}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </header>
+                            <section>
+                                <br>
+                                <table class='table table-bordered table-condensed'>
+                                    <thead>
+                                        <tr>
+                                            <th class='text-center' style='vertical-align: middle' rowspan="2">NO</th>
+                                            <th class='text-center' style='vertical-align: middle' rowspan="2">TARIKH</th>
+                                            <th class='text-center' style='vertical-align: middle' rowspan="2">PERKARA</th>
+                                            <th class='text-center' style='vertical-align: middle' rowspan="2">MARKET</th>
+                                            <th class='text-center' style='vertical-align: middle' rowspan="2">BERAT</th>
+                                            <th class='text-center' style='vertical-align: middle' colspan="2">HARGA</th>
+                                        </tr>
+                                        <tr>
+                                            <th class='text-center' >RM</th>
+                                            <th class='text-center' >SEN</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-if="itemList.length == 0">
+                                            <td colspan="7"><i>Tiada makluat jualan setakat ini</i></td>
+                                        </tr>
+                                        <tr ng-repeat="list in itemList">
+                                            <td class='text-center'>{{$index + 1}}</td>
+                                            <td class='text-center'>{{list.tarikh}}</td>
+                                            <td>{{list.perkara}}</td>
+                                            <td class='text-center'>{{list.market}}</td>
+                                            <td class='text-center'>{{list.berat}}</td>
+                                            <td class='text-right'>{{list.harga}}</td>
+                                            <td class='text-left'>{{list.hargaSen}}</td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td class='text-right' colspan="5">Jumlah</td>
+                                            <td class='text-right'>{{jumlah}}</td>
+                                            <td>{{jumlahSen}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class='text-right' colspan="5">Adjust</td>
+                                            <td class='text-right'>{{adjust}}</td>
+                                            <td>{{adjustSen}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class='text-right' colspan="5">Jumlah Seterusnya</td>
+                                            <td>{{jumlahSeterusnya}}</td>
+                                            <td>{{jumlahSeterusnyaSen}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class='text-right' colspan="5">GST 6%</td>
+                                            <td class='text-right'>{{jumlahGst}}</td>
+                                            <td>{{jumlahGstSen}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class='text-right' colspan="5">Jumlah RM</td>
+                                            <td class='text-right'>{{jumlahBesar}}</td>
+                                            <td>{{jumlahBesarSen}}</td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </section>
+                            <footer></footer>
+                        </div>
+                        <div class='panel-footer text-right'>
+                            <button class='btn btn-primary' ng-click='postJualan()'>Simpan & Cetak Resit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal -->
+            <div id="myModal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <form class="form-horizontal" >
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Tambah Cawangan Baru</h4>
+                            </div>
+                            <div class="modal-body">
+
+                                <div class="form-group">
+                                    <label class="control-label col-xs-4">Nama Cawangan</label>
+                                    <div class="col-xs-6">
+                                        <input type="text" ng-model="modalcawangan.nama" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-xs-4">Alamat</label>
+                                    <div class="col-xs-6">
+                                        <textarea ng-model="modalcawangan.alamat" class="form-control"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-xs-4">No Telefon</label>
+                                    <div class="col-xs-6">
+                                        <input type="text" ng-model="modalcawangan.notelefon" class="form-control" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-xs-4">No GST</label>
+                                    <div class="col-xs-6">
+                                        <input type="text" ng-model="modalcawangan.nogst" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="tambahCawangan()">Tambah Cawangan</button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+
+        <script src='assets/jquery/jquery-3.1.1.js'></script>
+        <script src='assets/bootstrap/js/bootstrap.min.js'></script>
+        <script src='assets/angular/angular.min.js'></script>
+        <script src="assets/angular/angular-route.js"></script>
+        <script src='controller/transactionController.js'></script>
+        <script src='assets/libs/datepicker/datepicker.js'></script>
+        <script>
+                                    $(function () {
+                                        $('.dp').datepicker({
+                                            format: 'dd/mm/yyyy'
+                                        })
+                                                .on('changeDate', function (ev) {
+                                                    $('.dp').datepicker('hide');
+                                                });
+                                    })
+        </script>
+    </body>
+</html>
