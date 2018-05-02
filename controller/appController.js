@@ -173,8 +173,7 @@ zakApp.controller('cawanganController', ['$scope', '$http', '$location', functio
         var getListCawangan = () => {
             $http.get(api_url + '/cawangan')
                     .then(function (response) {
-                        console.log(response)
-                        $scope.listCawangan = response.data.result
+                        $scope.listCawangan = response.data.result;
                     });
         };
         getListCawangan();

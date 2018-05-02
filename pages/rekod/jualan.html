@@ -20,6 +20,9 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <tr ng-if="listJualan.length == 0 ">
+                        <td colspan="8"><i>Tiada senarai jualan</i></td>
+                    </tr>
                     <tr ng-repeat="list in listJualan">
                         <td>{{$index + 1}}</td>
                         <td>{{list.tarikh_jual}}</td>
