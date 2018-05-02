@@ -1,4 +1,4 @@
-var api_url = 'http://localhost/zak_api/api';
+var api_url = 'https://onewoorks-solutions.com/api/zak/api';
 var zakApp = angular.module('zakApp', ["ngRoute","AngularPrint"]);
 
 zakApp.config(function ($routeProvider) {
