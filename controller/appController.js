@@ -36,7 +36,9 @@ const priceSplit = (price, arr) => {
 
 zakApp.controller('transactionController', ['$scope', '$http', '$location', function ($scope, $http, $location) {
         var itemList = [];
-
+        $scope.latestResit = 0;
+        $scope.beforeSave = 'hidden';
+        $scope.printOnly = 'hidden';
         $scope.kedai = {
             namakedai: 'ZAK EMAS SERVICES',
             no_gst: 'No GST : 001225527296',
@@ -47,6 +49,7 @@ zakApp.controller('transactionController', ['$scope', '$http', '$location', func
         $scope.addToList = function () {
             var harga = (($scope.market - $scope.tolak) * $scope.berat).toFixed(2);
             var hargaSplit = harga.toString().split('.');
+            $scope.beforeSave = '';
             $scope.tarikhini = $('input[name=tarikh]').val();
             var formData = {
                 cawangan: $scope.cawangan,
@@ -111,7 +114,10 @@ zakApp.controller('transactionController', ['$scope', '$http', '$location', func
                         }
                     });
         }
-
+        $scope.printOnlyBtn = () => {
+            window.open(app_url + '/pages/cetak/resit-jualan.html?id=' + $scope.latestResit);
+        };
+        
         $scope.postJualan = function () {
             $http({
                 headers: {
@@ -121,7 +127,10 @@ zakApp.controller('transactionController', ['$scope', '$http', '$location', func
                 data: JSON.stringify(itemList)})
                     .then(function (response) {
                         var no_resit = response.data.response.no_resit;
-                        window.open(app_url + '/pages/cetak/resit-jualan.html?id='+no_resit)
+                        $scope.latestResit = no_resit;
+                        $scope.printOnly = '';
+                        $scope.beforeSave = 'hidden';
+                        window.open(app_url + '/pages/cetak/resit-jualan.html?id=' + no_resit)
                     });
         };
 
