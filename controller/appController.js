@@ -144,6 +144,7 @@ zakApp.controller('transactionController', ['$scope', '$http', '$location', func
                 data: JSON.stringify(cawangan)})
                     .then(function () {
                         senaraiCawangan();
+                $scope.modalcawangan = {}
                     });
         };
 
