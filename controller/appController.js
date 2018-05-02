@@ -1,5 +1,6 @@
 var api_url = 'https://onewoorks-solutions.com/api/zak/api';
-var zakApp = angular.module('zakApp', ["ngRoute","AngularPrint"]);
+var app_url = 'https://zak-v2.herokuapp.com';
+var zakApp = angular.module('zakApp', ["ngRoute", "AngularPrint"]);
 
 zakApp.config(function ($routeProvider) {
     $routeProvider
@@ -119,7 +120,8 @@ zakApp.controller('transactionController', ['$scope', '$http', '$location', func
                 method: "POST",
                 data: JSON.stringify(itemList)})
                     .then(function (response) {
-                        console.log(response);
+                        var no_resit = response.data.response.no_resit;
+                        window.open(app_url + '/pages/cetak/resit-jualan.html?id='+no_resit)
                     });
         };
 
@@ -151,7 +153,7 @@ zakApp.controller('rekodJualanController', ['$scope', '$http', '$location', func
         };
 
         $scope.cetakInvois = (resit_no) => {
-            window.open('http://localhost:8383/Zak_v2/pages/cetak/resit-jualan.html?id='+resit_no);
+            window.open(app_url + '/pages/cetak/resit-jualan.html?id=' + resit_no);
         };
 
         getListJualan();
