@@ -22,14 +22,15 @@ var gf_getQueryParams = function () {
     return params;
 };
 
-zakPrintApp.controller('printController', ['$scope', '$http', '$location', function ($scope, $http) {
-        $scope.kedai = {
-            namakedai: 'ZAK EMAS SERVICES',
-            no_gst: 'No GST : 001225527296',
-            alamatkedai: '97-A, Jalan Mewah 8, Medan Warisan, 26700 Muadzam Shah, Pahang Darul Makmur.',
-            telefon: 'Tel: 09-452 5920 Fax: 09-452 5955 H/P: 019-934 9555'
-        };
+const kedai = {
+    namakedai: 'ZAK EMAS SERVICES',
+    no_gst: '(TR0068938-T) No GST : 001225527296',
+    alamatkedai: 'Lot G 23A, Ground Floor, Kuantan Parade, Jalan Haji, Abdul Rahman, 25000 Kuantan, Pahang',
+    telefon: 'Tel: 09-514 6555 Fax: 09-512 4750'
+};
 
+zakPrintApp.controller('printController', ['$scope', '$http', '$location', function ($scope, $http) {
+        $scope.kedai = kedai;
 
         var params = gf_getQueryParams();
         var resit_no = params.id;
