@@ -61,6 +61,4 @@ zakPrintApp.controller('printController', ['$scope', '$http', '$location', funct
                     $scope.jumlahBesarSen = priceSplit((parseFloat(info[0].total_harga) + parseFloat(info[0].total_gst)), 1);
                     $scope.itemList = info;
                 });
-
-
     }]);
