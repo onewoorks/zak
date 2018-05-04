@@ -25,6 +25,11 @@
     </head>
     <body>
         <div class='container-fluid' ng-controller="printController">
+            <div class="text-center">
+                <button class='btn btn-primary doNotPrint' ng-click='printResit()'>Cetak Resit</button>
+                <button class='btn btn-primary doNotPrint' ng-click='tutupWindow()'>Tutup</button>
+            </div>
+            
             <header>
                 <div class='row'>
                     <div class='col-xs-6 text-left'><strong>TAX INVOICE</strong></div>
@@ -130,10 +135,7 @@
                     </tfoot>
                 </table>
             </section>
-            <div class="text-center">
-                <button class='btn btn-primary doNotPrint' ng-click='printResit()'>Cetak Resit</button>
-                <button class='btn btn-primary doNotPrint' ng-click='tutupWindow()'>Tutup</button>
-            </div>
+            
         </div>
     </body>
 </html>
