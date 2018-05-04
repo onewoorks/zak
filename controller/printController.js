@@ -50,7 +50,7 @@ zakPrintApp.controller('printController', ['$scope', '$http', '$location', funct
                     $scope.jualkepada = {
                         namacawangan: info[0].nama_cawangan,
                         alamatkedai: info[0].alamat,
-                        notelefon: info[0].no_telefon + ', (No GST : ' + info[0].no_gst + ')'
+                        notelefon: 'No Tel: '+info[0].no_telefon + ', (No GST : ' + info[0].no_gst + ')'
                     };
                     $scope.tarikhini = info[0].tarikh_jual;
                     $scope.jumlahGst = priceSplit(info[0].total_gst, 0);
