@@ -25,7 +25,7 @@ var gf_getQueryParams = function () {
 const kedai = {
     namakedai: 'ZAK EMAS SERVICES',
     no_gst: '(TR0068938-T) No GST : 001225527296',
-    alamatkedai: 'Lot G 23A, Ground Floor, Kuantan Parade, Jalan Haji, Abdul Rahman, 25000 Kuantan, Pahang',
+    alamatkedai: 'No 20, (A), Jalan Mahkota, 25000 Kuantan Pahang',
     telefon: 'Tel: 09-514 6555 Fax: 09-512 4750'
 };
 
