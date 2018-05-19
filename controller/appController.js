@@ -178,5 +178,34 @@ zakApp.controller('cawanganController', ['$scope', '$http', '$location', functio
                         $scope.listCawangan = response.data.result;
                     });
         };
+        
+        $scope.openModalCawangan = (x) => {
+            $('#editCawangan').modal('show');
+            $http.get(api_url + '/cawangan/cawangan_detail?id='+x)
+                    .then(function(response){
+                        var cawangan = response.data.result;
+                        $scope.modalcawangan = {
+                            nama: cawangan.nama_cawangan,
+                            alamat: cawangan.alamat,
+                            notelefon: cawangan.no_gst,
+                            nogst: cawangan.no_telefon,
+                            id:cawangan.id
+                        };
+                    });
+        };
+        
+        $scope.kemaskiniCawangan = () => {
+            var cawangan = $scope.modalcawangan;
+            $http({
+                headers: {
+                    'Content-Type': 'application/json'},
+                url: api_url + '/cawangan/kemaskini_cawangan',
+                method: "PUT",
+                data: JSON.stringify(cawangan)})
+                    .then(function () {
+                        getListCawangan();
+                        $scope.modalcawangan = {};
+                    });
+        }
         getListCawangan();
     }]);

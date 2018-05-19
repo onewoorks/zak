@@ -2,7 +2,7 @@
     <div class='page-header hidden-print'>
         <h1>Senarai Cawangan</h1>
     </div>
-    
+
     <div class="panel panel-primary">
         <div class="panel-heading">Senarai Cawangan</div>
         <div class="panel-body">
@@ -14,7 +14,7 @@
                         <th>Alamat</th>
                         <th>No Telefon</th>
                         <th>GST</th>
-                        <th>Tindakan</th>
+                        <th style='width:100px' class='text-center'>Tindakan</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -22,17 +22,74 @@
                         <td colspan="6"><i>Tiada rekod setakat ini.</i></td>
                     </tr>
                     <tr ng-repeat="list in listCawangan">
-                        <td>{{$index+1}}</td>
+                        <td>{{$index + 1}}</td>
                         <td>{{list.nama_cawangan}}</td>
                         <td>{{list.alamat}}</td>
                         <td>{{list.no_telefon}}</td>
-                        <td class="text-right">{{list.no_gst }}</td>
+                        <td class="text-right">{{list.no_gst}}</td>
                         <td class="text-center">
-                            <div class="btn btn-danger btn-xs">Buang</div>
+                            <div class='btn-group'>
+                                <div class="btn btn-danger btn-xs"><i class='fas fa-trash-alt'></i></div>
+                                <div class='btn btn-default btn-xs' 
+                                     ng-click='openModalCawangan(list.id)' ><i class='fas fa-pencil-alt'></i></div>
+                            </div>
                         </td>
                     </tr>
                 </tbody>
             </table>
+        </div>
+    </div>
+
+
+    <div id="editCawangan" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <form class="form-horizontal" >
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Kemaskini Maklumat Cawangan</h4>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="form-group">
+                            <label class="control-label col-xs-4">Nama Cawangan</label>
+                            <div class="col-xs-6">
+                                <input type="text" ng-model="modalcawangan.nama" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-4">Alamat</label>
+                            <div class="col-xs-6">
+                                <textarea ng-model="modalcawangan.alamat" class="form-control" rows="6"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-xs-4">No Telefon</label>
+                            <div class="col-xs-6">
+                                <input type="text" ng-model="modalcawangan.notelefon" class="form-control" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-xs-4">No GST</label>
+                            <div class="col-xs-6">
+                                <input type="text" ng-model="modalcawangan.nogst" class="form-control" />
+                                <input type='hidden' ng-model='modalcawangan.id' />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" 
+                                class="btn btn-default" 
+                                data-dismiss="modal" 
+                                ng-click="kemaskiniCawangan()"><i class='fas fa-pencil-alt'></i> Kemaskini Cawangan</button>
+                    </div>
+                </form>
+            </div>
+
         </div>
     </div>
 </div>
