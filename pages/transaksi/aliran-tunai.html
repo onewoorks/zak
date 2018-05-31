@@ -1,0 +1,174 @@
+<div class='container-fluid' ng-controller="transactionController" >
+    <div class='page-header hidden-print'>
+        <h1>Aliran Tunai</h1>
+    </div>
+    <div class='row'>
+        <div class='col-sm-5'>
+            <div class='panel panel-primary'>
+                <div class='panel-heading'>
+                    MAKLUMAT ALIRAN TUNAI
+                </div>
+                <div class='panel-body'>
+                    <form class='form-horizontal'>
+                        <div class='form-group'>
+                            <label class='col-sm-5 control-label'>Perkara</label>
+                            <div class='col-sm-7'>
+                                <input type='text' class='form-control' ng-model='perkara'  required/>
+                            </div>
+                        </div>
+                        
+                        <div class='form-group'>
+                            <label class='col-xs-5 control-label'>Daripada / Kepada</label>
+                            <div class='col-xs-6' style='margin-right:0'>
+                                <select class='form-control' ng-model='cawangan' ng-change='pickCawangan()' required >
+                                    <option value="">Sila Pilih</option>
+                                    <option ng-repeat="cawangan in listCawangan" ng-value='cawangan.id'>{{cawangan.nama_cawangan}}</option>
+                                </select>
+                            </div>
+                            <div class='col-xs-1' style='padding-left:0; margin-left:-13px'>
+                                <div class='btn btn-default' data-toggle="modal" data-target="#myModal" >+</div>
+                            </div>
+                        </div>
+
+                        <div class='form-group'>
+                            <label class='col-sm-5 control-label'>Tarikh</label>
+                            <div class='col-sm-7'>
+                                <input type='text' class='form-control dp' name='tarikh' ng-model='tarikh'  required/>
+                            </div>
+                        </div>
+                        
+                        <div class='form-group'>
+                            <label class='col-sm-5 control-label'>Jenis </label>
+                            <div class='col-sm-7'>
+                                <label class="radio-inline"><input type="radio" name="jenis_transaksi" checked /> Masuk</label>
+                                <label class="radio-inline"><input type="radio" name="jenis_transaksi"/> Keluar</label>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class='form-group'>
+                            <label class='col-sm-5 control-label'>Berat Emas</label>
+                            <div class='col-sm-5'>
+                                <div class='input-group'>
+                                    <input type='text' class='form-control text-center' ng-model='berat'  required/>
+                                    <span class='input-group-addon'>g</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class='form-group'>
+                            <label class='col-sm-5 control-label'>Nilai</label>
+                            <div class='col-sm-5'>
+                                <div class="input-group">
+                                    <span class="input-group-addon">RM</span>
+                                    <input type='text' class='form-control text-center' ng-model="market"  required/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class='form-group'>
+                            <div class='col-sm-12 text-right'>
+                                <button class='btn btn-default' type='reset'> Reset</button>
+                                <button class='btn btn-primary' type='button' ng-click='addToList()'> Daftar Aliran Tunai</button>
+                            </div>
+                        </div>
+                    </form>        
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-sm-7">
+            <div class="panel panel-primary">
+                <div class="panel-heading">SENARAI TRANSAKSI ALIRAN TUNAI</div>
+                <div class="panel-body">
+                    <table class="table table-bordered table-condensed">
+                        <thead>
+                            <tr>
+                                <th rowspan="2" class="text-center" style="vertical-align: middle">Tarikh</th>
+                                <th rowspan="2" class="text-center" style="vertical-align: middle">Pekara</th>
+                                <th rowspan="2" class="text-center" style="vertical-align: middle">Cawangan</th>
+                                <th colspan="2" class="text-center">Jenis</th>
+                                <th colspan="2" class="text-center">Emas</th>
+                            </tr>
+                            <tr>
+                                <th class="text-center">Masuk</th>
+                                <th class="text-center">Keluar</th>
+                                <th class="text-center">Berat</th>
+                                <th class="text-center">Nilai</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="7"><i>Tiada transaksi didaftarkan setakat ini.</i></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <form class="form-horizontal" >
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Tambah Cawangan Baru</h4>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="form-group">
+                            <label class="control-label col-xs-4">Nama Cawangan</label>
+                            <div class="col-xs-6">
+                                <input type="text" ng-model="modalcawangan.nama" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-4">Alamat</label>
+                            <div class="col-xs-6">
+                                <textarea ng-model="modalcawangan.alamat" class="form-control"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-xs-4">No Telefon</label>
+                            <div class="col-xs-6">
+                                <input type="text" ng-model="modalcawangan.notelefon" class="form-control" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-xs-4">No GST</label>
+                            <div class="col-xs-6">
+                                <input type="text" ng-model="modalcawangan.nogst" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="tambahCawangan()">Tambah Cawangan</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<script>
+    $(function () {
+        $('.dp').datepicker({
+            format: 'dd/mm/yyyy'
+        })
+                .on('changeDate', function (ev) {
+                    $('.dp').datepicker('hide');
+                });
+    })
+</script>

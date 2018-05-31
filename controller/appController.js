@@ -1,6 +1,6 @@
 var api_url = 'https://onewoorks-solutions.com/api/zak/api';
 var app_url = 'https://zak-v2.herokuapp.com';
-var zakApp = angular.module('zakApp', ["ngRoute", "AngularPrint"]);
+var zakApp = angular.module('zakApp', ["ngRoute", "AngularPrint",'oitozero.ngSweetAlert']);
 
 zakApp.config(function ($routeProvider) {
     $routeProvider
@@ -9,6 +9,12 @@ zakApp.config(function ($routeProvider) {
             })
             .when("/transaksi-jualan", {
                 templateUrl: "pages/transaksi/jualan.html"
+            })
+            .when('/transaksi-aliran-tunai',{
+                templateUrl: "pages/transaksi/aliran-tunai.html"
+            })
+            .when('/transaksi-aliran-bank',{
+                templateUrl: "pages/transaksi/aliran-duit-bank.html"
             })
             .when("/rekod-jualan", {
                 templateUrl: "pages/rekod/jualan.html",
@@ -150,13 +156,13 @@ zakApp.controller('transactionController', ['$scope', '$http', '$location', func
                     });
         };
 
-        $scope.senaraiCawangan = senaraiCawangan()
+        $scope.senaraiCawangan = senaraiCawangan();
         $scope.gst = 6;
         $scope.itemList = itemList;
 
     }]);
 
-zakApp.controller('rekodJualanController', ['$scope', '$http', '$location', function ($scope, $http, $location) {
+zakApp.controller('rekodJualanController', ['$scope', '$http', '$location', 'SweetAlert', function ($scope, $http, $location, SweetAlert) {
         var getListJualan = () => {
             $http.get(api_url + '/transaksi/jualan')
                     .then(function (response) {
@@ -166,6 +172,43 @@ zakApp.controller('rekodJualanController', ['$scope', '$http', '$location', func
 
         $scope.cetakInvois = (resit_no) => {
             window.open(app_url + '/pages/cetak/resit-jualan.html?id=' + resit_no);
+        };
+        
+        
+        $scope.deleteInvois = (resit_no) => {
+            SweetAlert.swal({
+                title: "Buang invois ini?",
+                text: "Adakah anda pasti untuk membuang invois ini daripada rekod?!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3e8f3e", confirmButtonText: "Ya Buang!",
+                cancelButtonText: "Batal!",
+                closeOnConfirm: false,
+                closeOnCancel: false},
+                    function (isConfirm) {
+                        if (isConfirm) {
+                                deleteInvois(resit_no);
+                        } else {
+                            SweetAlert.swal("Pembatalan", "Rekod invois ini tidak dibuang dari sistem", "error");
+                        }
+                    });
+        };
+        
+        
+        var deleteInvois = (resit_no) => {
+            var info = {
+                resit_no: resit_no
+            };
+            $http({
+                headers: {
+                    'Content-Type': 'application/json'},
+                url: api_url + '/transaksi/invoice',
+                method: "DELETE",
+                data: JSON.stringify(info)})
+                    .then(function () {
+                        getListJualan();
+                        SweetAlert.swal("Berjaya!", "Rekod invois telah dibuang.", "success");
+                    });
         };
 
         getListJualan();
@@ -209,3 +252,24 @@ zakApp.controller('cawanganController', ['$scope', '$http', '$location', functio
         }
         getListCawangan();
     }]);
+
+zakApp.controller('aliranbankController', ['$scope', '$http', '$location', function($scope, $http, $location){
+        var listAliran = [];
+        $scope.transaksi = 'masuk';
+        
+        $scope.addToList = () => {
+            $('#daftar_aliran_bank').submit((function(e){
+                e.preventDefault();
+            }))
+            var dataAB = {
+                perkara: $scope.perkara,
+                bank: $scope.bank,
+                jumlah:$scope.nilai,
+                transaksi:$scope.transaksi
+            };
+            listAliran.push(dataAB);
+            console.log(dataAB);
+        };
+        
+        $scope.listAliranBank = listAliran;
+}])

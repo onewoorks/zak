@@ -9,14 +9,17 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paper-css/0.3.0/paper.css" media="print" />
         <link rel="stylesheet" href='assets/libs/datepicker/datepicker.css' />
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+        <link rel='stylesheet' href='assets/angular/sweetalert/sweetalert.css' />
         <script src='assets/jquery/jquery-3.1.1.js'></script>
         <script src='assets/bootstrap/js/bootstrap.min.js'></script>
         <script src='assets/angular/angular.min.js'></script>
         <script src="assets/angular/angular-route.js"></script>
         <script src="assets/angular/angular-print.js"></script>
         <script src='controller/appController.js'></script>
+        <script src='assets/angular/sweetalert/sweetalert.min.js'></script>
+        <script src='assets/angular/sweetalert/ngSweetalert.js'></script>
         <script src='assets/libs/datepicker/datepicker.js'></script>
-        
+
     <body>
         <nav class="navbar navbar-default navbar-fixed-top navbar-inverse">
             <div class="container-fluid">
@@ -35,21 +38,44 @@
                         <li class="dropdown">
                             <a href="javascript:void()" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Transaksi <span class="caret"></span></a>
                             <ul class="dropdown-menu">
+                                <li><a href="#!transaksi-aliran-tunai">Aliran Tunai</a></li>
+                                <li><a href="#!transaksi-aliran-bank">Aliran Duit Bank</a></li>
                                 <li><a href="#!transaksi-jualan">Jualan</a></li>
                             </ul>
                         </li>
                         <li class="dropdown">
                             <a href="javascript:void()" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Rekod & Laporan <span class="caret"></span></a>
                             <ul class="dropdown-menu">
+                                <li><a href="#!rekod-jualan">Rekod Transaksi Keseluruhan</a></li>
+                                <li><a href="#!rekod-jualan">Rekod Transaksi Bank</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#!rekod-jualan">Semakan Mengikut Rekod Pilihan</a></li>
+                                <li><a href="#!rekod-jualan">Semakan Rekod Baki Terakhir Pilihan</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#!rekod-jualan">Laporan Bulanan</a></li>
+                                <li><a href="#!rekod-jualan">Laporan Harian</a></li>
+                                <li><a href="#!rekod-jualan">Laporan Keuntungan Jualan Emas</a></li>
+                                <li class="divider"></li>
                                 <li><a href="#!rekod-jualan">Rekod Jualan</a></li>
+
                             </ul>
                         </li>
+                        
                         <li class="dropdown">
-                            <a href="javascript:void()" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Tetapan <span class="caret"></span></a>
+                            <a href="javascript:void()" 
+                               class="dropdown-toggle" data-toggle="dropdown" role="button" 
+                               aria-haspopup="true" aria-expanded="false">Cawangan & Ahli <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a href="#!tetapan-cawangan">Senarai Cawangan</a></li>
+                                <li><a href="#!tetapan-cawangan">Daftar Cawangan</a></li>
+                                <li><a href="#!tetapan-cawangan">Kemaskini Cawangan</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#!tetapan-cawangan">Senarai Ahli Cawangan</a></li>
+                                <li><a href="#!tetapan-cawangan">Daftar Ahli</a></li>
+                                <li><a href="#!tetapan-cawangan">Kemaskini Ahli</a></li>
                             </ul>
                         </li>
+                        
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="#"></a></li>
@@ -59,5 +85,11 @@
         </nav>
 
         <div ng-view style="margin-top: 30px;"></div>
+        
+        <footer class="text-center">
+            <hr>
+            <div style="color:grey; font-style: italic">Sistem Pengurusan ZAK versi 2</div>
+            <br>
+        </footer>
     </body>
 </html>
