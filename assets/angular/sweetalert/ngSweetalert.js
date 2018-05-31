@@ -6,7 +6,6 @@
 */
 
 'use strict';
-
 angular.module('oitozero.ngSweetAlert', [])
 .factory('SweetAlert', [ '$rootScope', function ( $rootScope ) {
 
