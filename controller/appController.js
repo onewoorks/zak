@@ -1,7 +1,7 @@
 var api_url = 'https://onewoorks-solutions.com/api/zak/api';
 var app_url = 'https://zak-v2.herokuapp.com';
 var zakApp = angular.module('zakApp', ["ngRoute", "AngularPrint",'oitozero.ngSweetAlert']);
-
+ 
 zakApp.config(function ($routeProvider) {
     $routeProvider
             .when("/", {
