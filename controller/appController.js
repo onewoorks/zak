@@ -1,8 +1,15 @@
 var api_url = 'https://onewoorks-solutions.com/api/zak/api';
 var app_url = 'https://zak-v2.herokuapp.com';
-var zakApp = angular.module('zakApp', ["ngRoute", "AngularPrint",'oitozero.ngSweetAlert']);
- 
+var zakApp = angular.module('zakApp', ["ngRoute", "AngularPrint", 'oitozero.ngSweetAlert']);
+
 zakApp.config(function ($routeProvider) {
+    var localStorage = window.localStorage;
+
+    if (localStorage.getItem('user_session') == null) {
+        window.location.href = './login.html';
+    }
+    ;
+
     $routeProvider
             .when("/", {
                 templateUrl: "pages/dashboard.html"
@@ -10,10 +17,10 @@ zakApp.config(function ($routeProvider) {
             .when("/transaksi-jualan", {
                 templateUrl: "pages/transaksi/jualan.html"
             })
-            .when('/transaksi-aliran-tunai',{
+            .when('/transaksi-aliran-tunai', {
                 templateUrl: "pages/transaksi/aliran-tunai.html"
             })
-            .when('/transaksi-aliran-bank',{
+            .when('/transaksi-aliran-bank', {
                 templateUrl: "pages/transaksi/aliran-duit-bank.html"
             })
             .when("/rekod-jualan", {
@@ -40,6 +47,31 @@ const priceSplit = (price, arr) => {
     return strPrice[arr];
 };
 
+const currentDate = () => {
+    var now = new Date();
+    var day = ("0" + now.getDate()).slice(-2);
+    var month = ("0" + (now.getMonth() + 1)).slice(-2);
+    ;
+    var year = now.getFullYear();
+    return day + '/' + month + '/' + year;
+}
+
+var isNumberKey = (evt, val) => {
+    var key = evt.key;
+    var obj = {};
+    var str = $(val).val();
+    for (x = 0, length = str.length; x < length; x++) {
+        var l = str.charAt(x);
+        if (l === '.') {
+            obj['dot'] = 1;
+        }
+    }
+    const allowNumber = (obj.dot) ? '0123456789' : '.0123456789';
+    if (key != 'Enter') {
+        return (allowNumber.indexOf(key) > -1) ? true : false;
+    }
+};
+
 const kedai = {
     namakedai: 'ZAK EMAS SERVICES',
     no_gst: '(TR0068938-T) No GST : 001225527296',
@@ -47,18 +79,118 @@ const kedai = {
     telefon: 'Tel: 09-514 6555 Fax: 09-512 4750'
 };
 
+
+zakApp.controller('user_navigation', ['$scope', function ($scope) {
+        $scope.logout = () => {
+            window.localStorage.removeItem('user_session');
+            window.location.href = './login.html';
+        };
+
+        var user_session = JSON.parse(window.localStorage.getItem('user_session'));
+
+        $scope.profile = {
+            username: user_session.username,
+            full_name: user_session.full_name
+        };
+    }]);
+
+zakApp.controller('alirantunaiController', ['$scope', '$http', function ($scope, $http) {
+        $scope.perkara = '';
+        $scope.cawangan = '';
+        $scope.tarikh = currentDate();
+        $scope.jenis = '';
+        $scope.beratEmas = '';
+        $scope.nilai = '';
+        $scope.transaksi = "masuk";
+
+        var awlist = [];
+        $scope.awlist = awlist;
+
+        $scope.addToList = () => {
+            addToList();
+        };
+
+        $scope.daftarAw = () => {
+            daftarAw();
+        };
+
+        var clearForm = () => {
+            $scope.perkara = '';
+            $scope.cawangan = '';
+            $scope.tarikh = currentDate();
+            $scope.transaksi = 'masuk';
+            $scope.nilai = '';
+            $scope.berat = '';
+        };
+
+        var kiraJumlah = () => {
+            var masuk = 0;
+            var keluar = 0;
+            var berat_emas = 0;
+            var nilai = 0;
+
+            angular.forEach(awlist, function (value, key) {
+                masuk = (parseFloat(masuk) + parseFloat(value.jenis_masuk));
+                keluar = (parseFloat(keluar) + parseFloat(value.jenis_keluar));
+                berat_emas = (parseFloat(berat_emas) + parseFloat(value.emas_berat));
+                nilai = (parseFloat(nilai) + parseFloat(value.nilai));
+            });
+
+
+            var jumlah = {
+                masuk: masuk,
+                keluar: keluar,
+                berat_emas: berat_emas,
+                nilai: nilai
+            };
+
+            return jumlah;
+        };
+
+        addToList = () => {
+            var data = {
+                tarikh: $scope.tarikh,
+                perkara: $scope.perkara,
+                cawangan: $scope.cawangan,
+                jenis_masuk: ($scope.transaksi === 'masuk') ? $scope.nilai : 0,
+                jenis_keluar: ($scope.transaksi === 'keluar') ? $scope.nilai : 0,
+                emas_berat: $scope.berat,
+                nilai: $scope.nilai
+            };
+            awlist.push(data);
+            $scope.jumlah = kiraJumlah();
+            $scope.awlist = awlist;
+            clearForm();
+        };
+
+        daftarAw = () => {
+
+        };
+
+
+
+    }]);
+
 zakApp.controller('transactionController', ['$scope', '$http', '$location', function ($scope, $http, $location) {
         var itemList = [];
         $scope.latestResit = 0;
         $scope.beforeSave = 'hidden';
         $scope.printOnly = 'hidden';
         $scope.kedai = kedai;
+        $scope.tarikh = currentDate();
+        $scope.harga_besar = 0;
+        
+        $scope.kiraHarga = function () {
+            var harga = ((($scope.market - $scope.tolak) * 0.02646) * $scope.berat).toFixed(2);
+            $scope.harga_besar = isNaN(harga) ? 'RM 0.00' : 'RM ' + harga;
+        };
 
         $scope.addToList = function () {
-            var harga = (($scope.market - $scope.tolak) * $scope.berat).toFixed(2);
+            var harga = ((($scope.market - $scope.tolak) * 0.02646) * $scope.berat).toFixed(2);
             var hargaSplit = harga.toString().split('.');
             $scope.beforeSave = '';
             $scope.tarikhini = $('input[name=tarikh]').val();
+
             var formData = {
                 cawangan: $scope.cawangan,
                 tarikh: $('input[name=tarikh]').val(),
@@ -173,8 +305,8 @@ zakApp.controller('rekodJualanController', ['$scope', '$http', '$location', 'Swe
         $scope.cetakInvois = (resit_no) => {
             window.open(app_url + '/pages/cetak/resit-jualan.html?id=' + resit_no);
         };
-        
-        
+
+
         $scope.deleteInvois = (resit_no) => {
             SweetAlert.swal({
                 title: "Buang invois ini?",
@@ -187,14 +319,14 @@ zakApp.controller('rekodJualanController', ['$scope', '$http', '$location', 'Swe
                 closeOnCancel: false},
                     function (isConfirm) {
                         if (isConfirm) {
-                                deleteInvois(resit_no);
+                            deleteInvois(resit_no);
                         } else {
                             SweetAlert.swal("Pembatalan", "Rekod invois ini tidak dibuang dari sistem", "error");
                         }
                     });
         };
-        
-        
+
+
         var deleteInvois = (resit_no) => {
             var info = {
                 resit_no: resit_no
@@ -221,22 +353,22 @@ zakApp.controller('cawanganController', ['$scope', '$http', '$location', functio
                         $scope.listCawangan = response.data.result;
                     });
         };
-        
+
         $scope.openModalCawangan = (x) => {
             $('#editCawangan').modal('show');
-            $http.get(api_url + '/cawangan/cawangan_detail?id='+x)
-                    .then(function(response){
+            $http.get(api_url + '/cawangan/cawangan_detail?id=' + x)
+                    .then(function (response) {
                         var cawangan = response.data.result;
                         $scope.modalcawangan = {
                             nama: cawangan.nama_cawangan,
                             alamat: cawangan.alamat,
                             notelefon: cawangan.no_gst,
                             nogst: cawangan.no_telefon,
-                            id:cawangan.id
+                            id: cawangan.id
                         };
                     });
         };
-        
+
         $scope.kemaskiniCawangan = () => {
             var cawangan = $scope.modalcawangan;
             $http({
@@ -253,23 +385,60 @@ zakApp.controller('cawanganController', ['$scope', '$http', '$location', functio
         getListCawangan();
     }]);
 
-zakApp.controller('aliranbankController', ['$scope', '$http', '$location', function($scope, $http, $location){
+zakApp.controller('aliranbankController', ['$scope', '$http', '$location', function ($scope, $http, $location) {
+        $scope.tarikh = currentDate();
         var listAliran = [];
         $scope.transaksi = 'masuk';
-        
+
         $scope.addToList = () => {
-            $('#daftar_aliran_bank').submit((function(e){
-                e.preventDefault();
-            }))
-            var dataAB = {
+            addToList();
+        };
+
+        $scope.rekodAb = () => {
+            rekodAb();
+        };
+
+        $scope.listAliranBank = listAliran;
+
+        var clearForm = () => {
+            $scope.perkara = '';
+            $scope.nilai = '';
+            $scope.tarikh = currentDate();
+        };
+
+        var kiraJumlah = () => {
+            var masuk = 0;
+            var keluar = 0;
+
+            angular.forEach(listAliran, function (value, key) {
+                masuk = (parseFloat(masuk) + parseFloat(value.jenis_masuk));
+                keluar = (parseFloat(keluar) + parseFloat(value.jenis_keluar));
+            });
+
+            var jumlah = {
+                masuk: masuk,
+                keluar: keluar
+            };
+
+            return jumlah;
+        };
+
+        var addToList = () => {
+            var data = {
+                tarikh: $scope.tarikh,
                 perkara: $scope.perkara,
                 bank: $scope.bank,
-                jumlah:$scope.nilai,
-                transaksi:$scope.transaksi
+                jenis_masuk: ($scope.transaksi === 'masuk') ? $scope.nilai : 0,
+                jenis_keluar: ($scope.transaksi === 'keluar') ? $scope.nilai : 0
             };
-            listAliran.push(dataAB);
-            console.log(dataAB);
+            listAliran.push(data);
+            $scope.jumlah = kiraJumlah();
+            clearForm();
         };
-        
-        $scope.listAliranBank = listAliran;
-}])
+
+        var rekodAb = () => {
+            
+        };
+
+
+    }]);
