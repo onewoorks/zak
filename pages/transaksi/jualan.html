@@ -44,7 +44,7 @@
                             <label class='col-sm-5 control-label'>Market</label>
                             <div class='col-sm-7'>
                                 <input type='text' class='form-control' ng-model="market"  required
-                                       onkeypress="return isNumberKey(event,this)" />
+                                       onkeypress="return isNumberKey(event,this)" ng-keyup="kiraHarga()" />
                             </div>
                         </div>
 
@@ -52,7 +52,7 @@
                             <label class='col-sm-5 control-label'>Tolak</label>
                             <div class='col-sm-7'>
                                 <input type='text' class='form-control' ng-model='tolak'  required
-                                       onkeypress="return isNumberKey(event, this)"/>
+                                       onkeypress="return isNumberKey(event, this)" ng-keyup="kiraHarga()" />
                             </div>
                         </div>
 
@@ -61,8 +61,17 @@
                             <div class='col-sm-7'>
                                 <div class='input-group'>
                                     <input type='text' class='form-control' ng-model='berat'  required
-                                           onkeypress="return isNumberKey(event, this)"/>
+                                           onkeypress="return isNumberKey(event, this)" ng-keyup="kiraHarga()"  />
                                     <span class='input-group-addon'>g</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class='form-group'>
+                            <label class='col-sm-5 control-label'>Harga</label>
+                            <div class='col-sm-7'>
+                                <div class='input-group'>
+                                    <div class="form-control-static"> {{harga_besar}}</div>
                                 </div>
                             </div>
                         </div>
