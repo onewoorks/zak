@@ -5,10 +5,10 @@ var zakApp = angular.module('zakApp', ["ngRoute", "AngularPrint", 'oitozero.ngSw
 zakApp.config(function ($routeProvider) {
     var localStorage = window.localStorage;
 
-    if (localStorage.getItem('user_session') == null) {
-        window.location.href = './login.html';
-    }
-    ;
+//    if (localStorage.getItem('user_session') == null) {
+//        window.location.href = './login.html';
+//    }
+//    ;
 
     $routeProvider
             .when("/", {
