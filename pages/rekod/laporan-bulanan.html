@@ -1,0 +1,69 @@
+<div class='container-fluid' ng-controller="transactionController">
+    <div class='page-header hidden-print'>
+        <h1>Laporan Bulanan</h1>
+    </div>
+    <div class='row'>
+        <div class='col-sm-12'>
+            <div class='panel panel-primary'>
+                <div class='panel-heading'><i class='fas fa-clipboard'></i> Senarai Transaksi</div>
+                <div class='panel-body'>
+                    <form class='form-horizontal'>
+                        <div class='form-group'>
+                            <label class='col-sm-2 control-label'>Tarikh Mula</label>
+                            <div class='col-sm-3'>
+                                <input type='text' class='form-control dp' name='tarikhMula' ng-model='tarikhMula'  required/>
+                            </div>
+                            
+                            <label class='col-sm-2 control-label'>Tarikh Akhir</label>
+                            <div class='col-sm-3'>
+                                <input type='text' class='form-control dp' name='tarikhAkhir' ng-model='tarikhAkhir'  required/>
+                            </div>
+                            
+                            <div class='col-sm-2'>
+                                <button type="submit" class='btn btn-primary btn-block'><i class='fas fa-search'></i> Kemaskini</button>
+                            </div>
+                        </div>
+                        
+                    </form>
+                    
+                    <hr>
+                    
+                    <table class='table table-bordered'>
+                    <thead>
+                        <tr>
+                            <th rowspan="2">No</th>
+                            <th rowspan="2">Tarikh Dan Masa</th>
+                            <th rowspan="2">Perkara</th>
+                            <th rowspan="2">Kakitangan</th>
+                            <th colspan="2" class='text-center table-bottom-border-none' style='border-bottom: none'>Jumlah</th>
+                            <th colspan="2" class='text-center table-bottom-border-none'>Emas</th>
+                        </tr>
+                        <tr>
+                            <th class='text-center'>Masuk</th>
+                            <th class='text-center'>Keluar</th>
+                            <th class='text-center'>Berat (g)</th>
+                            <th class='text-center'>Nilai</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="8">-</td>
+                        </tr>
+                    </tbody>
+                </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.dp').datepicker({
+            format: 'dd/mm/yyyy'
+        })
+                .on('changeDate', function (ev) {
+                    $('.dp').datepicker('hide');
+                });
+    })
+</script>
