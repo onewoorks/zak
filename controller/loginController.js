@@ -19,7 +19,7 @@ zakApp.controller('loginController', ['$scope', '$http', function ($scope, $http
             $http({
                 headers: {
                     'Content-Type': 'text/plain'},
-                url: 'http://localhost/zak_api/api/users/login',
+                url: api_url + '/users/login',
                 method: "POST",
                 data: JSON.stringify(user)})
                     .then(function (response) {
