@@ -5,10 +5,9 @@ var zakApp = angular.module('zakApp', ["ngRoute", "AngularPrint", 'oitozero.ngSw
 zakApp.config(function ($routeProvider) {
     var localStorage = window.localStorage;
 
-//    if (localStorage.getItem('user_session') == null) {
-//        window.location.href = './login.html';
-//    }
-//    ;
+    if (localStorage.getItem('user_session') === null) {
+        window.location.href = './login.html';
+    }
 
     $routeProvider
             .when("/", {
@@ -22,6 +21,30 @@ zakApp.config(function ($routeProvider) {
             })
             .when('/transaksi-aliran-bank', {
                 templateUrl: "pages/transaksi/aliran-duit-bank.html"
+            })
+            .when('/transaksi-buang-aliran',{
+                templateUrl: "pages/transaksi/buang-rekod-aliran.html"
+            })
+            .when('/rekod-transaksi-keseluruhan', {
+                templateUrl: "pages/rekod/transaksi-keseluruhan.html"
+            })
+            .when('/rekod-transaksi-keseluruhan-bank', {
+                templateUrl: "pages/rekod/transaksi-keseluruhan-bank.html"
+            })
+            .when('/rekod-semakan-ikut-pilihan', {
+                templateUrl: "pages/rekod/semakan-ikut-pilihan.html"
+            })
+            .when('/rekod-semakan-rekod-baki-terakhir', {
+                templateUrl: "pages/rekod/semakan-rekod-baki-terakhir.html"
+            })
+            .when('/rekod-laporan-bulanan', {
+                templateUrl: "pages/rekod/laporan-bulanan.html"
+            })
+            .when('/rekod-laporan-harian', {
+                templateUrl: "pages/rekod/laporan-harian.html"
+            })
+            .when('/rekod-laporan-keuntungan-jualan-emas', {
+                templateUrl: "pages/rekod/laporan-keuntungan-jualan-emas.html"
             })
             .when("/rekod-jualan", {
                 templateUrl: "pages/rekod/jualan.html",
@@ -94,14 +117,44 @@ zakApp.controller('user_navigation', ['$scope', function ($scope) {
         };
     }]);
 
-zakApp.controller('alirantunaiController', ['$scope', '$http', function ($scope, $http) {
+zakApp.service("generalController",function($http,$q){
+    var generalFunction = {};
+    
+    generalFunction.listOfCawangan = () => {
+        return $http.get(api_url + '/cawangan')
+            .then(function(response) {
+                if (typeof response.data.result === 'object') {
+                    return response.data.result;
+                } else {
+                    return $q.reject(response.data.result);
+                }
+            }, function(response) {
+                return $q.reject(response.data.result);
+            });
+    };
+    
+    return generalFunction;
+});
+
+zakApp.controller('alirantunaiController', ['$scope', '$http','generalController', function ($scope, $http, generalController) {
+        angular.extend($scope,generalController);
+        $scope.listOfCawangan().then(function(response){
+            $scope.listCawangan = response;
+        });
+        
         $scope.perkara = '';
         $scope.cawangan = '';
         $scope.tarikh = currentDate();
         $scope.jenis = '';
+        $scope.jumlah = '';
         $scope.beratEmas = '';
         $scope.nilai = '';
         $scope.transaksi = "masuk";
+        $scope.selectCawangan = false;
+        
+        $scope.pilihCawangan = () => {
+            $scope.selectCawangan = ($scope.cawangan) ? true : false;
+        };
 
         var awlist = [];
         $scope.awlist = awlist;
@@ -109,7 +162,7 @@ zakApp.controller('alirantunaiController', ['$scope', '$http', function ($scope,
         $scope.addToList = () => {
             addToList();
         };
-
+        
         $scope.daftarAw = () => {
             daftarAw();
         };
@@ -121,6 +174,7 @@ zakApp.controller('alirantunaiController', ['$scope', '$http', function ($scope,
             $scope.transaksi = 'masuk';
             $scope.nilai = '';
             $scope.berat = '';
+            $scope.jumlah = '';
         };
 
         var kiraJumlah = () => {
@@ -136,7 +190,6 @@ zakApp.controller('alirantunaiController', ['$scope', '$http', function ($scope,
                 nilai = (parseFloat(nilai) + parseFloat(value.nilai));
             });
 
-
             var jumlah = {
                 masuk: masuk,
                 keluar: keluar,
@@ -148,26 +201,39 @@ zakApp.controller('alirantunaiController', ['$scope', '$http', function ($scope,
         };
 
         addToList = () => {
+            
             var data = {
+                pid: (awlist.length),
                 tarikh: $scope.tarikh,
                 perkara: $scope.perkara,
-                cawangan: $scope.cawangan,
-                jenis_masuk: ($scope.transaksi === 'masuk') ? $scope.nilai : 0,
-                jenis_keluar: ($scope.transaksi === 'keluar') ? $scope.nilai : 0,
+                cawangan: $scope.cawangan.id,
+                cawangan_nama: $scope.cawangan.nama_cawangan,
+                jenis_masuk: ($scope.transaksi === 'masuk') ? $scope.jumlah : 0,
+                jenis_keluar: ($scope.transaksi === 'keluar') ? $scope.jumlah : 0,
                 emas_berat: $scope.berat,
-                nilai: $scope.nilai
+                nilai: $scope.nilai,
+                jumlah: $scope.jumlah
             };
             awlist.push(data);
             $scope.jumlah = kiraJumlah();
             $scope.awlist = awlist;
             clearForm();
         };
-
-        daftarAw = () => {
-
+        
+        $scope.removeAw = (item) => {
+          angular.forEach(awlist, function(value,key){
+              if(awlist[key].pid===item){
+                  awlist.splice(key,1);
+              }
+          });
+          $scope.awlist = awlist;
         };
 
-
+        daftarAw = () => {
+            console.log('daftar aliran tunai');
+            console.log(awlist);
+        };
+        
 
     }]);
 
@@ -179,7 +245,7 @@ zakApp.controller('transactionController', ['$scope', '$http', '$location', func
         $scope.kedai = kedai;
         $scope.tarikh = currentDate();
         $scope.harga_besar = 0;
-        
+
         $scope.kiraHarga = function () {
             var harga = ((($scope.market - $scope.tolak) * 0.02646) * $scope.berat).toFixed(2);
             $scope.harga_besar = isNaN(harga) ? 'RM 0.00' : 'RM ' + harga;
@@ -293,6 +359,30 @@ zakApp.controller('transactionController', ['$scope', '$http', '$location', func
         $scope.itemList = itemList;
 
     }]);
+
+zakApp.controller('transaksiKeseluruhanController',['$scope','$http', function($scope, $http){
+        var getAliranTunai = () => {
+            $http.get(api_url + '/rekod')
+                    .then(function(response){
+                        $scope.listAliranTunai = response.data.result;
+                        console.log(response.data.result);
+            });
+        };
+        
+        getAliranTunai();
+}]);
+
+zakApp.controller('transaksiKeseluruhanBankController',['$scope','$http', function($scope, $http){
+        var getAliranBank = () => {
+            $http.get(api_url + '/rekod/semua-aliran-bank')
+                    .then(function(response){
+                        $scope.listAliranBank = response.data.result;
+                        console.log(response.data.result);
+            });
+        };
+        
+        getAliranBank();
+}]);
 
 zakApp.controller('rekodJualanController', ['$scope', '$http', '$location', 'SweetAlert', function ($scope, $http, $location, SweetAlert) {
         var getListJualan = () => {
@@ -437,7 +527,7 @@ zakApp.controller('aliranbankController', ['$scope', '$http', '$location', funct
         };
 
         var rekodAb = () => {
-            
+
         };
 
 

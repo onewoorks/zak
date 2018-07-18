@@ -3,24 +3,27 @@
         <h1>Aliran Duit Bank</h1>
     </div>
     <div class='row'>
-        <div class='col-sm-4'>
+        <div class='col-sm-5'>
             <div class='panel panel-primary'>
                 <div class='panel-heading'>
                     MAKLUMAT ALIRAN BANK
                 </div>
                 <div class='panel-body'>
-                    <form id="daftar_aliran_bank" class='form-horizontal'>
+                    <form class='form-horizontal' 
+                          name='form_ab' 
+                          ng-submit="addToList()" >
                         <div class='form-group'>
                             <label class='col-sm-5 control-label'>Perkara</label>
                             <div class='col-sm-7'>
-                                <input type='text' class='form-control text-uppercase' ng-model='perkara'  />
+                                <input type='text' class='form-control text-uppercase'
+                                       name='perkara' ng-model='perkara' ng-required='true' autofocus  />
                             </div>
                         </div>
 
                         <div class='form-group'>
-                            <label class='col-xs-5 control-label'>Daripada / Kepada</label>
+                            <label class='col-xs-5 control-label'>Nama Bank</label>
                             <div class='col-xs-6' style='margin-right:0'>
-                                <select class='form-control' ng-model='bank' ng-change='pickCawangan()' required >
+                                <select class='form-control' ng-model='cawangan' ng-change='pickCawangan()' >
                                     <option value="">Sila Pilih</option>
                                     <option ng-repeat="cawangan in listCawangan" ng-value='cawangan.id'>{{cawangan.nama_cawangan}}</option>
                                 </select>
@@ -33,7 +36,8 @@
                         <div class='form-group'>
                             <label class='col-sm-5 control-label'>Tarikh</label>
                             <div class='col-sm-7'>
-                                <input type='text' class='form-control dp' name='tarikh' ng-model='tarikh'  required autocomplete="off" />
+                                <input type='text' class='form-control dp' 
+                                       name='tarikh' ng-model='tarikh'  required autocomplete="off" ng-required='true' />
                             </div>
                         </div>
 
@@ -52,7 +56,10 @@
                             <div class='col-sm-5'>
                                 <div class="input-group">
                                     <span class="input-group-addon">RM</span>
-                                    <input type='text' class='form-control text-center' ng-model="nilai"  required/>
+                                    <input type='text' class='form-control text-center' 
+                                           ng-model="nilai" ng-required='true'
+                                           name='nilai'
+                                           onkeypress="return isNumberKey(event, this)"/>
                                 </div>
                             </div>
                         </div>
@@ -62,7 +69,7 @@
                         <div class='form-group'>
                             <div class='col-sm-12 text-right'>
                                 <button class='btn btn-default' type='reset'> Reset</button>
-                                <button class='btn btn-primary' type='button' ng-click='addToList()'> Daftar Aliran Bank</button>
+                                <button class='btn btn-primary' type='submit'><i class='fas fa-plus'></i> Daftar Aliran Bank</button>
                             </div>
                         </div>
                     </form>        
@@ -70,41 +77,43 @@
             </div>
         </div>
 
-        <div class="col-sm-8">
+        <div class="col-sm-7">
             <div class="panel panel-primary">
                 <div class="panel-heading">SENARAI TRANSAKSI ALIRAN BANK</div>
-                <table class="table table-bordered table-condensed">
-                    <thead>
-                        <tr>
-                            <th class="text-center" style="vertical-align: middle">Tarikh</th>
-                            <th class="text-center" style="vertical-align: middle">Pekara</th>
-                            <th class="text-center" style="vertical-align: middle">Nama Bank</th>
-                            <th class="text-center">Masuk</th>
-                            <th class="text-center">Keluar</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-if="listAliranBank.length == 0">
-                            <td colspan="7"><i>Tiada transaksi didaftarkan setakat ini.</i></td>
-                        </tr>
-                        <tr ng-repeat="aliran in listAliranBank">
-                            <td></td>
-                            <td>{{aliran.perkara}}</td>
-                            <td>{{aliran.cawangan}}</td>
-                            <td class="text-right">{{ aliran.transaksi == 'masuk' ?  (aliran.jumlah | number:2 ) : ''}}</td>
-                            <td class="text-right">{{ aliran.transaksi == 'keluar' ? (aliran.jumlah | number:2 )  : ''}}</td>
-                        </tr>
-                    </tbody>
-                    <tfoot  ng-if="listAliranBank.length > 0">
-                        <tr>
-                            <th colspan="3">Jumlah Keseluruhan</th>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                    </tfoot>
-                </table>
-                <div ng-if="listAliranBank.length > 0" class="panel-footer text-right">
-                    <div class="btn btn-primary">Daftar Aliran Diatas</div>
+                <div class='panel-body'>
+                    <table class="table table-bordered table-condensed">
+                        <thead>
+                            <tr>
+                                <th class="text-center" style="vertical-align: middle">Tarikh</th>
+                                <th class="text-center" style="vertical-align: middle">Pekara</th>
+                                <th class="text-center" style="vertical-align: middle">Nama Bank</th>
+                                <th class="text-center">Masuk</th>
+                                <th class="text-center">Keluar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="listAliranBank.length == 0">
+                                <td colspan="5"><i>Tiada transaksi didaftarkan setakat ini.</i></td>
+                            </tr>
+                            <tr ng-repeat="aliran in listAliranBank">
+                                <td class='text-center'>{{aliran.tarikh}}</td>
+                                <td class='text-uppercase'>{{aliran.perkara}}</td>
+                                <td>{{aliran.cawangan}}</td>
+                                <td class="text-right"><span ng-show='aliran.jenis_masuk>0'>{{ aliran.jenis_masuk | number: 2}}</span></td>
+                                <td class="text-right"><span ng-show='aliran.jenis_keluar>0'>{{ aliran.jenis_keluar | number: 2}}</span></td>
+                            </tr>
+                        </tbody>
+                        <tfoot  ng-if="listAliranBank.length > 0">
+                            <tr>
+                                <th colspan="3" class='text-right'>Jumlah Keseluruhan</th>
+                                <th class='text-right'><span ng-show='jumlah.masuk >0'>{{ jumlah.masuk | number:2 }}</span></th>
+                                <th class='text-right'><span ng-show='jumlah.keluar>0'>{{ jumlah.keluar | number:2}}</span></th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    <div ng-if="listAliranBank.length > 0" class="text-right">
+                        <div class="btn btn-primary" ng-click='rekodAb()'><i class='fas fa-save'></i> Daftar Aliran Diatas</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -163,6 +172,7 @@
 
 <script>
     $(function () {
+        $('input').attr('autocomplete','off');
     $('.dp').datepicker({
     format: 'dd/mm/yyyy'
     })
