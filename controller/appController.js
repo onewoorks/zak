@@ -475,6 +475,26 @@ zakApp.controller('cawanganController', ['$scope', '$http', '$location', functio
         getListCawangan();
     }]);
 
+zakApp.controller('laporanBulananController',['$scope','$http',function($scope,$http){
+        var getLaporanBulan = () => {
+            $http.get(api_url+'/rekod/transaksi-bulan-ini')
+                    .then(function(response){
+                        $scope.listAliran = response.data.result
+                    });
+        };
+        getLaporanBulan();
+}]);
+
+zakApp.controller('laporanHarianController',['$scope','$http',function($scope,$http){
+        var getLaporanHarian = () => {
+            $http.get(api_url+'/rekod/transaksi-hari-ini')
+                    .then(function(response){
+                        $scope.listAliran = response.data.result
+                    });
+        };
+        getLaporanHarian();
+}]);
+
 zakApp.controller('aliranbankController', ['$scope', '$http', '$location', function ($scope, $http, $location) {
         $scope.tarikh = currentDate();
         var listAliran = [];

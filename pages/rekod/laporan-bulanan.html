@@ -1,9 +1,9 @@
-<div class='container-fluid' ng-controller="transactionController">
+<div class='container-fluid' ng-controller="laporanBulananController">
     <div class='page-header hidden-print'>
         <h1>Laporan Bulanan</h1>
     </div>
     <div class='row'>
-        <div class='col-sm-12'>
+        <div class='col-sm-10'>
             <div class='panel panel-primary'>
                 <div class='panel-heading'><i class='fas fa-clipboard'></i> Senarai Transaksi</div>
                 <div class='panel-body'>
@@ -13,45 +13,88 @@
                             <div class='col-sm-3'>
                                 <input type='text' class='form-control dp' name='tarikhMula' ng-model='tarikhMula'  required/>
                             </div>
-                            
+
                             <label class='col-sm-2 control-label'>Tarikh Akhir</label>
                             <div class='col-sm-3'>
                                 <input type='text' class='form-control dp' name='tarikhAkhir' ng-model='tarikhAkhir'  required/>
                             </div>
-                            
+
                             <div class='col-sm-2'>
                                 <button type="submit" class='btn btn-primary btn-block'><i class='fas fa-search'></i> Kemaskini</button>
                             </div>
                         </div>
-                        
+
                     </form>
-                    
+
                     <hr>
-                    
-                    <table class='table table-bordered'>
-                    <thead>
-                        <tr>
-                            <th rowspan="2">No</th>
-                            <th rowspan="2">Tarikh Dan Masa</th>
-                            <th rowspan="2">Perkara</th>
-                            <th rowspan="2">Kakitangan</th>
-                            <th colspan="2" class='text-center table-bottom-border-none' style='border-bottom: none'>Jumlah</th>
-                            <th colspan="2" class='text-center table-bottom-border-none'>Emas</th>
-                        </tr>
-                        <tr>
-                            <th class='text-center'>Masuk</th>
-                            <th class='text-center'>Keluar</th>
-                            <th class='text-center'>Berat (g)</th>
-                            <th class='text-center'>Nilai</th>
-                        </tr>
-                    </thead>
+
+                    <table class='table table-bordered table-condensed'>
+                        <thead>
+                            <tr>
+                                <th rowspan="2">No</th>
+                                <th rowspan="2">Tarikh Dan Masa</th>
+                                <th rowspan="2">Perkara</th>
+                                <th rowspan="2">Kakitangan</th>
+                                <th colspan="2" class='text-center table-bottom-border-none' style='border-bottom: none'>Jumlah</th>
+                                <th colspan="2" class='text-center table-bottom-border-none'>Emas</th>
+                                <th rowspan="2">Hutang</th>
+                            </tr>
+                            <tr>
+                                <th class='text-center'>Masuk</th>
+                                <th class='text-center'>Keluar</th>
+                                <th class='text-center'>Berat (g)</th>
+                                <th class='text-center'>Nilai</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td></td>
+                                <td>BAKI BULAN LEPAS</td>
+                                <td></td>
+                                <td class='text-right'>{{ (listAliran.last_month.baki > 0) ? (listAliran.last_month.baki | number:2) :''}}</td>
+                                <td class='text-right'>{{ (listAliran.last_month.baki < 0) ? (listAliran.last_month.baki | number:2) :''}}</td>
+                                <td class='text-right'>{{ (listAliran.last_month.berat_emas > 0) ? (listAliran.last_month.berat_emas | number:2) :''}}</td>
+                                <td class='text-right'>{{ (listAliran.last_month.emas_guna > 0) ? (listAliran.last_month.emas_guna | number:2) :''}}</td>
+                                <td></td>
+                            </tr>
+                            <tr ng-repeat='aliran in listAliran.list'>
+                                <td>{{ ($index + 2)}}</td>
+                                <td>{{ aliran.at_timeDate}}</td>
+                                <td>{{ aliran.at_perkara}}</td>
+                                <td>{{ aliran.cawangan}}</td>
+                                <td class='text-right'>{{ (aliran.at_kategori == 1) ? (aliran.at_jumlah | number:2) :''}}</td>
+                                <td class='text-right'>{{ (aliran.at_kategori == 2) ? (aliran.at_jumlah | number:2) :''}}</td>
+                                <td class='text-right'>{{ (aliran.at_beratEmas > 0) ? (aliran.at_beratEmas | number:2) :''}}</td>
+                                <td class='text-right'>{{ (aliran.at_guna > 0) ? (aliran.at_guna | number:2) :''}}</td>
+                                <td class='text-right'>{{ (aliran.hutang > 0) ? (aliran.hutang | number: 2) : '(' + ((aliran.hutang*-1) | number: 2) + ')'}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-2">
+            <div class="panel panel-primary">
+                <div class='panel-heading'>Ringkasan Maklumat</div>
+                <table class="table">
                     <tbody>
                         <tr>
-                            <td colspan="8">-</td>
+                            <th>Masuk</th>
+                            <td class="text-right">{{( listAliran.summary_combine_masuk) | number:2}}</td>
+                        </tr>
+                        <tr>
+                            <th>Keluar</th>
+                            <td class="text-right">{{listAliran.summary.keluar| number:2}}</td>
+                        </tr>
+                        <tr>
+                            <th>Jumlah</th>
+                            <td class="text-right">{{(listAliran.summary_combine_masuk - listAliran.summary.keluar) | number:2}}</td>
                         </tr>
                     </tbody>
                 </table>
-                </div>
             </div>
         </div>
     </div>
@@ -59,11 +102,11 @@
 
 <script>
     $(function () {
-        $('.dp').datepicker({
-            format: 'dd/mm/yyyy'
-        })
-                .on('changeDate', function (ev) {
-                    $('.dp').datepicker('hide');
-                });
+    $('.dp').datepicker({
+    format: 'dd/mm/yyyy'
+    })
+            .on('changeDate', function (ev) {
+            $('.dp').datepicker('hide');
+            });
     })
 </script>

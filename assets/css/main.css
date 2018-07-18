@@ -1,3 +1,4 @@
 header {}
 
+.panel-heading { text-transform: uppercase}
 .table-bottom-border-none { border-bottom: none !important;}
