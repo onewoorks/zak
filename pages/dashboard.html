@@ -1,4 +1,4 @@
-<div class='container-fluid' >
+<div class='container-fluid' ng-controller="dashboardController" >
     <div class='row' style="margin-top: 36px;">
         <div class="col-xs-12">
             <div class="panel panel-primary">
@@ -19,18 +19,18 @@
                         <table class="table table-bordered table-condensed">
                             <tbody>
                                 <tr>
-                                    <td>Masuk</td>
-                                    <td></td>
+                                    <th>Masuk</th>
+                                    <td class="text-right">{{ringkasan.aliran_tunai.masuk | number:2 }}</td>
                                 </tr>
                                 <tr>
-                                    <td>Keluar</td>
-                                    <td></td>
+                                    <th>Keluar</th>
+                                    <td class="text-right">{{ringkasan.aliran_tunai.keluar | number:2 }}</td>
                                 </tr>
                             </tbody>
                             <tfoot>
                                 <tr>
                                     <th>Baki</th>
-                                    <th></th>
+                                    <th class="text-right">{{ringkasan.aliran_tunai.baki | number:2 }}</th>
                                 </tr>
                             </tfoot>
                         </table>
@@ -43,34 +43,20 @@
                         <table class="table table-bordered table-condensed">
                             <tbody>
                                 <tr>
-                                    <th colspan="2">Nilai</th>
+                                    <th colspan="2">Nilai (RM)</th>
+                                </tr>
+                                <tr ng-repeat="emas in ringkasan.aliran_emas">
+                                    <td style="text-transform: capitalize" class="text-right">{{ emas.kategori }}</td>
+                                    <td class="text-right">{{ emas.nilai_emas | number:2 }}</td>
                                 </tr>
                                 <tr>
-                                    <td>Masuk</td>
-                                    <td></td>
+                                    <th colspan="2">Berat (g)</th>
                                 </tr>
-                                <tr>
-                                    <td>Keluar</td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <th colspan="2">Berat</th>
-                                </tr>
-                                <tr>
-                                    <td>Masuk</td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>Keluar</td>
-                                    <td></td>
+                                <tr ng-repeat="emas in ringkasan.aliran_emas">
+                                    <td style="text-transform: capitalize" class="text-right">{{ emas.kategori }}</td>
+                                    <td class="text-right">{{ emas.berat_emas | number:2 }}</td>
                                 </tr>
                             </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th>Baki</th>
-                                    <th></th>
-                                </tr>
-                            </tfoot>
                         </table>
                     </div>
                 </div>
@@ -88,23 +74,21 @@
                     <tbody>
                         <tr>
                             <td>Wang Masuk</td>
-                            <td class="text-center"></td>
-                            <td class="text-center"></td>
+                            <td class="text-right">{{ringkasan.aliran_tunai.masuk | number:2}}</td>
+                            <td class="text-right">{{ringkasan.aliran_tunai_semua.masuk | number:2}}</td>
                         </tr>
                         <tr>
                             <td>Wang Keluar</td>
-                            <td class="text-center"></td>
-                            <td class="text-center"></td>
+                            <td class="text-right">{{ringkasan.aliran_tunai.keluar | number:2}}</td>
+                            <td class="text-right">{{ringkasan.aliran_tunai_semua.keluar | number:2}}</td>
                         </tr>
                         <tr>
                             <td>Dalam Bank</td>
-                            <td class="text-center"></td>
-                            <td class="text-center"></td>
+                            <td class="text-right" colspan="2">{{ ringkasan.aliran_bank_semua.dalam_bank | number:2}}</td>
                         </tr>
                         <tr>
                             <td>Dalam Peti</td>
-                            <td class="text-center"></td>
-                            <td class="text-center"></td>
+                            <td class="text-right" colspan="2"></td>
                         </tr>
                     </tbody>
                     <tfoot>

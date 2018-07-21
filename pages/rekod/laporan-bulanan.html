@@ -7,23 +7,24 @@
             <div class='panel panel-primary'>
                 <div class='panel-heading'><i class='fas fa-clipboard'></i> Senarai Transaksi</div>
                 <div class='panel-body'>
-                    <form class='form-horizontal'>
+                    <form ng-submit="cariLaporan()"  class='form-horizontal'>
                         <div class='form-group'>
                             <label class='col-sm-2 control-label'>Tarikh Mula</label>
                             <div class='col-sm-3'>
-                                <input type='text' class='form-control dp' name='tarikhMula' ng-model='tarikhMula'  required/>
+                                <input type='text' class='form-control dp' ng-model="tarikh.mula" 
+                                       name='tarikhMula'  autocomplete="off" required/>
                             </div>
 
                             <label class='col-sm-2 control-label'>Tarikh Akhir</label>
                             <div class='col-sm-3'>
-                                <input type='text' class='form-control dp' name='tarikhAkhir' ng-model='tarikhAkhir'  required/>
+                                <input type='text' class='form-control dp' name='tarikhAkhir' ng-model='tarikh.akhir' autocomplete="off"  required/>
                             </div>
 
                             <div class='col-sm-2'>
-                                <button type="submit" class='btn btn-primary btn-block'><i class='fas fa-search'></i> Kemaskini</button>
+                                <button type="submit" 
+                                        class='btn btn-primary btn-block'><i class='fas fa-search'></i> Kemaskini</button>
                             </div>
                         </div>
-
                     </form>
 
                     <hr>
@@ -68,7 +69,7 @@
                                 <td class='text-right'>{{ (aliran.at_kategori == 2) ? (aliran.at_jumlah | number:2) :''}}</td>
                                 <td class='text-right'>{{ (aliran.at_beratEmas > 0) ? (aliran.at_beratEmas | number:2) :''}}</td>
                                 <td class='text-right'>{{ (aliran.at_guna > 0) ? (aliran.at_guna | number:2) :''}}</td>
-                                <td class='text-right'>{{ (aliran.hutang > 0) ? (aliran.hutang | number: 2) : '(' + ((aliran.hutang*-1) | number: 2) + ')'}}</td>
+                                <td class='text-right'>{{ (aliran.hutang > 0) ? (aliran.hutang | number: 2) : '(' + ((aliran.hutang * - 1) | number: 2) + ')'}}</td>
                             </tr>
                         </tbody>
                     </table>

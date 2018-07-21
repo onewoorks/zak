@@ -22,7 +22,7 @@ zakApp.config(function ($routeProvider) {
             .when('/transaksi-aliran-bank', {
                 templateUrl: "pages/transaksi/aliran-duit-bank.html"
             })
-            .when('/transaksi-buang-aliran',{
+            .when('/transaksi-buang-aliran', {
                 templateUrl: "pages/transaksi/buang-rekod-aliran.html"
             })
             .when('/rekod-transaksi-keseluruhan', {
@@ -79,6 +79,11 @@ const currentDate = () => {
     return day + '/' + month + '/' + year;
 }
 
+const dBdate = (date) => {
+    var arr = date.split('/');
+    return arr['2'] + '-' + arr[1] + '-' + arr[0];
+}
+
 var isNumberKey = (evt, val) => {
     var key = evt.key;
     var obj = {};
@@ -117,31 +122,91 @@ zakApp.controller('user_navigation', ['$scope', function ($scope) {
         };
     }]);
 
-zakApp.service("generalController",function($http,$q){
+zakApp.service("generalController", function ($http, $q) {
     var generalFunction = {};
-    
+
     generalFunction.listOfCawangan = () => {
         return $http.get(api_url + '/cawangan')
-            .then(function(response) {
-                if (typeof response.data.result === 'object') {
-                    return response.data.result;
-                } else {
+                .then(function (response) {
+                    if (typeof response.data.result === 'object') {
+                        return response.data.result;
+                    } else {
+                        return $q.reject(response.data.result);
+                    }
+                }, function (response) {
                     return $q.reject(response.data.result);
-                }
-            }, function(response) {
-                return $q.reject(response.data.result);
-            });
+                });
     };
-    
+
+    generalFunction.listOfCawanganLama = () => {
+        return $http.get(api_url + '/cawangan/cawangan-zak1')
+                .then(function (response) {
+                    if (typeof response.data.result === 'object') {
+                        return response.data.result;
+                    } else {
+                        return $q.reject(response.data.result);
+                    }
+                }, function (response) {
+                    return $q.reject(response.data.result);
+                });
+    };
+
     return generalFunction;
 });
 
-zakApp.controller('alirantunaiController', ['$scope', '$http','generalController', function ($scope, $http, generalController) {
-        angular.extend($scope,generalController);
-        $scope.listOfCawangan().then(function(response){
+zakApp.controller('dashboardController', ['$scope', '$http', function ($scope, $http) {
+        var getSummary = () => {
+            $http({
+                url: api_url + '/dashboard/summary',
+                type: 'get'
+            })
+                    .then(function (response) {
+                        $scope.ringkasan = response.data.result
+                    })
+        }
+        getSummary();
+    }]);
+
+zakApp.controller('semakanIkutPilihanController', ['$scope', '$http', 'generalController', function ($scope, $http, generalController) {
+        angular.extend($scope, generalController);
+        $scope.listOfCawanganLama().then(function (response) {
             $scope.listCawangan = response;
         });
-        
+
+        $scope.listRekod = false;
+        $scope.tarikh = {};
+
+        $scope.tapisPilihan = () => {
+            var cawangan = $scope.cawangan;
+            var tarikhMula = $('[name=tarikhMula]').val();
+            var tarikhAkhir = $('[name=tarikhAkhir]').val();
+            $scope.tarikh = {
+                mula: tarikhMula,
+                akhir: tarikhAkhir
+            }
+
+            $http({
+                url: api_url + '/rekod/pilihan',
+                type: 'get',
+                params: {
+                    cawangan: cawangan,
+                    tarikhMula: dBdate(tarikhMula),
+                    tarikhAkhir: dBdate(tarikhAkhir)
+                }
+            })
+                    .then(function (response) {
+                        if (response.data.result.list.length > 0) {
+                            $scope.listRekod = response.data.result
+                        }
+                    });
+        }
+    }]);
+zakApp.controller('alirantunaiController', ['$scope', '$http', 'generalController', function ($scope, $http, generalController) {
+        angular.extend($scope, generalController);
+        $scope.listOfCawangan().then(function (response) {
+            $scope.listCawangan = response;
+        });
+
         $scope.perkara = '';
         $scope.cawangan = '';
         $scope.tarikh = currentDate();
@@ -151,7 +216,7 @@ zakApp.controller('alirantunaiController', ['$scope', '$http','generalController
         $scope.nilai = '';
         $scope.transaksi = "masuk";
         $scope.selectCawangan = false;
-        
+
         $scope.pilihCawangan = () => {
             $scope.selectCawangan = ($scope.cawangan) ? true : false;
         };
@@ -162,7 +227,7 @@ zakApp.controller('alirantunaiController', ['$scope', '$http','generalController
         $scope.addToList = () => {
             addToList();
         };
-        
+
         $scope.daftarAw = () => {
             daftarAw();
         };
@@ -201,7 +266,7 @@ zakApp.controller('alirantunaiController', ['$scope', '$http','generalController
         };
 
         addToList = () => {
-            
+
             var data = {
                 pid: (awlist.length),
                 tarikh: $scope.tarikh,
@@ -219,21 +284,21 @@ zakApp.controller('alirantunaiController', ['$scope', '$http','generalController
             $scope.awlist = awlist;
             clearForm();
         };
-        
+
         $scope.removeAw = (item) => {
-          angular.forEach(awlist, function(value,key){
-              if(awlist[key].pid===item){
-                  awlist.splice(key,1);
-              }
-          });
-          $scope.awlist = awlist;
+            angular.forEach(awlist, function (value, key) {
+                if (awlist[key].pid === item) {
+                    awlist.splice(key, 1);
+                }
+            });
+            $scope.awlist = awlist;
         };
 
         daftarAw = () => {
             console.log('daftar aliran tunai');
             console.log(awlist);
         };
-        
+
 
     }]);
 
@@ -360,29 +425,29 @@ zakApp.controller('transactionController', ['$scope', '$http', '$location', func
 
     }]);
 
-zakApp.controller('transaksiKeseluruhanController',['$scope','$http', function($scope, $http){
+zakApp.controller('transaksiKeseluruhanController', ['$scope', '$http', function ($scope, $http) {
         var getAliranTunai = () => {
             $http.get(api_url + '/rekod')
-                    .then(function(response){
+                    .then(function (response) {
                         $scope.listAliranTunai = response.data.result;
                         console.log(response.data.result);
-            });
+                    });
         };
-        
-        getAliranTunai();
-}]);
 
-zakApp.controller('transaksiKeseluruhanBankController',['$scope','$http', function($scope, $http){
+        getAliranTunai();
+    }]);
+
+zakApp.controller('transaksiKeseluruhanBankController', ['$scope', '$http', function ($scope, $http) {
         var getAliranBank = () => {
             $http.get(api_url + '/rekod/semua-aliran-bank')
-                    .then(function(response){
+                    .then(function (response) {
                         $scope.listAliranBank = response.data.result;
                         console.log(response.data.result);
-            });
+                    });
         };
-        
+
         getAliranBank();
-}]);
+    }]);
 
 zakApp.controller('rekodJualanController', ['$scope', '$http', '$location', 'SweetAlert', function ($scope, $http, $location, SweetAlert) {
         var getListJualan = () => {
@@ -444,6 +509,13 @@ zakApp.controller('cawanganController', ['$scope', '$http', '$location', functio
                     });
         };
 
+        var getListCawanganLama = () => {
+            $http.get(api_url + '/cawangan/cawangan-zak1')
+                    .then(function (response) {
+                        $scope.listCawanganLama = response.data.result;
+                    })
+        }
+
         $scope.openModalCawangan = (x) => {
             $('#editCawangan').modal('show');
             $http.get(api_url + '/cawangan/cawangan_detail?id=' + x)
@@ -473,27 +545,44 @@ zakApp.controller('cawanganController', ['$scope', '$http', '$location', functio
                     });
         }
         getListCawangan();
+        getListCawanganLama();
     }]);
 
-zakApp.controller('laporanBulananController',['$scope','$http',function($scope,$http){
+zakApp.controller('laporanBulananController', ['$scope', '$http', function ($scope, $http) {
         var getLaporanBulan = () => {
-            $http.get(api_url+'/rekod/transaksi-bulan-ini')
-                    .then(function(response){
+            $http.get(api_url + '/rekod/transaksi-bulan-ini')
+                    .then(function (response) {
                         $scope.listAliran = response.data.result
                     });
         };
-        getLaporanBulan();
-}]);
 
-zakApp.controller('laporanHarianController',['$scope','$http',function($scope,$http){
+        $scope.tarikh = {}
+
+        $scope.cariLaporan = () => {
+            var tarikhMula = $('[name=tarikhMula]').val();
+            var tarikhAkhir = $('[name=tarikhMula]').val();
+
+            $scope.tarikh = {
+                masuk: tarikhMula,
+                akhir: tarikhAkhir
+            };
+
+            $http.get(api_url + 'rekod/transaksi-bulan-ini')
+            dBdate(tarikhMula);
+        }
+
+        getLaporanBulan();
+    }]);
+
+zakApp.controller('laporanHarianController', ['$scope', '$http', function ($scope, $http) {
         var getLaporanHarian = () => {
-            $http.get(api_url+'/rekod/transaksi-hari-ini')
-                    .then(function(response){
+            $http.get(api_url + '/rekod/transaksi-hari-ini')
+                    .then(function (response) {
                         $scope.listAliran = response.data.result
                     });
         };
         getLaporanHarian();
-}]);
+    }]);
 
 zakApp.controller('aliranbankController', ['$scope', '$http', '$location', function ($scope, $http, $location) {
         $scope.tarikh = currentDate();

@@ -1,13 +1,13 @@
-<div class='container-fluid' ng-controller="transactionController">
+<div class='container-fluid' ng-controller="semakanIkutPilihanController">
     <div class='page-header hidden-print'>
         <h1>Rekod Semakan Ikut Pilihan</h1>
     </div>
     <div class='row'>
-        <div class='col-sm-12'>
+        <div class='col-sm-9'>
             <div class='panel panel-primary'>
                 <div class='panel-heading'><i class='fas fa-clipboard'></i> Senarai Transaksi</div>
                 <div class='panel-body'>
-                    <form class='form-horizontal'>
+                    <form ng-submit="tapisPilihan()" class='form-horizontal'>
                         <div class='form-group'>
                             <label class='col-sm-1 control-label'>Cawangan</label>
                             <div class='col-sm-3'>
@@ -17,26 +17,27 @@
                                 </select>
                             </div>
                             
-                            <label class='col-sm-1 control-label'>Tarikh Mula</label>
+                            <label class='col-sm-1 control-label' style="padding-right: 0; padding-left:0">Tarikh Mula</label>
                             <div class='col-sm-2'>
-                                <input type='text' class='form-control dp' name='tarikhMula' ng-model='tarikhMula'  required/>
+                                <input type='text' class='form-control dp' name='tarikhMula' ng-model='tarikh.mula'  required/>
                             </div>
                             
-                            <label class='col-sm-1 control-label'>Tarikh Akhir</label>
+                            <label class='col-sm-1 control-label' style="padding-right: 0; padding-left: 0">Tarikh Akhir</label>
                             <div class='col-sm-2'>
-                                <input type='text' class='form-control dp' name='tarikhAkhir' ng-model='tarikhAkhir'  required/>
+                                <input type='text' class='form-control dp' name='tarikhAkhir' ng-model='tarikh.akhir'  required/>
                             </div>
                             
                             <div class='col-sm-2'>
-                                <button type="submit" class='btn btn-primary btn-block'><i class='fas fa-search'></i> Cari</button>
+                                <button type="submit" class='btn btn-primary btn-block'><i class='fas fa-search'></i> Kemaskini</button>
                             </div>
                         </div>
                         
                     </form>
                     
                     <hr>
-                    
-                    <table class='table table-bordered'>
+                </div>
+                
+                    <table class='table table-bordered table-condensed'>
                     <thead>
                         <tr>
                             <th rowspan="2">No</th>
@@ -45,6 +46,7 @@
                             <th rowspan="2">Kakitangan</th>
                             <th colspan="2" class='text-center table-bottom-border-none' style='border-bottom: none'>Jumlah</th>
                             <th colspan="2" class='text-center table-bottom-border-none'>Emas</th>
+                            <th rowspan="2">Baki</th>
                         </tr>
                         <tr>
                             <th class='text-center'>Masuk</th>
@@ -54,12 +56,70 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td colspan="8">-</td>
+                        <tr ng-if="listRekod == false">
+                            <td colspan="9"> <i>Tiada rekod</i> </td>
+                        </tr>
+                        <tr ng-repeat="rekod in listRekod.list">
+                            <td>{{ ($index+1) }}</td>
+                            <td>{{ rekod.at_timeDate }}</td>
+                            <td>{{ rekod.at_perkara }}</td>
+                            <td>{{ rekod.stf_id }}</td>
+                            <td class="text-right">{{ (rekod.at_kategori==1) ? (rekod.at_jumlah | number:2): '' }}</td>
+                            <td class="text-right">{{ (rekod.at_kategori==2) ? (rekod.at_jumlah | number:2): '' }}</td>
+                            <td>{{ (rekod_at_beratEmas>0 ) ? (rekod.at_beratEmas | number:2) : '' }}</td>
+                            <td>{{ (rekod.at_guna>0) ? (rekod.at_guna | number:2) : '' }}</td>
+                            <td></td>
                         </tr>
                     </tbody>
                 </table>
-                </div>
+            </div>
+        </div>
+        
+        <div class="col-sm-3">
+            <div class="panel panel-primary">
+                <div class="panel-heading">RINGKASAN MAKLUMAT PILIHAN</div>
+                <table class="table table-condensed">
+                    <tbody>
+                        <tr>
+                            <th>Masuk</th>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th>Keluar</th>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th>Berat</th>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th>Nilai Emas</th>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th>Baki</th>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th>Masuk</th>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th>Keluar</th>
+                            <td></td>
+                        </tr>
+                        
+                        <tr>
+                            <th>Masuk</th>
+                            <td></td>
+                        </tr>
+                        
+                        <tr>
+                            <th>Keluar</th>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
