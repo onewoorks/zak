@@ -155,16 +155,89 @@ zakApp.service("generalController", function ($http, $q) {
 });
 
 zakApp.controller('dashboardController', ['$scope', '$http', function ($scope, $http) {
+
+        var grafAliranWang = (data) => {
+            var label = [];
+            var masuk = [];
+            var keluar = [];
+
+            data.forEach(function (value, key) {
+                label.push(value.bulan);
+                masuk.push(value.masuk);
+                keluar.push(value.keluar);
+            });
+
+            var densityCanvas = document.getElementById("myChart");
+
+            var dataMasuk = {
+                label: 'Aliran Wang Masuk (RM)',
+                data: masuk,
+                backgroundColor: 'rgba(99, 255, 32, 0.6)',
+                borderWidth: 0,
+                yAxisID: "nilai"
+            };
+            var dataKeluar = {
+                label: 'Aliran Wang Keluar (RM)',
+                data: keluar,
+                backgroundColor: 'rgba(266, 62, 51, 0.6)',
+                borderWidth: 0,
+                yAxisID: "nilai"
+            };
+            var dataAliranTunai = {
+                labels: label,
+                datasets: [dataMasuk, dataKeluar]
+            };
+            var chartOptions = {
+                scales: {
+                    xAxes: [{
+                            barPercentage: 1,
+                            categoryPercentage: 0.7
+                        }],
+                    yAxes: [
+                        {
+                            id: "nilai",
+                            ticks: {
+                                callback: function (label, index, labels) {
+                                    return label / 1000 + 'k';
+                                }
+                            },
+                            scaleLabel: {
+                                display: true,
+                                labelString: '1k = 1000'
+                            }},
+                        {
+                            id: "nilai", 
+                            ticks: {
+                                callback: function (label, index, labels) {
+                                    return label / 1000 + ' K';
+                                }
+                            },
+                            scaleLabel: {
+                                display: true,
+                                labelString: '1k = 1000'
+                            }}]
+                }
+            };
+            var barChart = new Chart(densityCanvas, {
+                type: 'bar',
+                data: dataAliranTunai,
+                options: chartOptions
+            });
+        }
+
         var getSummary = () => {
             $http({
                 url: api_url + '/dashboard/summary',
                 type: 'get'
             })
                     .then(function (response) {
-                        $scope.ringkasan = response.data.result
-                    })
+                        $scope.ringkasan = response.data.result;
+                        grafAliranWang(response.data.result.graf_aliran_wang);
+                    });
         }
+
         getSummary();
+
     }]);
 
 zakApp.controller('semakanIkutPilihanController', ['$scope', '$http', 'generalController', function ($scope, $http, generalController) {

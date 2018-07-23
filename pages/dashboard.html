@@ -4,14 +4,14 @@
             <div class="panel panel-primary">
                 <div class="panel-heading">GRAF ALIRAN TUNAI ZAK</div>
                 <div class="panel-body">
-                    <div style="height: 340px;">graph area</div>
+                    <canvas id="myChart" width="400" height="150"></canvas>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="row">
-        <div class="col-sm-3">
+        <div class="col-sm-4">
             <div class="row">
                 <div class="col-xs-12">
                     <div class="panel panel-primary">
@@ -20,17 +20,17 @@
                             <tbody>
                                 <tr>
                                     <th>Masuk</th>
-                                    <td class="text-right">{{ringkasan.aliran_tunai.masuk | number:2 }}</td>
+                                    <td class="text-right">{{ringkasan.aliran_tunai.masuk| number:2 }}</td>
                                 </tr>
                                 <tr>
                                     <th>Keluar</th>
-                                    <td class="text-right">{{ringkasan.aliran_tunai.keluar | number:2 }}</td>
+                                    <td class="text-right">{{ringkasan.aliran_tunai.keluar| number:2 }}</td>
                                 </tr>
                             </tbody>
                             <tfoot>
                                 <tr>
                                     <th>Baki</th>
-                                    <th class="text-right">{{ringkasan.aliran_tunai.baki | number:2 }}</th>
+                                    <th class="text-right">{{ringkasan.aliran_tunai.baki| number:2 }}</th>
                                 </tr>
                             </tfoot>
                         </table>
@@ -46,17 +46,57 @@
                                     <th colspan="2">Nilai (RM)</th>
                                 </tr>
                                 <tr ng-repeat="emas in ringkasan.aliran_emas">
-                                    <td style="text-transform: capitalize" class="text-right">{{ emas.kategori }}</td>
+                                    <td style="text-transform: capitalize" class="text-right">{{ emas.kategori}}</td>
                                     <td class="text-right">{{ emas.nilai_emas | number:2 }}</td>
                                 </tr>
                                 <tr>
                                     <th colspan="2">Berat (g)</th>
                                 </tr>
                                 <tr ng-repeat="emas in ringkasan.aliran_emas">
-                                    <td style="text-transform: capitalize" class="text-right">{{ emas.kategori }}</td>
+                                    <td style="text-transform: capitalize" class="text-right">{{ emas.kategori}}</td>
                                     <td class="text-right">{{ emas.berat_emas | number:2 }}</td>
                                 </tr>
                             </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="col-sm-12">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">RINGKASAN KEWANGAN ZAK</div>
+                        <table class="table table-bordered table-condensedr">
+                            <tr>
+                                <th></th>
+                                <th class="text-center">Bulan Ini</th>
+                                <th class="text-center">Keseluruhan</th>
+                            </tr>
+                            <tbody>
+                                <tr>
+                                    <td>Wang Masuk</td>
+                                    <td class="text-right">{{ringkasan.aliran_tunai.masuk| number:2}}</td>
+                                    <td class="text-right">{{ringkasan.aliran_tunai_semua.masuk| number:2}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Wang Keluar</td>
+                                    <td class="text-right">{{ringkasan.aliran_tunai.keluar| number:2}}</td>
+                                    <td class="text-right">{{ringkasan.aliran_tunai_semua.keluar| number:2}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Dalam Bank</td>
+                                    <td class="text-right" colspan="2">{{ ringkasan.aliran_bank_semua.dalam_bank | number:2}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Dalam Peti</td>
+                                    <td class="text-right" colspan="2"></td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>Jumlah Keseluruhan</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </tfoot>
                         </table>
                     </div>
                 </div>
@@ -64,59 +104,37 @@
         </div>
         <div class="col-sm-4">
             <div class="panel panel-primary">
-                <div class="panel-heading">RINGKASAN KEWANGAN ZAK</div>
-                <table class="table table-bordered table-condensedr">
-                    <tr>
-                        <th></th>
-                        <th class="text-center">Bulan Ini</th>
-                        <th class="text-center">Keseluruhan</th>
-                    </tr>
-                    <tbody>
-                        <tr>
-                            <td>Wang Masuk</td>
-                            <td class="text-right">{{ringkasan.aliran_tunai.masuk | number:2}}</td>
-                            <td class="text-right">{{ringkasan.aliran_tunai_semua.masuk | number:2}}</td>
-                        </tr>
-                        <tr>
-                            <td>Wang Keluar</td>
-                            <td class="text-right">{{ringkasan.aliran_tunai.keluar | number:2}}</td>
-                            <td class="text-right">{{ringkasan.aliran_tunai_semua.keluar | number:2}}</td>
-                        </tr>
-                        <tr>
-                            <td>Dalam Bank</td>
-                            <td class="text-right" colspan="2">{{ ringkasan.aliran_bank_semua.dalam_bank | number:2}}</td>
-                        </tr>
-                        <tr>
-                            <td>Dalam Peti</td>
-                            <td class="text-right" colspan="2"></td>
-                        </tr>
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <th>Jumlah Keseluruhan</th>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                    </tfoot>
-                </table>
-            </div>
-        </div>
-        <div class="col-sm-5">
-            <div class="panel panel-primary">
-                <div class="panel-heading">MAKLUMAT HUTANG DAN PIUTANG</div>
+                <div class="panel-heading">MAKLUMAT SYARIKAT BERHUTANG</div>
                 <table class="table table-bordered table-condensed">
                     <thead>
                         <tr>
                             <th>Nama Cawangan</th>
                             <th class="text-center">Syarikat Berhutang</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-if="rekod.baki > 0"  ng-repeat="rekod in ringkasan.hutang_piutang">
+                            <td>{{ rekod.cawangan}}</td>
+                            <td class="text-right">{{ (rekod.baki > 0) ? (rekod.baki | number:2) : ''}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="panel panel-primary">
+                <div class="panel-heading">MAKLUMAT CAWANGAN BERHUTANG</div>
+                <table class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Nama Cawangan</th>
                             <th class="text-center">Cawangan Berhutang</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="rekod in ringkasan.hutang_piutang">
-                            <td>{{ rekod.cawangan }}</td>
-                            <td class="text-right">{{ (rekod.baki>0) ? (rekod.baki | number:2 ) : '' }}</td>
-                            <td class="text-right">{{ (rekod.baki<0) ? ((rekod.baki*-1) | number:2 ) : '' }}</td>
+                        <tr ng-if="rekod.baki < 0" ng-repeat="rekod in ringkasan.hutang_piutang">
+                            <td>{{ rekod.cawangan}}</td>
+                            <td class="text-right">{{ (rekod.baki < 0) ? ((rekod.baki * - 1) | number:2) : ''}}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -125,3 +143,7 @@
     </div>
 
 </div>
+
+<script> 
+    
+</script>
