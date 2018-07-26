@@ -310,7 +310,6 @@ zakApp.controller('semakanIkutPilihanController', ['$scope', '$http', 'generalCo
                 }
             })
                     .then(function (response) {
-                        console.log(response);
                         if (response.data.result.list.length > 0) {
                             $scope.listRekod = response.data.result;
                         }
