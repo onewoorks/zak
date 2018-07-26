@@ -296,13 +296,13 @@ zakApp.controller('semakanIkutPilihanController', ['$scope', '$http', 'generalCo
             var tarikhMula = $('[name=tarikh_mula]').val();
             var tarikhAkhir = $('[name=tarikh_akhir]').val();
             $scope.tapis.tarikh = {
-                mula: tarikhMula,
-                akhir: tarikhAkhir
+                mula: dBdate(tarikhMula),
+                akhir: dBdate(tarikhAkhir)
             };
-
+            
             $http({
                 url: api_url + '/rekod/pilihan',
-                type: 'get',
+                method: 'get',
                 params: {
                     cawangan: cawangan,
                     tarikh_mula: dBdate(tarikhMula),
@@ -310,6 +310,7 @@ zakApp.controller('semakanIkutPilihanController', ['$scope', '$http', 'generalCo
                 }
             })
                     .then(function (response) {
+                        console.log(response);
                         if (response.data.result.list.length > 0) {
                             $scope.listRekod = response.data.result;
                         }
