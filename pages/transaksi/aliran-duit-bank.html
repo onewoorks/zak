@@ -23,9 +23,8 @@
                         <div class='form-group'>
                             <label class='col-xs-5 control-label'>Nama Bank</label>
                             <div class='col-xs-6' style='margin-right:0'>
-                                <select class='form-control' ng-model='cawangan' ng-change='pickCawangan()' >
-                                    <option value="">Sila Pilih</option>
-                                    <option ng-repeat="cawangan in listCawangan" ng-value='cawangan.id'>{{cawangan.nama_cawangan}}</option>
+                                <select class='form-control' ng-model='bank_akaun' >
+                                    <option ng-repeat='bank in listOfBanks' ng-value='bank'>{{ bank.bank_name }}</option>
                                 </select>
                             </div>
                             <div class='col-xs-1' style='padding-left:0; margin-left:-13px'>
@@ -98,7 +97,7 @@
                             <tr ng-repeat="aliran in listAliranBank">
                                 <td class='text-center'>{{aliran.tarikh}}</td>
                                 <td class='text-uppercase'>{{aliran.perkara}}</td>
-                                <td>{{aliran.cawangan}}</td>
+                                <td>{{aliran.bank.bank_name}}</td>
                                 <td class="text-right"><span ng-show='aliran.jenis_masuk>0'>{{ aliran.jenis_masuk | number: 2}}</span></td>
                                 <td class="text-right"><span ng-show='aliran.jenis_keluar>0'>{{ aliran.jenis_keluar | number: 2}}</span></td>
                             </tr>

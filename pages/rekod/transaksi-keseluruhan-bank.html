@@ -7,16 +7,18 @@
             <div class='panel panel-primary'>
                 <div class='panel-heading'><i class='fas fa-clipboard'></i> Senarai 100 Transaksi Terkini</div>
                 <div class='panel-body'>
-                    <form class='form-horizontal'>
+                    <form ng-submit="tapisPilihan()" class='form-horizontal'>
                         <div class='form-group'>
                             <label class='col-sm-2 control-label'>Tarikh Mula</label>
                             <div class='col-sm-3'>
-                                <input type='text' class='form-control dp' name='tarikhMula' ng-model='tarikhMula'  required/>
+                                <input type='text' class='form-control dp' name='tarikhMula' ng-model='tapis.tarikh.mula'  
+                                       autocomplete="off" required/>
                             </div>
                             
                             <label class='col-sm-2 control-label'>Tarikh Akhir</label>
                             <div class='col-sm-3'>
-                                <input type='text' class='form-control dp' name='tarikhAkhir' ng-model='tarikhAkhir'  required/>
+                                <input type='text' class='form-control dp' name='tarikhAkhir' ng-model='tapis.tarikh.akhir' 
+                                       autocomplete="0" required/>
                             </div>
                             
                             <div class='col-sm-2'>
@@ -27,7 +29,8 @@
                     </form>
                     
                     <hr>
-                    
+                
+                </div>
                     <table class='table table-bordered table-condensed'>
                     <thead>
                         <tr>
@@ -41,14 +44,14 @@
                     <tbody>
                         <tr ng-repeat="aliran in listAliranBank.list">
                             <td>{{($index+1)}}</td>
-                            <td>{{aliran.timestamp}}</td>
+                            <td>{{aliran.tarikh}}</td>
                             <td>{{aliran.perkara}}</td>
                             <td class="text-right">{{ (aliran.kategori=='1') ? (aliran.jumlah | number:2) : '' }}</td>
                             <td class="text-right">{{ (aliran.kategori=='2') ? (aliran.jumlah | number:2) : ''}}</td>
                         </tr>
                     </tbody>
                 </table>
-                </div>
+                
             </div>
         </div>
         

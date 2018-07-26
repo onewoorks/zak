@@ -1,4 +1,9 @@
+body { font-size: 12px; line-height: 18px}
 header {}
+
+.btn-link { padding:0}
+
+.table td { vertical-align: middle !important;}
 
 .panel-heading { text-transform: uppercase}
 .table-bottom-border-none { border-bottom: none !important;}

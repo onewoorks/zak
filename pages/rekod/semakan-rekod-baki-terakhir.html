@@ -1,30 +1,33 @@
-<div class='container-fluid' ng-controller="transactionController">
+<div class='container-fluid' ng-controller="semakanRekodBakiTerakhir">
     <div class='page-header hidden-print'>
         <h1>Semakan Rekod Baki Terakhir</h1>
     </div>
     <div class='row'>
-        <div class='col-sm-12'>
+        <div class='col-sm-10'>
             <div class='panel panel-primary'>
                 <div class='panel-heading'><i class='fas fa-clipboard'></i> Senarai Transaksi</div>
                 <div class='panel-body'>
-                    <form class='form-horizontal'>
+                    <form ng-submit="tapisPilihan()" class='form-horizontal'>
                         <div class='form-group'>
                             <label class='col-sm-1 control-label'>Cawangan</label>
                             <div class='col-sm-3'>
-                                <select name='cawangan' ng-model="cawangan" class='form-control'>
-                                    <option value=''>Sila Pilih</option>
-                                    <option ng-repeat="cawangan in listCawangan" ng-value='cawangan.id'>{{cawangan.nama_cawangan}}</option>
+                                <select name='cawangan' ng-model="tapis.cawangan" class='form-control'>
+                                    <option value='0'>SEMUA CAWANGAN</option>
+                                    <option ng-repeat="cawangan in listCawanganLama" 
+                                            ng-value='cawangan.id'>{{cawangan.nama_cawangan}}</option>
                                 </select>
                             </div>
                             
-                            <label class='col-sm-1 control-label'>Tarikh Mula</label>
+                            <label class='col-sm-1 control-label' style='padding-left:0; padding-right:0'>Tarikh Mula</label>
                             <div class='col-sm-2'>
-                                <input type='text' class='form-control dp' name='tarikhMula' ng-model='tarikhMula'  required/>
+                                <input type='text' class='form-control dp' name='tarikh_mula' ng-model='tapis.tarikh.masuk' 
+                                       autocomplete="off" required/>
                             </div>
                             
-                            <label class='col-sm-1 control-label'>Tarikh Akhir</label>
+                            <label class='col-sm-1 control-label' style='padding-left:0; padding-right:0'>Tarikh Akhir</label>
                             <div class='col-sm-2'>
-                                <input type='text' class='form-control dp' name='tarikhAkhir' ng-model='tarikhAkhir'  required/>
+                                <input type='text' class='form-control dp' name='tarikh_akhir' ng-model='tapis.tarikh.keluar' 
+                                       autocomplete="off"  required/>
                             </div>
                             
                             <div class='col-sm-2'>
@@ -35,8 +38,9 @@
                     </form>
                     
                     <hr>
+                </div>
                     
-                    <table class='table table-bordered'>
+                    <table class='table table-bordered table-condensed'>
                     <thead>
                         <tr>
                             <th rowspan="2">No</th>
@@ -47,19 +51,49 @@
                             <th colspan="2" class='text-center table-bottom-border-none'>Emas</th>
                         </tr>
                         <tr>
-                            <th class='text-center'>Masuk</th>
-                            <th class='text-center'>Keluar</th>
-                            <th class='text-center'>Berat (g)</th>
-                            <th class='text-center'>Nilai</th>
+                            <th class='text-center table-bottom-border-none'>Masuk</th>
+                            <th class='text-center table-bottom-border-none'>Keluar</th>
+                            <th class='text-center table-bottom-border-none'>Berat (g)</th>
+                            <th class='text-center table-bottom-border-none'>Nilai</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td colspan="8">-</td>
+                        <tr ng-if="listRekod.list==0">
+                            <td colspan="8"><i>Tiada Rekod</i></td>
+                        </tr>
+                        <tr ng-repeat="rekod in listRekod.list">
+                            <td>{{ ($index+1) }}</td>
+                            <td>{{ rekod.tarikh }}</td>
+                            <td>{{ rekod.at_perkara }}</td>
+                            <td>{{ rekod.kakitangan }}</td>
+                            <td class="text-right">{{ (rekod.at_kategori==1) ? (rekod.at_jumlah | number:2): '' }}</td>
+                            <td class="text-right">{{ (rekod.at_kategori==2) ? (rekod.at_jumlah | number:2): '' }}</td>
+                            <td class="text-right">{{ (rekod_at_beratEmas>0 ) ? (rekod.at_beratEmas | number:2) : '' }}</td>
+                            <td class="text-right">{{ (rekod.at_guna>0) ? (rekod.at_guna | number:2) : '' }}</td>
                         </tr>
                     </tbody>
                 </table>
-                </div>
+            </div>
+        </div>
+        
+        <div class='col-sm-2'>
+            <div class='panel panel-primary'>
+                <div class='panel-heading'>Ringkasan Maklumat</div>
+                <table class='table table-condensed'>
+                    <tbody>
+                        <tr>
+                            <th>Jumlah Masuk</th>
+                            <td class='text-right'>{{ listRekod.summary.pilihan.masuk | number:2 }}</td>
+                        </tr>
+                        <tr>
+                            <th>Jumlah Keluar</th>
+                            <td class='text-right'>{{ listRekod.summary.pilihan.keluar | number:2 }}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" class='text-right'>{{ listRekod.summary.pilihan.baki | number:2 }}</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

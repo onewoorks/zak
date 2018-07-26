@@ -151,6 +151,45 @@ zakApp.service("generalController", function ($http, $q) {
                 });
     };
 
+    generalFunction.listOfCawanganHead = () => {
+        return $http.get(api_url + '/cawangan/cawangan-head')
+                .then(function (response) {
+                    if (typeof response.data.result === 'object') {
+                        return response.data.result;
+                    } else {
+                        return $q.reject(response.data.result);
+                    }
+                }, function (response) {
+                    return $q.reject(response.data.result);
+                });
+    };
+
+    generalFunction.listKakitangan = () => {
+        return $http.get(api_url + '/cawangan/kakitangan')
+                .then(function (response) {
+                    if (typeof response.data.result === 'object') {
+                        return response.data.result;
+                    } else {
+                        return $q.reject(response.data.result);
+                    }
+                }, function (response) {
+                    return $q.reject(response.data.result);
+                });
+    };
+
+    generalFunction.listBank = () => {
+        return $http.get(api_url + '/bank/bank-list')
+                .then(function (response) {
+                    if (typeof response.data.result === 'object') {
+                        return response.data.result;
+                    } else {
+                        return $q.reject(response.data.result);
+                    }
+                }, function (response) {
+                    return $q.reject(response.data.result);
+                });
+    };
+
     return generalFunction;
 });
 
@@ -206,7 +245,7 @@ zakApp.controller('dashboardController', ['$scope', '$http', function ($scope, $
                                 labelString: '1k = 1000'
                             }},
                         {
-                            id: "nilai", 
+                            id: "nilai",
                             ticks: {
                                 callback: function (label, index, labels) {
                                     return label / 1000 + ' K';
@@ -242,43 +281,59 @@ zakApp.controller('dashboardController', ['$scope', '$http', function ($scope, $
 
 zakApp.controller('semakanIkutPilihanController', ['$scope', '$http', 'generalController', function ($scope, $http, generalController) {
         angular.extend($scope, generalController);
-        $scope.listOfCawanganLama().then(function (response) {
+        $scope.listOfCawanganHead().then(function (response) {
             $scope.listCawangan = response;
         });
 
         $scope.listRekod = false;
-        $scope.tarikh = {};
+        $scope.tapis = {
+            cawangan: "0",
+            tarikh: {}
+        };
 
         $scope.tapisPilihan = () => {
-            var cawangan = $scope.cawangan;
-            var tarikhMula = $('[name=tarikhMula]').val();
-            var tarikhAkhir = $('[name=tarikhAkhir]').val();
-            $scope.tarikh = {
+            var cawangan = $scope.tapis.cawangan;
+            var tarikhMula = $('[name=tarikh_mula]').val();
+            var tarikhAkhir = $('[name=tarikh_akhir]').val();
+            $scope.tapis.tarikh = {
                 mula: tarikhMula,
                 akhir: tarikhAkhir
-            }
+            };
 
             $http({
                 url: api_url + '/rekod/pilihan',
                 type: 'get',
                 params: {
                     cawangan: cawangan,
-                    tarikhMula: dBdate(tarikhMula),
-                    tarikhAkhir: dBdate(tarikhAkhir)
+                    tarikh_mula: dBdate(tarikhMula),
+                    tarikh_akhir: dBdate(tarikhAkhir)
                 }
             })
                     .then(function (response) {
                         if (response.data.result.list.length > 0) {
-                            $scope.listRekod = response.data.result
+                            $scope.listRekod = response.data.result;
                         }
                     });
-        }
+        };
     }]);
-zakApp.controller('alirantunaiController', ['$scope', '$http', 'generalController', function ($scope, $http, generalController) {
+
+zakApp.controller('alirantunaiController', ['$scope', '$http', 'generalController', 'SweetAlert', function ($scope, $http, generalController, SweetAlert) {
         angular.extend($scope, generalController);
-        $scope.listOfCawangan().then(function (response) {
-            $scope.listCawangan = response;
-        });
+        $scope.listKakitangan()
+                .then(function (response) {
+                    $scope.listOfKakitangan = response;
+                });
+
+        $scope.listAkaunZak = [{
+                name: "Zak Services",
+                id: 1
+            }, {
+                name: "Malik",
+                id: 2
+            }, {
+                name: "Joe",
+                id: 3
+            }];
 
         $scope.perkara = '';
         $scope.cawangan = '';
@@ -287,11 +342,17 @@ zakApp.controller('alirantunaiController', ['$scope', '$http', 'generalControlle
         $scope.jumlah = '';
         $scope.beratEmas = '';
         $scope.nilai = '';
-        $scope.transaksi = "masuk";
-        $scope.selectCawangan = false;
+        $scope.transaksi = {
+            jenis: "masuk",
+            account_zak: 1
+        };
+        $scope.selectKakitangan = false;
+        $scope.jumlahAw = {};
 
-        $scope.pilihCawangan = () => {
-            $scope.selectCawangan = ($scope.cawangan) ? true : false;
+        $scope.transaksi_type = {};
+
+        $scope.pilihKakitangan = () => {
+            $scope.selectKakitangan = ($scope.kakitangan) ? true : false;
         };
 
         var awlist = [];
@@ -309,7 +370,7 @@ zakApp.controller('alirantunaiController', ['$scope', '$http', 'generalControlle
             $scope.perkara = '';
             $scope.cawangan = '';
             $scope.tarikh = currentDate();
-            $scope.transaksi = 'masuk';
+            $scope.transaksi = {jenis: "masuk", account_zak: 1};
             $scope.nilai = '';
             $scope.berat = '';
             $scope.jumlah = '';
@@ -344,16 +405,20 @@ zakApp.controller('alirantunaiController', ['$scope', '$http', 'generalControlle
                 pid: (awlist.length),
                 tarikh: $scope.tarikh,
                 perkara: $scope.perkara,
-                cawangan: $scope.cawangan.id,
-                cawangan_nama: $scope.cawangan.nama_cawangan,
-                jenis_masuk: ($scope.transaksi === 'masuk') ? $scope.jumlah : 0,
-                jenis_keluar: ($scope.transaksi === 'keluar') ? $scope.jumlah : 0,
-                emas_berat: $scope.berat,
-                nilai: $scope.nilai,
-                jumlah: $scope.jumlah
+                cawangan_id: $scope.kakitangan.caw_id,
+                stf_id: $scope.kakitangan.stf_id,
+                nama_cawangan: $scope.kakitangan.nama_cawangan,
+                nama_kakitangan: $scope.kakitangan.stf_nama,
+                kategori: ($scope.transaksi.jenis === 'masuk') ? 1 : 2,
+                jenis_masuk: ($scope.transaksi.jenis === 'masuk') ? Number($scope.jumlah || 0) : 0,
+                jenis_keluar: ($scope.transaksi.jenis === 'keluar') ? Number($scope.jumlah || 0) : 0,
+                emas_berat: Number($scope.berat || 0),
+                akaun_zak: $scope.transaksi.account_zak,
+                nilai: Number($scope.nilai || 0),
+                jumlah: Number($scope.jumlah || 0)
             };
             awlist.push(data);
-            $scope.jumlah = kiraJumlah();
+            $scope.jumlahAw = kiraJumlah();
             $scope.awlist = awlist;
             clearForm();
         };
@@ -368,8 +433,17 @@ zakApp.controller('alirantunaiController', ['$scope', '$http', 'generalControlle
         };
 
         daftarAw = () => {
-            console.log('daftar aliran tunai');
-            console.log(awlist);
+            $http({
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                url: api_url + '/transaksi/aliran-tunai',
+                method: "POST",
+                data: JSON.stringify(awlist)})
+                    .then(function (response) {
+                        $scope.awlist = [];
+                        SweetAlert.swal("Berjaya!", "Pendaftaran aliran wang telah berjaya.", "success");
+                    });
         };
 
 
@@ -503,7 +577,26 @@ zakApp.controller('transaksiKeseluruhanController', ['$scope', '$http', function
             $http.get(api_url + '/rekod')
                     .then(function (response) {
                         $scope.listAliranTunai = response.data.result;
-                        console.log(response.data.result);
+                    });
+        };
+
+        $scope.tapis = {};
+
+        $scope.tapisPilihan = () => {
+            var tarikh_mula = $('[name=tarikhMula]').val();
+            var tarikh_akhir = $('[name=tarikhAkhir]').val();
+            $http({
+                url: api_url + '/rekod/aliran-tunai',
+                type: 'get',
+                params: {
+                    tarikh_mula: dBdate(tarikh_mula),
+                    tarikh_akhir: dBdate(tarikh_akhir)
+                }
+            })
+                    .then(function (response) {
+                        if (response.data.result.list.length > 0) {
+                            $scope.listAliranBank = response.data.result;
+                        }
                     });
         };
 
@@ -515,7 +608,26 @@ zakApp.controller('transaksiKeseluruhanBankController', ['$scope', '$http', func
             $http.get(api_url + '/rekod/semua-aliran-bank')
                     .then(function (response) {
                         $scope.listAliranBank = response.data.result;
-                        console.log(response.data.result);
+                    });
+        };
+
+        $scope.tapis = {};
+
+        $scope.tapisPilihan = () => {
+            var tarikh_mula = $('[name=tarikhMula]').val();
+            var tarikh_akhir = $('[name=tarikhAkhir]').val();
+            $http({
+                url: api_url + '/rekod/semua-aliran-bank',
+                type: 'get',
+                params: {
+                    tarikh_mula: dBdate(tarikh_mula),
+                    tarikh_akhir: dBdate(tarikh_akhir)
+                }
+            })
+                    .then(function (response) {
+                        if (response.data.result.list.length > 0) {
+                            $scope.listAliranBank = response.data.result;
+                        }
                     });
         };
 
@@ -586,8 +698,8 @@ zakApp.controller('cawanganController', ['$scope', '$http', '$location', functio
             $http.get(api_url + '/cawangan/cawangan-zak1')
                     .then(function (response) {
                         $scope.listCawanganLama = response.data.result;
-                    })
-        }
+                    });
+        };
 
         $scope.openModalCawangan = (x) => {
             $('#editCawangan').modal('show');
@@ -616,7 +728,7 @@ zakApp.controller('cawanganController', ['$scope', '$http', '$location', functio
                         getListCawangan();
                         $scope.modalcawangan = {};
                     });
-        }
+        };
         getListCawangan();
         getListCawanganLama();
     }]);
@@ -625,11 +737,11 @@ zakApp.controller('laporanBulananController', ['$scope', '$http', function ($sco
         var getLaporanBulan = () => {
             $http.get(api_url + '/rekod/transaksi-bulan-ini')
                     .then(function (response) {
-                        $scope.listAliran = response.data.result
+                        $scope.listAliran = response.data.result;
                     });
         };
 
-        $scope.tarikh = {}
+        $scope.tarikh = {};
 
         $scope.cariLaporan = () => {
             var tarikhMula = $('[name=tarikhMula]').val();
@@ -640,9 +752,9 @@ zakApp.controller('laporanBulananController', ['$scope', '$http', function ($sco
                 akhir: tarikhAkhir
             };
 
-            $http.get(api_url + 'rekod/transaksi-bulan-ini')
+            $http.get(api_url + 'rekod/transaksi-bulan-ini');
             dBdate(tarikhMula);
-        }
+        };
 
         getLaporanBulan();
     }]);
@@ -651,23 +763,28 @@ zakApp.controller('laporanHarianController', ['$scope', '$http', function ($scop
         var getLaporanHarian = () => {
             $http.get(api_url + '/rekod/transaksi-hari-ini')
                     .then(function (response) {
-                        $scope.listAliran = response.data.result
+                        $scope.listAliran = response.data.result;
                     });
         };
         getLaporanHarian();
     }]);
 
-zakApp.controller('aliranbankController', ['$scope', '$http', '$location', function ($scope, $http, $location) {
+zakApp.controller('aliranbankController', ['$scope', '$http', 'generalController', 'SweetAlert', function ($scope, $http, generalController, SweetAlert) {
+        angular.extend($scope, generalController);
+        $scope.listBank()
+                .then(function (response) {
+                    $scope.listOfBanks = response;
+                    $scope.bank_akaun = $scope.listOfBanks[0];
+                });
+
+
         $scope.tarikh = currentDate();
+
         var listAliran = [];
         $scope.transaksi = 'masuk';
 
         $scope.addToList = () => {
             addToList();
-        };
-
-        $scope.rekodAb = () => {
-            rekodAb();
         };
 
         $scope.listAliranBank = listAliran;
@@ -699,18 +816,163 @@ zakApp.controller('aliranbankController', ['$scope', '$http', '$location', funct
             var data = {
                 tarikh: $scope.tarikh,
                 perkara: $scope.perkara,
-                bank: $scope.bank,
-                jenis_masuk: ($scope.transaksi === 'masuk') ? $scope.nilai : 0,
-                jenis_keluar: ($scope.transaksi === 'keluar') ? $scope.nilai : 0
+                bank: $scope.bank_akaun,
+                kategori: ($scope.transaksi === 'masuk') ? 1 : 2,
+                jumlah: Number($scope.nilai || 0),
+                nama_bank: $scope.bank_akaun.bank_name,
+                jenis_masuk: ($scope.transaksi === 'masuk') ? Number($scope.nilai || 0) : 0,
+                jenis_keluar: ($scope.transaksi === 'keluar') ? Number($scope.nilai || 0) : 0
             };
             listAliran.push(data);
             $scope.jumlah = kiraJumlah();
             clearForm();
         };
 
-        var rekodAb = () => {
+        $scope.rekodAb = () => {
+            $http({
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                url: api_url + '/transaksi/aliran-bank',
+                method: "POST",
+                data: JSON.stringify($scope.listAliranBank)})
+                    .then(function (response) {
+                        $scope.listAliranBank = [];
+                        SweetAlert.swal("Berjaya!", "Pendaftaran aliran bank telah berjaya.", "success");
+                    });
+        };
+
+    }]);
+
+zakApp.controller('semakanRekodBakiTerakhir', ['$scope', '$http', 'generalController', function ($scope, $http, generalController) {
+        angular.extend($scope, generalController);
+        $scope.listOfCawanganLama()
+                .then(function (response) {
+                    $scope.listCawanganLama = response;
+                });
+
+        $scope.listRekod = {
+            list: 0
+        };
+
+        $scope.tapis = {
+            cawangan: "0"
+        };
+
+        $scope.tapisPilihan = () => {
+            var tarikh_mula = $('[name=tarikh_mula]').val();
+            var tarikh_akhir = $('[name=tarikh_akhir]').val();
+            console.log(tarikh_mula + ' ' + tarikh_akhir + ' ' + $scope.tapis.cawangan);
+            $http({
+                url: api_url + '/rekod/pilihan',
+                type: 'get',
+                params: {
+                    cawangan: $scope.tapis.cawangan,
+                    tarikh_mula: dBdate(tarikh_mula),
+                    tarikh_akhir: dBdate(tarikh_akhir)
+                }
+            })
+                    .then(function (response) {
+                        if (response.data.result.list.length > 0) {
+                            $scope.listRekod = response.data.result;
+                        }
+                    });
+        };
+    }]);
+
+zakApp.controller('buangRekodTransaksiController', ['$scope', '$http', 'SweetAlert', function ($scope, $http, SweetAlert) {
+        $scope.tapis = {};
+        $scope.listRekod = {
+            list: 0
+        };
+        
+
+        var getListTerkini = () => {
+            $http({
+                url: api_url + '/transaksi/aliran-tunai-terkini',
+                method: 'get'
+            })
+                    .then(function (response) {
+                        if (response.data.result.list.length > 0) {
+                            $scope.listRekod = response.data.result;
+                        }
+                    });
+        };
+        getListTerkini();
+
+        $scope.tapisPilihan = () => {
+            var tarikh_mula = $('[name=tarikh_mula]').val();
+            var tarikh_akhir = $('[name=tarikh_akhir]').val();
+            $http({
+                url: api_url + '/transaksi/aliran-tunai-terkini',
+                type: 'get',
+                params: {
+                    tarikh_mula: dBdate(tarikh_mula),
+                    tarikh_akhir: dBdate(tarikh_akhir)
+                }
+            })
+                    .then(function (response) {
+                        if (response.data.result.list.length > 0) {
+                            $scope.listRekod = response.data.result;
+                        }
+                    });
+        };
+
+        var deleteTransaksi = (pickedItems) => {
+            $http({
+                url: api_url + '/transaksi/aliranwang',
+                method: 'DELETE',
+                data: JSON.stringify(pickedItems)})
+                    .then(function (response) {
+                        getListTerkini();
+                        $scope.listBuang = [];
+                        SweetAlert.swal("Berjaya!", "Pendaftaran aliran wang telah berjaya.", "success");
+                    });
 
         };
 
+        var listPickedDelete = [];
 
+        $scope.selectedChange = (item) => {
+            if (item.selected) {
+                listPickedDelete.push(item);
+            } else {
+                var filtered = listPickedDelete.filter(function(data) { 
+                    return data.at_id !== item.at_id;  
+                 });
+                 listPickedDelete = filtered;
+            }
+            
+            $scope.listBuang = listPickedDelete;
+        };
+
+        $scope.listBuang = [];
+
+        $scope.picked = () => {
+            var pickedItem = [];
+            angular.forEach($scope.listRekod.list, function (item) {
+                if (item.selected) {
+                    pickedItem.push(item);
+                }
+                ;
+            });
+
+            SweetAlert.swal({
+                title: "Buang transaksi pilihan ini?",
+                text: "Adakah anda pasti untuk membuang transaksi-transaksi ini daripada rekod?!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3e8f3e", confirmButtonText: "Ya Buang!",
+                cancelButtonText: "Batal!",
+                closeOnConfirm: false,
+                closeOnCancel: false},
+                    function (isConfirm) {
+                        if (isConfirm) {
+                            deleteTransaksi(pickedItem);
+                        } else {
+                            SweetAlert.swal("Pembatalan", "Rekod transaksi ini tidak dibuang dari sistem", "error");
+                        }
+                    });
+
+        };
     }]);

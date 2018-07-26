@@ -11,24 +11,27 @@
                         <div class='form-group'>
                             <label class='col-sm-2 control-label'>Tarikh Mula</label>
                             <div class='col-sm-3'>
-                                <input type='text' class='form-control dp' name='tarikhMula' ng-model='tarikhMula'  required/>
+                                <input type='text' class='form-control dp' name='tarikhMula' ng-model='tarikhMula'  
+                                       autocomplete="off" required/>
                             </div>
-                            
+
                             <label class='col-sm-2 control-label'>Tarikh Akhir</label>
                             <div class='col-sm-3'>
-                                <input type='text' class='form-control dp' name='tarikhAkhir' ng-model='tarikhAkhir'  required/>
+                                <input type='text' class='form-control dp' name='tarikhAkhir' ng-model='tarikhAkhir'
+                                       autocomplete="off" required/>
                             </div>
-                            
+
                             <div class='col-sm-2'>
                                 <button type="submit" class='btn btn-primary btn-block'><i class='fas fa-search'></i> Kemaskini</button>
                             </div>
                         </div>
-                        
+
                     </form>
-                    
+
                     <hr>
-                    
-                    <table class='table table-bordered'>
+                </div>
+
+                <table class='table table-bordered'>
                     <thead>
                         <tr>
                             <th rowspan="2">No</th>
@@ -39,10 +42,10 @@
                             <th colspan="2" class='text-center table-bottom-border-none'>Emas</th>
                         </tr>
                         <tr>
-                            <th class='text-center'>Masuk</th>
-                            <th class='text-center'>Keluar</th>
-                            <th class='text-center'>Berat (g)</th>
-                            <th class='text-center'>Nilai</th>
+                            <th class='text-center table-bottom-border-none'>Masuk</th>
+                            <th class='text-center table-bottom-border-none'>Keluar</th>
+                            <th class='text-center table-bottom-border-none'>Berat (g)</th>
+                            <th class='text-center table-bottom-border-none'>Nilai</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -51,7 +54,6 @@
                         </tr>
                     </tbody>
                 </table>
-                </div>
             </div>
         </div>
     </div>

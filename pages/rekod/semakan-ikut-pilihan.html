@@ -11,20 +11,22 @@
                         <div class='form-group'>
                             <label class='col-sm-1 control-label'>Cawangan</label>
                             <div class='col-sm-3'>
-                                <select name='cawangan' ng-model="cawangan" class='form-control'>
-                                    <option value=''>Sila Pilih</option>
-                                    <option ng-repeat="cawangan in listCawangan" ng-value='cawangan.id'>{{cawangan.nama_cawangan}}</option>
+                                <select name='cawangan' ng-model="tapis.cawangan" class='form-control' >
+                                    <option value='0'>SEMUA CAWANGAN</option>
+                                    <option ng-repeat="cawangan in listCawangan" ng-value='cawangan.id'>{{cawangan.cawangan_head}}</option>
                                 </select>
                             </div>
                             
                             <label class='col-sm-1 control-label' style="padding-right: 0; padding-left:0">Tarikh Mula</label>
                             <div class='col-sm-2'>
-                                <input type='text' class='form-control dp' name='tarikhMula' ng-model='tarikh.mula'  required/>
+                                <input type='text' class='form-control dp' name='tarikhMula' ng-model='tapis.tarikh.mula'
+                                       autocomplete="off" required/>
                             </div>
                             
                             <label class='col-sm-1 control-label' style="padding-right: 0; padding-left: 0">Tarikh Akhir</label>
                             <div class='col-sm-2'>
-                                <input type='text' class='form-control dp' name='tarikhAkhir' ng-model='tarikh.akhir'  required/>
+                                <input type='text' class='form-control dp' name='tarikhAkhir' ng-model='tapis.tarikh.akhir'
+                                       autocomplete="off" required/>
                             </div>
                             
                             <div class='col-sm-2'>
@@ -46,7 +48,7 @@
                             <th rowspan="2">Kakitangan</th>
                             <th colspan="2" class='text-center table-bottom-border-none' style='border-bottom: none'>Jumlah</th>
                             <th colspan="2" class='text-center table-bottom-border-none'>Emas</th>
-                            <th rowspan="2">Baki</th>
+                            <th rowspan="2" class="text-center">Baki</th>
                         </tr>
                         <tr>
                             <th class='text-center'>Masuk</th>
@@ -61,16 +63,26 @@
                         </tr>
                         <tr ng-repeat="rekod in listRekod.list">
                             <td>{{ ($index+1) }}</td>
-                            <td>{{ rekod.at_timeDate }}</td>
+                            <td>{{ rekod.tarikh }}</td>
                             <td>{{ rekod.at_perkara }}</td>
-                            <td>{{ rekod.stf_id }}</td>
+                            <td>{{ rekod.kakitangan }}</td>
                             <td class="text-right">{{ (rekod.at_kategori==1) ? (rekod.at_jumlah | number:2): '' }}</td>
                             <td class="text-right">{{ (rekod.at_kategori==2) ? (rekod.at_jumlah | number:2): '' }}</td>
-                            <td>{{ (rekod_at_beratEmas>0 ) ? (rekod.at_beratEmas | number:2) : '' }}</td>
-                            <td>{{ (rekod.at_guna>0) ? (rekod.at_guna | number:2) : '' }}</td>
-                            <td></td>
+                            <td class="text-right">{{ (rekod_at_beratEmas>0 ) ? (rekod.at_beratEmas | number:2) : '' }}</td>
+                            <td class="text-right">{{ (rekod.at_guna>0) ? (rekod.at_guna | number:2) : '' }}</td>
+                            <td class="text-right">{{ rekod.baki | number:2}}</td>
                         </tr>
                     </tbody>
+                    <tfoot>
+                        <tr>
+                            <th colspan="4" class="text-right">Jumlah</th>
+                            <th class="text-right">{{ listRekod.summary.pilihan.masuk | number:2 }}</th>
+                            <th class="text-right">{{ listRekod.summary.pilihan.keluar | number:2 }}</th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
                 </table>
             </div>
         </div>
@@ -81,42 +93,31 @@
                 <table class="table table-condensed">
                     <tbody>
                         <tr>
+                            <th colspan="2" class="text-center">Keseluruhan Hingga Hari Ini</th>
+                        </tr>
+                        <tr>
                             <th>Masuk</th>
-                            <td></td>
+                            <td class="text-right">{{ listRekod.summary.semua.masuk | number:2 }}</td>
                         </tr>
                         <tr>
                             <th>Keluar</th>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <th>Berat</th>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <th>Nilai Emas</th>
-                            <td></td>
+                            <td class="text-right">{{ listRekod.summary.semua.keluar | number:2 }}</td>
                         </tr>
                         <tr>
                             <th>Baki</th>
-                            <td></td>
+                            <th class="text-right">{{ listRekod.summary.semua.baki | number:2 }}</th>
+                        </tr>
+                        <tr>
+                            <th colspan="2" class="text-center">Ikut tarikh pilihan</th>
                         </tr>
                         <tr>
                             <th>Masuk</th>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <th>Keluar</th>
-                            <td></td>
-                        </tr>
-                        
-                        <tr>
-                            <th>Masuk</th>
-                            <td></td>
+                            <td class="text-right">{{ listRekod.summary.pilihan.masuk | number:2 }}</td>
                         </tr>
                         
                         <tr>
                             <th>Keluar</th>
-                            <td></td>
+                            <td class="text-right">{{ listRekod.summary.pilihan.keluar | number:2 }}</td>
                         </tr>
                     </tbody>
                 </table>

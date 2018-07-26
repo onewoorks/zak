@@ -1,15 +1,15 @@
-<div class='container-fluid' ng-controller="buangRekodTransaksi">
+<div class='container-fluid' ng-controller="buangRekodTransaksiController">
 
     <div class='page-header hidden-print'>
         <h1>Buang Aliran Tunai</h1>
     </div>
 
     <div class='row'>
-        <div class='col-sm-9'>
+        <div class='col-sm-8'>
 
             <div class='panel panel-primary'>
                 <div class='panel-heading'><i class='fas fa-clipboard'></i> Senarai Aliran Wang</div>
-                <table class='table table-bordered'>
+                <table class='table table-bordered table-condensed'>
                     <thead>
                         <tr>
                             <th rowspan="2">No</th>
@@ -18,7 +18,7 @@
                             <th rowspan="2">Kakitangan</th>
                             <th colspan="2" class='text-center'>Jumlah</th>
                             <th colspan="2" class='text-center'>Emas</th>
-                            <th class='text-center' rowspan="2">Tindakan</th>
+                            <th class='text-center' rowspan="2"><i class='fas fa-trash-alt'></i></th>
                         </tr>
                         <tr>
                             <th class='text-center' style='border-bottom: none;'>Masuk</th>
@@ -28,8 +28,20 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td colspan="9">-</td>
+                        <tr ng-if='listRekod.list==0'>
+                            <td colspan="9">Tiada Rekod</td>
+                        </tr>
+                        <tr ng-repeat='rekod in listRekod.list'>
+                            <td>{{ ($index+1) }}</td>
+                            <td>{{ rekod.tarikh }}</td>
+                            <td>{{ rekod.at_perkara }}</td>
+                            <td>{{ rekod.kakitangan }}</td>
+                            <td class="text-right">{{ (rekod.at_kategori==1) ? (rekod.at_jumlah | number:2): '' }}</td>
+                            <td class="text-right">{{ (rekod.at_kategori==2) ? (rekod.at_jumlah | number:2): '' }}</td>
+                            <td class="text-right">{{ (rekod.at_beratEmas>0 ) ? (rekod.at_beratEmas | number:2) : '' }}</td>
+                            <td class="text-right">{{ (rekod.at_guna>0) ? (rekod.at_guna | number:2) : '' }}</td>
+                            <td class='text-center'><input type='checkbox' ng-value="rekod.at_id" ng-model="rekod.selected" 
+                                                           ng-change="selectedChange(rekod)"/></td>
                         </tr>
                     </tbody>
                 </table>
@@ -37,30 +49,38 @@
 
         </div>
         
-        <div class='col-sm-3'>
-            <div class='panel panel-primary'>
-                <div class='panel-heading'><i class='fas fa-thumbtack'></i> Ringkasan Maklumat</div>
+        <div class='col-sm-4'>
+            <div class='panel panel-danger'>
+                <div class='panel-heading'>Senarai Transaksi Buang</div>
                 <table class='table table-bordered'>
+                    <thead>
+                        <tr>
+                            <th>Perkara</th>
+                            <th class='text-center' style='border-bottom: none;'>Masuk</th>
+                            <th class='text-center' style='border-bottom: none;'>Keluar</th>
+                            <th class='text-center' style='border-bottom: none;'>Berat (g)</th>
+                            <th class='text-center' style='border-bottom: none;'>Nilai Emas</th>
+                        </tr>
+                    </thead>
                     <tbody>
-                        <tr>
-                            <th>Jumlah Masuk</th>
-                            <td></td>
+                        <tr ng-if='listBuang.length == 0'>
+                            <td colspan="5">Tiada transaksi untuk dibuang</td>
                         </tr>
-                        <tr>
-                            <th>Jumlah Keluar</th>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <th>Jumlah Berat Emas</th>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <th>Jumlah Nilai Emas</th>
-                            <td></td>
+                        <tr ng-repeat='buang in listBuang'>
+                            <td>{{ buang.at_perkara}}</td>
+                            <td class="text-right">{{ (buang.at_kategori==1) ? (buang.at_jumlah | number:2): '' }}</td>
+                            <td class="text-right">{{ (buang.at_kategori==2) ? (buang.at_jumlah | number:2): '' }}</td>
+                            <td class="text-right">{{ (buang.at_beratEmas>0 ) ? (buang.at_beratEmas | number:2) : '' }}</td>
+                            <td class="text-right">{{ (buang.at_guna>0) ? (buang.at_guna | number:2) : '' }}</td>
                         </tr>
                     </tbody>
                 </table>
+                <div class='panel-body'>
+                    <div class='btn btn-block btn-danger' ng-click="picked()"
+                         ng-disabled="listBuang.length == 0"><i class='fas fa-trash-alt'></i> Buang</div>
+                </div>
             </div>
         </div>
+        
     </div>
 </div>
