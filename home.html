@@ -45,7 +45,7 @@
                                 <li><a href="#!transaksi-aliran-bank">Aliran Duit Bank</a></li>
                                 <li><a href="#!transaksi-jualan">Jualan</a></li>
                                 <li class='divider'></li>
-                                <li><a href="#!transaksi-buang-aliran">Buang Rekod Aliran</a></li>
+                                <li><a href="#!transaksi-buang-aliran">Buang Rekod Aliran Wang</a></li>
                             </ul>
                         </li>
                         <li class="dropdown">
@@ -65,7 +65,7 @@
 
                             </ul>
                         </li>
-                        
+
                         <li class="dropdown">
                             <a href="javascript:void()" 
                                class="dropdown-toggle" data-toggle="dropdown" role="button" 
@@ -80,29 +80,40 @@
                                 <li><a href="#!tetapan-cawangan">Kemaskini Ahli</a></li>
                             </ul>
                         </li>
-                        
+
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
                             <a href="javascript:void()" class="dropdown-toggle" 
                                data-toggle="dropdown" role="button" 
-                               aria-haspopup="true" aria-expanded="false"><i class='fas fa-user'></i> {{ profile.full_name }}<span class="caret"></span></a>
+                               aria-haspopup="true" aria-expanded="false"><i class='fas fa-user'></i> {{ profile.full_name}}<span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a href="#" ng-click="logout();"><i class='fas fa-sign-out-alt'></i> Logout</a></li>
                             </ul>
                         </li>
-                        
+
                     </ul>
                 </div><!--/.nav-collapse -->
             </div>
         </nav>
 
         <div ng-view style="margin-top: 30px;"></div>
-        
+
         <footer class="text-center">
             <hr>
             <div style="color:grey; font-style: italic">Sistem Pengurusan ZAK versi 2</div>
             <br>
         </footer>
+        <script>
+            $(function () {
+                var navMain = $(".navbar-collapse");
+                
+                navMain.on("click", "a", null, function () {
+                    if (!$(this).hasClass("dropdown-toggle")) {
+                        navMain.collapse('hide');
+                    }
+                });
+            });
+        </script>
     </body>
 </html>

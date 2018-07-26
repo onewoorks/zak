@@ -206,7 +206,7 @@ zakApp.controller('dashboardController', ['$scope', '$http', function ($scope, $
                 keluar.push(value.keluar);
             });
 
-            var densityCanvas = document.getElementById("myChart");
+            var densityCanvas = document.getElementById("grafAliranWang");
 
             var dataMasuk = {
                 label: 'Aliran Wang Masuk (RM)',
@@ -227,6 +227,8 @@ zakApp.controller('dashboardController', ['$scope', '$http', function ($scope, $
                 datasets: [dataMasuk, dataKeluar]
             };
             var chartOptions = {
+                responsive: true, 
+                maintainAspectRatio: false,
                 scales: {
                     xAxes: [{
                             barPercentage: 1,

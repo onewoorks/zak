@@ -51,7 +51,7 @@
                                 <label class="radio-inline"><input ng-model="transaksi.jenis" ng-value='"keluar"' type="radio" name="transaksi"/> Keluar</label>
                             </div>
                         </div>
-                        
+
                         <div class='form-group'>
                             <label class='col-sm-5 control-label'>Jumlah</label>
                             <div class='col-sm-5'>
@@ -64,7 +64,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class='form-group' ng-if='transaksi.jenis == "masuk"'>
                             <label class='col-sm-5 control-label'>Akaun ZAK</label>
                             <div class='col-sm-5'>
@@ -107,7 +107,7 @@
                             <div class='col-sm-12 text-right'>
                                 <button class='btn btn-default' type='reset'> Reset</button>
                                 <button class='btn btn-primary' type='button' ng-click='addToList()' 
-                                        ng-disabled="!(form_aw.perkara.$valid && form_aw.tarikh.$valid && selectKakitangan  )">
+                                        ng-disabled="!(form_aw.perkara.$valid && form_aw.tarikh.$valid && selectKakitangan)">
                                     <i class='fas fa-plus'></i> Daftar Aliran Tunai
                                 </button>
                             </div>
@@ -120,6 +120,7 @@
         <div class="col-sm-8">
             <div class="panel panel-primary">
                 <div class="panel-heading">SENARAI TRANSAKSI ALIRAN TUNAI</div>
+                <div class="table-responsive">
                     <table class="table table-bordered table-condensed">
                         <thead>
                             <tr>
@@ -144,7 +145,7 @@
                             <tr ng-repeat="aw in awlist">
                                 <td class='text-center'>{{aw.tarikh}}</td>
                                 <td class="text-left text-uppercase">{{aw.perkara}}</td>
-                                <td class="text-left text-uppercase">{{aw.nama_kakitangan }} <i style="color:grey; font-size: 0.8em;">{{aw.nama_cawangan}}</i></td>
+                                <td class="text-left text-uppercase">{{aw.nama_kakitangan}} <i style="color:grey; font-size: 0.8em;">{{aw.nama_cawangan}}</i></td>
                                 <td class="text-right"><span ng-show="aw.jenis_masuk > 0">{{ aw.jenis_masuk | number: 2 }}</span></td>
                                 <td class="text-right"><span ng-show="aw.jenis_keluar > 0">{{ aw.jenis_keluar | number: 2}}</span></td>
                                 <td class="text-right"><span ng-show="aw.emas_berat > 0">{{aw.emas_berat| number: 2}}</span></td>
@@ -155,20 +156,21 @@
                         <tfoot ng-show='awlist.length > 0'>
                             <tr>
                                 <th colspan="3" class='text-right'>Jumlah</th>
-                                <th class='text-right'>{{jumlahAw.masuk | number: 2}}</th>
-                                <th class='text-right'>{{jumlahAw.keluar | number: 2}}</th>
-                                <th class='text-right'>{{jumlahAw.berat_emas | number:2}}</th>
+                                <th class='text-right'>{{jumlahAw.masuk| number: 2}}</th>
+                                <th class='text-right'>{{jumlahAw.keluar| number: 2}}</th>
+                                <th class='text-right'>{{jumlahAw.berat_emas| number:2}}</th>
                                 <th class='text-right'>{{jumlahAw.nilai| number: 2}}</th>
                                 <th></th>
                             </tr>
                         </tfoot>
                     </table>
-                    
-                    <div class='panel-body'>
-                        <div class='text-right' ng-show='awlist.length > 0'>
-                            <div class='btn btn-primary' ng-click='daftarAw()'><i class='fas fa-save'></i> Simpan Rekod</div>
-                        </div>
+                </div>
+
+                <div class='panel-body'>
+                    <div class='text-right' ng-show='awlist.length > 0'>
+                        <div class='btn btn-primary' ng-click='daftarAw()'><i class='fas fa-save'></i> Simpan Rekod</div>
                     </div>
+                </div>
             </div>
         </div>
     </div>
