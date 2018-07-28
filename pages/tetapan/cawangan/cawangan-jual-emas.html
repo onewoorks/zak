@@ -3,7 +3,7 @@
 </style>
 <div class='container-fluid' ng-controller="cawanganController">
     <div class='page-header hidden-print'>
-        <h1>Senarai Kakitangan</h1>
+        <h1>Cawangan Jual Emas</h1>
     </div>
 
     <div class="panel panel-primary">
@@ -40,42 +40,6 @@
             </tbody>
         </table>
     </div>
-
-    <div class="panel panel-primary">
-        <div class="panel-heading"><i class="far fa-building"></i> Senarai Cawangan DARI ZAK LAMA</div>
-        <table class="table table-bordered table-condensed">
-            <thead>
-                <tr>
-                    <th>No</th>
-                    <th>Nama Cawangan</th>
-                    <th>Alamat</th>
-                    <th>No Telefon</th>
-                    <th>GST</th>
-                    <th style='width:100px' class='text-center'>Tindakan</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-if="listCawangan.length == 0">
-                    <td colspan="6"><i>Tiada rekod setakat ini.</i></td>
-                </tr>
-                <tr ng-repeat="list in listCawanganLama">
-                    <td>{{$index + 1}}</td>
-                    <td>{{list.nama_cawangan}}</td>
-                    <td style="white-space: pre-line">{{list.alamat}}</td>
-                    <td>{{list.no_telefon}}</td>
-                    <td class="text-right">{{list.no_gst}}</td>
-                    <td class="text-center">
-                        <div class='btn-group'>
-                            <div class="btn btn-danger btn-xs"><i class='fas fa-trash-alt'></i></div>
-                            <div class='btn btn-default btn-xs' 
-                                 ng-click='openModalCawangan(list.id)' ><i class='fas fa-pencil-alt'></i></div>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
 
     <div id="editCawangan" class="modal fade" role="dialog">
         <div class="modal-dialog modal-lg">

@@ -1,3 +1,4 @@
+//var api_url = 'http://localhost/zak_api/api';
 var api_url = 'https://onewoorks-solutions.com/api/zak/api';
 var app_url = 'https://zak-v2.herokuapp.com';
 var zakApp = angular.module('zakApp', ["ngRoute", "AngularPrint", 'oitozero.ngSweetAlert']);
@@ -51,8 +52,14 @@ zakApp.config(function ($routeProvider) {
                 controller: 'rekodJualanController'
             })
             .when("/tetapan-cawangan", {
-                templateUrl: "pages/tetapan/cawangan.html",
+                templateUrl: "pages/tetapan/cawangan/cawangan.html",
                 controller: ''
+            })
+            .when("/tetapan-cawangan-jual-emas", {
+                templateUrl: "pages/tetapan/cawangan/cawangan-jual-emas.html"
+            })
+            .when("/tetapan-kakitangan", {
+                templateUrl: "pages/tetapan/kakitangan/kakitangan.html"
             });
 });
 
@@ -74,7 +81,6 @@ const currentDate = () => {
     var now = new Date();
     var day = ("0" + now.getDate()).slice(-2);
     var month = ("0" + (now.getMonth() + 1)).slice(-2);
-    ;
     var year = now.getFullYear();
     return day + '/' + month + '/' + year;
 }
@@ -227,7 +233,7 @@ zakApp.controller('dashboardController', ['$scope', '$http', function ($scope, $
                 datasets: [dataMasuk, dataKeluar]
             };
             var chartOptions = {
-                responsive: true, 
+                responsive: true,
                 maintainAspectRatio: false,
                 scales: {
                     xAxes: [{
@@ -301,7 +307,7 @@ zakApp.controller('semakanIkutPilihanController', ['$scope', '$http', 'generalCo
                 mula: dBdate(tarikhMula),
                 akhir: dBdate(tarikhAkhir)
             };
-            
+
             $http({
                 url: api_url + '/rekod/pilihan',
                 method: 'get',
@@ -887,7 +893,7 @@ zakApp.controller('buangRekodTransaksiController', ['$scope', '$http', 'SweetAle
         $scope.listRekod = {
             list: 0
         };
-        
+
 
         var getListTerkini = () => {
             $http({
@@ -939,12 +945,12 @@ zakApp.controller('buangRekodTransaksiController', ['$scope', '$http', 'SweetAle
             if (item.selected) {
                 listPickedDelete.push(item);
             } else {
-                var filtered = listPickedDelete.filter(function(data) { 
-                    return data.at_id !== item.at_id;  
-                 });
-                 listPickedDelete = filtered;
+                var filtered = listPickedDelete.filter(function (data) {
+                    return data.at_id !== item.at_id;
+                });
+                listPickedDelete = filtered;
             }
-            
+
             $scope.listBuang = listPickedDelete;
         };
 
@@ -977,4 +983,35 @@ zakApp.controller('buangRekodTransaksiController', ['$scope', '$http', 'SweetAle
                     });
 
         };
+    }]);
+
+zakApp.controller('tetapanKakitanganKakitanganController', ['$scope', '$http', function ($scope, $http) {
+        $scope.listRekod = {
+            list: 0
+        };
+        $scope.paparPengguna = true;
+        $scope.formPengguna = false;
+
+        var getListUsers = () => {
+            $http({
+                url: api_url + '/tetapan/kakitangan',
+                method: 'GET',
+            })
+                    .then((response) => {
+                        $scope.listRekod = response.data.result;
+                    });
+        };
+
+        $scope.tambahPengguna = () => {
+            $scope.paparPengguna = false;
+            $scope.formPengguna = true;
+        };
+
+        $scope.daftarKakitangan = () => {
+            console.log("tt");
+            $scope.paparPengguna = true;
+            $scope.formPengguna = false;
+        };
+
+        getListUsers();
     }]);
