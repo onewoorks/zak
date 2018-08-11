@@ -73,28 +73,28 @@
                             <tbody>
                                 <tr>
                                     <td>Wang Masuk</td>
-                                    <td class="text-right">{{ringkasan.aliran_tunai.masuk| number:2}}</td>
-                                    <td class="text-right">{{ringkasan.aliran_tunai_semua.masuk| number:2}}</td>
+                                    <td class="text-right">{{ringkasan.aliran_tunai.masuk | number:2}}</td>
+                                    <td class="text-right">{{ringkasan.ringkasan_kewangan.wang_masuk | number:2}}</td>
                                 </tr>
                                 <tr>
                                     <td>Wang Keluar</td>
-                                    <td class="text-right">{{ringkasan.aliran_tunai.keluar| number:2}}</td>
-                                    <td class="text-right">{{ringkasan.aliran_tunai_semua.keluar| number:2}}</td>
+                                    <td class="text-right">{{ringkasan.aliran_tunai.keluar | number:2}}</td>
+                                    <td class="text-right">{{ringkasan.ringkasan_kewangan.wang_keluar | number:2}}</td>
                                 </tr>
                                 <tr>
                                     <td>Dalam Bank</td>
-                                    <td class="text-right" colspan="2">{{ ringkasan.aliran_bank_semua.dalam_bank | number:2}}</td>
+                                    <td class="text-right" colspan="2">{{ ringkasan.ringkasan_kewangan.dalam_bank | number:2}}</td>
                                 </tr>
                                 <tr>
                                     <td>Dalam Peti</td>
-                                    <td class="text-right" colspan="2"></td>
+                                    <td class="text-right" colspan="2">{{ ringkasan.ringkasan_kewangan.duit_peti | number:2}}</td>
                                 </tr>
                             </tbody>
                             <tfoot>
                                 <tr>
                                     <th>Jumlah Keseluruhan</th>
                                     <th></th>
-                                    <th></th>
+                                    <th class="text-right">{{ ringkasan.ringkasan_kewangan.duit_semua | number:2 }}</th>
                                 </tr>
                             </tfoot>
                         </table>
