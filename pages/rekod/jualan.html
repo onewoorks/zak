@@ -32,8 +32,9 @@
                         <td class="text-right">{{list.harga_jual| number:2 }}</td>
                         <td class="text-right">{{list.harga_gst| number:2}}</td>
                         <td class="text-center">
-                            <div class="btn btn-default btn-xs" ng-click="editInvois(list.resit)"><i class="fas fa-edit"></i></div>
+                            
                             <div class="btn btn-success btn-xs" ng-click="cetakInvois(list.resit)"><i class="fas fa-print"></i></div>
+                            <div class="btn btn-default btn-xs" ng-click="editInvois(list.resit)"><i class="fas fa-edit"></i></div>
                             <div class="btn btn-danger btn-xs" ng-click="deleteInvois(list.resit)"><i class="fas fa-trash-alt"></i></div>
                         </td>
                     </tr>
