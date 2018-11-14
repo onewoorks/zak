@@ -77,10 +77,10 @@
                         </div>
 
                         <div class='form-group'>
-                            <label class='col-sm-5 control-label'>GST</label>
+                            <label class='col-sm-5 control-label'>SST</label>
                             <div class='col-sm-7'>
                                 <label class='radio-inline'>
-                                    <input type='radio' ng-value='0' ng-model="gst" /> ZR 0%
+                                    <input type='radio' ng-value='0' ng-model="zr" /> ZR 0%
                                 </label>
                                 <label class='radio-inline'>
                                     <input type='radio' ng-value='0' ng-model='gst' ng-checked="true" checked/> SR 0%
@@ -108,7 +108,7 @@
                     <header>
                         <div class='row'>
                             <div class='col-xs-6 text-left'><strong>TAX INVOICE</strong></div>
-                            <div class='col-xs-6 text-right' style='right:120px;'><strong>NO BIL : </strong></div>
+                            <div class='col-xs-6 text-right' style='right:120px;'><strong>NO BIL : {{ nobil }}</strong></div>
                         </div>
                         <div class='text-center'>
                             <h3>{{kedai.namakedai}}</h3>
@@ -126,8 +126,8 @@
                                     <td>{{jualkepada.namacawangan}}</td>
                                 </tr>
                                 <tr>
-                                    <th>Alamat</th>
-                                    <th>:</th>
+                                    <th style="vertical-align: top;">Alamat</th>
+                                    <th style="vertical-align: top;">:</th>
                                     <td>
                                         <div style="white-space: pre-line">{{jualkepada.alamatkedai}}</div>
                                     </td>
@@ -146,6 +146,7 @@
                                     <th class='text-center' style='vertical-align: middle' rowspan="2">MARKET</th>
                                     <th class='text-center' style='vertical-align: middle' rowspan="2">BERAT</th>
                                     <th class='text-center' style='vertical-align: middle' colspan="2">HARGA</th>
+                                    <th rowspan="2"></th>
                                 </tr>
                                 <tr>
                                     <th class='text-center' >RM</th>
@@ -154,7 +155,7 @@
                             </thead>
                             <tbody>
                                 <tr ng-if="itemList.length == 0">
-                                    <td colspan="7"><i>Tiada makluat jualan setakat ini</i></td>
+                                    <td colspan="8"><i>Tiada makluat jualan setakat ini</i></td>
                                 </tr>
                                 <tr ng-repeat="list in itemList">
                                     <td class='text-center'>{{$index + 1}}</td>
@@ -162,8 +163,11 @@
                                     <td>{{list.perkara}}</td>
                                     <td class='text-center'>{{list.market}}</td>
                                     <td class='text-center'>{{list.berat}} g</td>
-                                    <td class='text-right'>{{list.harga}}</td>
+                                    <td class='text-right'>{{list.harga | number:0}}</td>
                                     <td class='text-left'>{{list.hargaSen}}</td>
+                                    <td class="text-center" style="width:50px">
+                                        <div class="btn btn-danger btn-xs" ng-click="deleteInList($index)"><i class="fas fa-times"></i></div>
+                                    </td>
                                 </tr>
                             </tbody>
                             <tfoot>
@@ -171,6 +175,7 @@
                                     <td class='text-right' colspan="5">Jumlah</td>
                                     <td class='text-right'>{{jumlah}}</td>
                                     <td>{{jumlahSen}}</td>
+                                    <td rowspan="5"></td>
                                 </tr>
                                 <tr>
                                     <td class='text-right' colspan="5">Adjust</td>
@@ -183,7 +188,7 @@
                                     <td>{{jumlahSeterusnyaSen}}</td>
                                 </tr>
                                 <tr>
-                                    <td class='text-right' colspan="5">GST 0%</td>
+                                    <td class='text-right' colspan="5">SST 0%</td>
                                     <td class='text-right'>{{jumlahGst}}</td>
                                     <td>{{jumlahGstSen}}</td>
                                 </tr>
@@ -200,6 +205,7 @@
                 <div class='panel-footer text-right'>
                     <button class='btn btn-primary' ng-click='printOnlyBtn(latestResit)' ng-class="printOnly">Cetak Resit</button>
                     <button class='btn btn-primary' ng-click='postJualan()' ng-class="beforeSave">Simpan & Cetak Resit</button>
+                    <button class='btn btn-primary' ng-click='updateJualan(nobil)' ng-class="updateOnly">Kemaskini & Cetak Resit</button>
                 </div>
             </div>
         </div>

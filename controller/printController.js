@@ -42,7 +42,7 @@ zakPrintApp.controller('printController', ['$scope', '$http', '$location', funct
         
         $scope.printResit = () => {
             print();
-        }
+        };
         
         $http.get(api_url + '/transaksi/jualan-resit?id=' + resit_no)
                 .then(function (response) {

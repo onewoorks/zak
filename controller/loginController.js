@@ -3,14 +3,7 @@ var app_url = 'https://zak-v2.herokuapp.com';
 var zakApp = angular.module('zakApp', []);
 
 zakApp.controller('loginController', ['$scope', '$http', function ($scope, $http) {
-        var verifySession = () => {
-            var localStorage = window.localStorage;
-            var user_session = JSON.parse(localStorage.getItem('user_session'));
-            if (user_session != null) {
-                window.location.href = './home.html';
-            };
-        };
-
+        
         $scope.login = () => {
             var user = {
                 username: $scope.username,
