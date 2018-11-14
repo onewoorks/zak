@@ -1,7 +1,7 @@
-var api_url = 'http://localhost/zak_api/api';
-//var api_url = 'https://onewoorks-solutions.com/api/zak/api';
-//var app_url = 'https://zak-v2.herokuapp.com';
-var app_url = 'http://localhost/Zak_v2/public_html/home.html'
+//var api_url = 'http://localhost/zak_api/api';
+var api_url = 'https://onewoorks-solutions.com/api/zak/api';
+var app_url = 'https://zak-v2.herokuapp.com';
+//var app_url = 'http://localhost/Zak_v2/public_html/home.html'
 var zakApp = angular.module('zakApp', ["ngRoute", "AngularPrint", 'oitozero.ngSweetAlert']);
 
 var localStorage = window.localStorage;
