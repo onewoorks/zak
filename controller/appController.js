@@ -768,7 +768,7 @@ zakApp.controller('rekodJualanController', ['$scope', '$http', '$location', 'Swe
         };
 
         $scope.editInvois = (resit_no) => {
-            window.open(app_url + '/ubah-rekod-jualan?id=' + resit_no, '_self');
+            window.open(app_url + 'home.html#!/ubah-rekod-jualan?id=' + resit_no, '_self');
         };
 
 
