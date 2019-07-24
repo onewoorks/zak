@@ -30,6 +30,9 @@ zakApp.config(function ($routeProvider) {
             .when('/transaksi-buang-aliran', {
                 templateUrl: "pages/transaksi/buang-rekod-aliran.html"
             })
+            .when('/rekod-stok-emas',{
+                templateUrl: "pages/rekod/stok-emas.html"
+            })
             .when('/rekod-transaksi-keseluruhan', {
                 templateUrl: "pages/rekod/transaksi-keseluruhan.html"
             })
@@ -755,6 +758,24 @@ zakApp.controller('transaksiKeseluruhanBankController', ['$scope', '$http', func
         getAliranBank();
     }]);
 
+zakApp.controller('stokController',['$scope','$http','$location','SweetAlert', function($scope, $http, $location, SweetAlert){
+    $scope.cawangan_detail = false;
+    var getListCawanganStok = () => {
+        $http.get(api_url + '/stok/stok-info')
+        .then(function(response){
+            $scope.listCawanganStok = response.data.result;
+        })
+    }
+
+    $scope.viewRecords = (caw_id) =>{
+        $http.get(api_url + `/stok/stok-info?caw_id=${caw_id}`)
+        .then(function(response){
+            console.log(response)
+            $scope.cawangan_detail = true;
+        })
+    }
+    getListCawanganStok();
+}])
 zakApp.controller('rekodJualanController', ['$scope', '$http', '$location', 'SweetAlert', function ($scope, $http, $location, SweetAlert) {
         var getListJualan = () => {
             $http.get(api_url + '/transaksi/jualan')

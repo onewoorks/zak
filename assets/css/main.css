@@ -2,8 +2,11 @@ body { font-size: 12px; line-height: 18px}
 header {}
 
 .btn-link { padding:0}
-
+.table-border-none>tbody>tr>th, .table-border-none>tbody>tr>td {
+    border:none !important;
+}
 .table td { vertical-align: middle !important;}
+
 
 .panel-heading { text-transform: uppercase}
 .table-bottom-border-none { border-bottom: none !important;}

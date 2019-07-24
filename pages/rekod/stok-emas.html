@@ -1,0 +1,122 @@
+<div class='container-fluid' ng-controller="stokController">
+    <div class='page-header doNotPrint'>
+        <h1>Senarai Stok Keseluruhan</h1>
+    </div>
+    <div class="col-md-3">
+        <div class="panel panel-primary">
+            <div class="panel-heading">RUMUSAN EMAS DALAM SIMPANAN</div>
+            <div class="panel-body">
+                <h5>Belum Tarik</h5>
+                <table class="table table-border-none">
+                    <tr>
+                        <th>Berat Keseluruhan</th>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <th>Jumlah Keseluruhan</th>
+                        <td>&nbsp;</td>
+                    </tr>
+                </table>
+                <hr>
+                <h5>Sudah Tarik</h5>
+                <table class="table table-border-none">
+                    <tr>
+                        <th>Berat Keseluruhan</th>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <th>Jumlah Keseluruhan</th>
+                        <td>&nbsp;</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-9">
+        <div class="panel panel-primary doNotPrint">
+            <div class="panel-heading">SENARAI EMAS DALAM SIMPANAN </div>
+            <div class="panel-body">
+                <table class="table table-bordered table-condensed"  ng-hide="cawangan_detail">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nama Cawangan</th>
+                            <th>Berat Emas</th>
+                            <th>Nilai Belian</th>
+                            <th>Tindakan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-if="listCawanganStok.length == 0 ">
+                            <td colspan="8"><i>Tiada senarai jualan</i></td>
+                        </tr>
+                        <tr ng-repeat="list in listCawanganStok">
+                            <td>{{$index + 1}}</td>
+                            <td>{{list.cawangan}}</td>
+                            <td class="text-center"></td>
+                            <td class="text-center"></td>
+                            <td class="text-center">
+                                    <div class="btn btn-success btn-xs" ng-click="viewRecords(list.caw_id)"><i class="fas fa-receipt"></i></div>
+                                    <div class="btn btn-default btn-xs" ng-click="editInvois(list.caw_id)"><i class="fas fa-sign-out-alt"></i></div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <table class="table table-bordered table-condensed" ng-show="cawangan_detail">
+                    <thead>
+                        <tr >
+                            <th rowspan="2">Tarikh Transaksi</th>
+                            <th colspan="2" class='text-center'>Beli</th>
+                            <th colspan="2" class='text-center'>Jual</th>
+                        </tr>
+                        <tr>
+                            
+                            <th class='text-center'>Berat</th>
+                            <th class='text-center'>Beli</th>
+                            <th class='text-center'>Berat</th>
+                            <th class='text-center'>Beli</th>
+                        </tr>
+                    </thead>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
