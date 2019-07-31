@@ -1,0 +1,67 @@
+<div class='container-fluid' ng-controller="stokEmasAmbilController">
+        <div class='page-header doNotPrint'>
+            <h1>Senarai Ambil Dalam Simpanan</h1>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-primary">
+                <div class="panel-heading">RUMUSAN EMAS DALAM SIMPANAN</div>
+                <div class="panel-body">
+                    <h5>Belum Tarik</h5>
+                    <table class="table table-border-none">
+                        <tr>
+                            <th>Berat Keseluruhan</th>
+                            <td class="text-right"><strong></strong></td>
+                        </tr>
+                        <tr>
+                            <th>Jumlah Keseluruhan</th>
+                            <td class="text-right"><strong></strong></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    
+        <div class="col-md-8">
+            <div class="panel panel-primary doNotPrint">
+                <div class="panel-heading">SENARAI EMAS DALAM SIMPANAN </div>
+                <div class="panel-body">
+                   
+                    <table class="table table-bordered table-condensed"  ng-hide="cawangan_detail">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Nama Cawangan</th>
+                                <th class='text-center'>Berat Emas</th>
+                                <th>Hantar Tarik</th>
+                                <th>Baki Emas</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="listCawanganStok.length == 0 ">
+                                <td colspan="8"><i>Tiada senarai jualan</i></td>
+                            </tr>
+                            <tr ng-repeat="list in listCawanganStok">
+                                <td>{{$index + 1}}</td>
+                                <td>{{list.nama_cawangan}}</td>
+                                <td class="text-right">{{list.berat_ambil | number:2 }}</td>
+                                <td><input 
+                                    type="text"
+                                    class='form-control input-sm text-right' 
+                                    ng-value="10"  
+                                    ng-model="berat_ambilan[$index]"
+                                    />
+                                </td>
+                                    <td class="text-right" ng-model="baki_emas[$index]">{{ (list.berat_ambil - berat_ambilan[$index]) | number : 2}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class='text-right'>
+                        <div class="btn btn-primary btn-sm" ng-click="hantarTarik()">Hantar Tarik</div>
+                    </div>
+    
+                </div>
+            </div>
+        </div>
+    
+    </div>

@@ -1,0 +1,181 @@
+<div class='container-fluid' ng-controller="aliranAmbilEmasController" >
+        <div class='page-header hidden-print'>
+            <h1>Ambil Emas</h1>
+        </div>
+        <div class='row'>
+            <div class='col-sm-4'>
+                <div class='panel panel-primary'>
+                    <div class='panel-heading'>
+                        MAKLUMAT EMAS DIAMBIL
+                    </div>
+                    <div class='panel-body'>
+                        <form name="form_aw" class='form-horizontal'>
+                            <div class='form-group'>
+                                <label class='col-sm-5 control-label'>Perkara</label>
+                                <div class='col-sm-7'>
+                                    <input type='text' class='form-control text-uppercase' 
+                                           name='perkara' 
+                                           ng-model='perkara' ng-required="true" />
+                                </div>
+                            </div>
+    
+                            <div class='form-group'>
+                                <label class='col-xs-5 control-label'>Daripada</label>
+                                <div class='col-xs-6' style='margin-right:0'>
+                                    <select class='form-control' ng-model='kakitangan' ng-change="pilihKakitangan()">
+                                        <option value=''>Sila Pilih</option>
+                                        <option ng-repeat="kakitangan in listOfKakitangan" 
+                                                ng-value='kakitangan'
+                                                data-namacawangan="{{kakitangan.stf_nama}}"
+                                                >{{kakitangan.stf_nama}}</option>
+                                    </select>
+                                </div>
+                                <div class='col-xs-1' style='padding-left:0; margin-left:-13px'>
+                                    <div class='btn btn-default' data-toggle="modal" data-target="#myModal" >+</div>
+                                </div>
+                            </div>
+    
+                            <div class='form-group'>
+                                <label class='col-sm-5 control-label'>Tarikh</label>
+                                <div class='col-sm-7'>
+                                    <input type='text' class='form-control dp' 
+                                           name='tarikh' 
+                                           ng-model='tarikh' ng-required='true' />
+                                </div>
+                            </div>
+    
+                            <div class='form-group'>
+                                <label class='col-sm-5 control-label'>Berat Emas</label>
+                                <div class='col-sm-5'>
+                                    <div class='input-group'>
+                                        <input type='text' class='form-control text-center' ng-model='berat' 
+                                               onkeypress="return isNumberKey(event, this);"/>
+                                        <span class='input-group-addon'>g</span>
+                                    </div>
+                                </div>
+                            </div>
+    
+                            <hr>
+    
+                            <div class='form-group'>
+                                <div class='col-sm-12 text-right'>
+                                    <button class='btn btn-default' type='reset'> Reset</button>
+                                    <button class='btn btn-primary' type='button' ng-click='addToList()' 
+                                            ng-disabled="!(form_aw.perkara.$valid && form_aw.tarikh.$valid && selectKakitangan)">
+                                        <i class='fas fa-plus'></i> Daftar Ambilan Emas
+                                    </button>
+                                </div>
+                            </div>
+                        </form>        
+                    </div>
+                </div>
+            </div>
+    
+            <div class="col-sm-8">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">SENARAI TRANSAKSI AMBILAN EMAS</div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-condensed">
+                            <thead>
+                                <tr>
+                                    <th rowspan="2" class="text-center" style="vertical-align: middle">Tarikh</th>
+                                    <th rowspan="2" class="text-center" style="vertical-align: middle">Pekara</th>
+                                    <th rowspan="2" class="text-center" style="vertical-align: middle">Cawangan</th>
+                                    <th class="text-center">Berat Emas</th>
+                                    <th rowspan="2"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-show="awlist.length == 0">
+                                    <td colspan="8"><i>Tiada transaksi didaftarkan setakat ini.</i></td>
+                                </tr>
+                                <tr ng-repeat="aw in awlist">
+                                    <td class='text-center'>{{aw.tarikh}}</td>
+                                    <td class="text-left text-uppercase">{{aw.perkara}}</td>
+                                    <td class="text-left text-uppercase">{{aw.nama_kakitangan}} <i style="color:grey; font-size: 0.8em;">{{aw.nama_cawangan}}</i></td>
+                                    <td class="text-right"><span ng-show="aw.emas_berat > 0">{{aw.emas_berat| number: 2}}</span></td>
+                                    <td class='text-center'> <div class='btn btn-link' ng-click='removeAw(aw.pid)'><i class="far fa-trash-alt"></i></div> </td>
+                                </tr>
+                            </tbody>
+                            <tfoot ng-show='awlist.length > 0'>
+                                <tr>
+                                    <th colspan="3" class='text-right'>Jumlah</th>
+                                    <th class='text-right'>{{jumlahAw.berat_emas| number:2}}</th>
+                                    <th></th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+    
+                    <div class='panel-body'>
+                        <div class='text-right' ng-show='awlist.length > 0'>
+                            <div class='btn btn-primary' ng-click='daftarAw()'><i class='fas fa-save'></i> Simpan Rekod</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Modal -->
+        <div id="myModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+    
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <form class="form-horizontal" >
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Tambah Cawangan Baru</h4>
+                        </div>
+                        <div class="modal-body">
+    
+                            <div class="form-group">
+                                <label class="control-label col-xs-4">Nama Cawangan</label>
+                                <div class="col-xs-6">
+                                    <input type="text" ng-model="modalcawangan.nama" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-xs-4">Alamat</label>
+                                <div class="col-xs-6">
+                                    <textarea ng-model="modalcawangan.alamat" class="form-control"></textarea>
+                                </div>
+                            </div>
+    
+                            <div class="form-group">
+                                <label class="control-label col-xs-4">No Telefon</label>
+                                <div class="col-xs-6">
+                                    <input type="text" ng-model="modalcawangan.notelefon" class="form-control" />
+                                </div>
+                            </div>
+    
+                            <div class="form-group">
+                                <label class="control-label col-xs-4">No GST</label>
+                                <div class="col-xs-6">
+                                    <input type="text" ng-model="modalcawangan.nogst" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="tambahCawangan()">Tambah Cawangan</button>
+                        </div>
+                    </form>
+                </div>
+    
+            </div>
+        </div>
+    
+    </div>
+    
+    <script>
+        $(function () {
+            $('input').attr('autocomplete', 'off');
+            $('.dp').datepicker({
+                format: 'dd/mm/yyyy'
+            })
+                    .on('changeDate', function (ev) {
+                        $('.dp').datepicker('hide');
+                    });
+    
+        });
+    </script>

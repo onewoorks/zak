@@ -6,7 +6,8 @@ header {}
     border:none !important;
 }
 .table td { vertical-align: middle !important;}
-
+.table-tarikh { width: 130px}
+.table-figure { width: 80px }
 
 .panel-heading { text-transform: uppercase}
 .table-bottom-border-none { border-bottom: none !important;}

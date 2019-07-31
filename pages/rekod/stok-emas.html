@@ -2,7 +2,7 @@
     <div class='page-header doNotPrint'>
         <h1>Senarai Stok Keseluruhan</h1>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-4">
         <div class="panel panel-primary">
             <div class="panel-heading">RUMUSAN EMAS DALAM SIMPANAN</div>
             <div class="panel-body">
@@ -10,11 +10,11 @@
                 <table class="table table-border-none">
                     <tr>
                         <th>Berat Keseluruhan</th>
-                        <td>&nbsp;</td>
+                        <td class="text-right"><strong>{{ listStokSummary.berat_beli | number : 2 }}</strong></td>
                     </tr>
                     <tr>
                         <th>Jumlah Keseluruhan</th>
-                        <td>&nbsp;</td>
+                        <td class="text-right"><strong>{{ listStokSummary.nilai_beli | number : 2}}</strong></td>
                     </tr>
                 </table>
                 <hr>
@@ -33,7 +33,7 @@
         </div>
     </div>
 
-    <div class="col-md-9">
+    <div class="col-md-8">
         <div class="panel panel-primary doNotPrint">
             <div class="panel-heading">SENARAI EMAS DALAM SIMPANAN </div>
             <div class="panel-body">
@@ -54,67 +54,49 @@
                         <tr ng-repeat="list in listCawanganStok">
                             <td>{{$index + 1}}</td>
                             <td>{{list.cawangan}}</td>
-                            <td class="text-center"></td>
-                            <td class="text-center"></td>
+                            <td class="text-right">{{list.berat_beli | number:2 }}</td>
+                            <td class="text-right">{{list.nilai_beli | number:2 }}</td>
                             <td class="text-center">
                                     <div class="btn btn-success btn-xs" ng-click="viewRecords(list.caw_id)"><i class="fas fa-receipt"></i></div>
-                                    <div class="btn btn-default btn-xs" ng-click="editInvois(list.caw_id)"><i class="fas fa-sign-out-alt"></i></div>
+                                    <div class="btn btn-default btn-xs" ng-click="viewEmasTarik(list.caw_id)"><i class="fas fa-sign-out-alt"></i></div>
                             </td>
                         </tr>
                     </tbody>
                 </table>
 
-                <table class="table table-bordered table-condensed" ng-show="cawangan_detail">
+                <table class="table table-bordered table-condensed" ng-hide="cawangan_itemize">
                     <thead>
                         <tr >
-                            <th rowspan="2">Tarikh Transaksi</th>
+                            <th rowspan="2" class='table-tarikh'>Tarikh Transaksi</th>
+                            <th class='text-center'>Perkara</th>
                             <th colspan="2" class='text-center'>Beli</th>
                             <th colspan="2" class='text-center'>Jual</th>
                         </tr>
-                        <tr>
-                            
-                            <th class='text-center'>Berat</th>
-                            <th class='text-center'>Beli</th>
-                            <th class='text-center'>Berat</th>
-                            <th class='text-center'>Beli</th>
+                        <tr> 
+                            <th>Perkara</th>   
+                            <th class='text-center table-figure'>Berat</th>
+                            <th class='text-center table-figure'>Beli</th>
+                            <th class='text-center table-figure'>Berat</th>
+                            <th class='text-center table-figure'>Beli</th>
                         </tr>
                     </thead>
-                    <tr>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                    </tr>
+                    <tbody>
+                        <tr ng-repeat="transaksi in cawangan_detail">
+                            <td>{{ transaksi.tarikh_transaksi }}</td>
+                            <td class='text-uppercase'>{{ transaksi.perkara }}</td>
+                            <td class='text-right'>{{ transaksi.berat_beli | number:2 }}</td>
+                            <td class='text-right'>{{ transaksi.nilai_beli | number:2 }}</td>
+                            <td class='text-right'>{{ transaksi.berat_jual | number:2 }}</td>
+                            <td class='text-right'>{{ transaksi.nilai_jual | number:2 }}</td>
+                        </tr>
+                    </tbody>
                 </table>
+
+                <div ng-hide="tarik_emas">
+                    <form>
+                        div.
+                    </form>
+                </div>
             </div>
         </div>
     </div>
