@@ -6,17 +6,15 @@
         <div class="panel panel-primary">
             <div class="panel-heading">RINGKASAN EMAS TARIK</div>
             <div class="panel-body">
+                <table class="table table-border-none">
                     <table class="table table-border-none">
-                        <table class="table table-border-none">
-                            <tr>
-                                <th>Berat Keseluruhan</th>
-                                <td>&nbsp;</td>
-                            </tr>
-                            <tr>
-                                <th>Jumlah Keseluruhan</th>
-                                <td>&nbsp;</td>
-                            </tr>
-                        </table>
+                        <tr>
+                            <th>Berat Keseluruhan</th>
+                            <td class='text-right'>
+                                <strong>{{ summary.berat_emas | number:2 }} g</strong></td>
+                        </tr>
+                    </table>
+                </table>
             </div>
         </div>
     </div>
@@ -41,18 +39,20 @@
                             <td class='text-right'>{{ list.berat_hantar | number: 2}}</td>
                             <td>
                                 <div class="input-group input-group-sm">
-                                        <input type="text" class="form-control input-sm text-center" ng-model="berat_lepas_tarik[$index]" />
-                                        <span class="input-group-addon">g</span>    
+                                    <input type="text" class="form-control input-sm text-center"
+                                        ng-model="berat_lepas_tarik[$index]" />
+                                    <span class="input-group-addon">g</span>
                                 </div>
-                                
+
                             </td>
                             <td>
                                 <div class="input-group input-group-sm">
-                                        <span class="input-group-addon">RM</span>
-                                        <input type="text" class="form-control input-sm text-center" ng-model="nilai_lepas_tarik[$index]" />
+                                    <span class="input-group-addon">RM</span>
+                                    <input type="text" class="form-control input-sm text-center"
+                                        ng-model="nilai_lepas_tarik[$index]" />
                                 </div>
-                                    
-                                </td>
+
+                            </td>
                         </tr>
                     </tbody>
                 </table>

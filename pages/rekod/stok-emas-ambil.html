@@ -10,11 +10,9 @@
                     <table class="table table-border-none">
                         <tr>
                             <th>Berat Keseluruhan</th>
-                            <td class="text-right"><strong></strong></td>
-                        </tr>
-                        <tr>
-                            <th>Jumlah Keseluruhan</th>
-                            <td class="text-right"><strong></strong></td>
+                            <td class="text-right">
+                                <strong>{{ summary.berat_emas | number : 2}} g</strong>
+                            </td>
                         </tr>
                     </table>
                 </div>
@@ -38,18 +36,24 @@
                         </thead>
                         <tbody>
                             <tr ng-if="listCawanganStok.length == 0 ">
-                                <td colspan="8"><i>Tiada senarai jualan</i></td>
+                                <td colspan="8"><i>Tiada senarai emas dari cawangan</i></td>
                             </tr>
                             <tr ng-repeat="list in listCawanganStok">
                                 <td>{{$index + 1}}</td>
                                 <td>{{list.nama_cawangan}}</td>
                                 <td class="text-right">{{list.berat_ambil | number:2 }}</td>
-                                <td><input 
-                                    type="text"
-                                    class='form-control input-sm text-right' 
-                                    ng-value="10"  
-                                    ng-model="berat_ambilan[$index]"
-                                    />
+                                <td>
+                                    <div class="input-group input-group-sm">
+                                            <input 
+                                            type="text"
+                                            class='form-control input-sm text-right' 
+                                            ng-value="10"  
+                                            onkeypress="return isNumberKey(event, this)"
+                                            ng-model="berat_ambilan[$index]"
+                                            />
+                                            <span class="input-group-addon">g</span>
+                                    </div>
+                                    
                                 </td>
                                     <td class="text-right" ng-model="baki_emas[$index]">{{ (list.berat_ambil - berat_ambilan[$index]) | number : 2}}</td>
                             </tr>

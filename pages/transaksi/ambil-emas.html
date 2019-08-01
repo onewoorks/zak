@@ -10,6 +10,15 @@
                     </div>
                     <div class='panel-body'>
                         <form name="form_aw" class='form-horizontal'>
+                            
+                            <div class='form-group'>
+                                    <label class='col-sm-5 control-label'>No Resit</label>
+                                    <div class='col-sm-7'>
+                                            <input type='text' class='form-control text-center'
+                                             ng-model='resit_ambil' />
+                                    </div>
+                            </div>
+
                             <div class='form-group'>
                                 <label class='col-sm-5 control-label'>Perkara</label>
                                 <div class='col-sm-7'>
@@ -79,6 +88,7 @@
                             <thead>
                                 <tr>
                                     <th rowspan="2" class="text-center" style="vertical-align: middle">Tarikh</th>
+                                    <th rowspan="2" class="text-center" style="vertical-align: middle">No Resit</th>
                                     <th rowspan="2" class="text-center" style="vertical-align: middle">Pekara</th>
                                     <th rowspan="2" class="text-center" style="vertical-align: middle">Cawangan</th>
                                     <th class="text-center">Berat Emas</th>
@@ -91,6 +101,7 @@
                                 </tr>
                                 <tr ng-repeat="aw in awlist">
                                     <td class='text-center'>{{aw.tarikh}}</td>
+                                    <td class='text-center'>{{ aw.resit_ambil }}</td>
                                     <td class="text-left text-uppercase">{{aw.perkara}}</td>
                                     <td class="text-left text-uppercase">{{aw.nama_kakitangan}} <i style="color:grey; font-size: 0.8em;">{{aw.nama_cawangan}}</i></td>
                                     <td class="text-right"><span ng-show="aw.emas_berat > 0">{{aw.emas_berat| number: 2}}</span></td>
@@ -99,7 +110,7 @@
                             </tbody>
                             <tfoot ng-show='awlist.length > 0'>
                                 <tr>
-                                    <th colspan="3" class='text-right'>Jumlah</th>
+                                    <th colspan="4" class='text-right'>Jumlah</th>
                                     <th class='text-right'>{{jumlahAw.berat_emas| number:2}}</th>
                                     <th></th>
                                 </tr>
