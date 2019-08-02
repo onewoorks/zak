@@ -1,28 +1,64 @@
 <div class='container-fluid' ng-controller="laporanUntungJualanController">
     <div class='page-header hidden-print'>
-        <h1>Laporan Keuntungan Jualan Emas {{ testlu }} </h1>
+        <h1>Laporan Keuntungan Jualan Emas</h1>
     </div>
     <div class='row'>
-        <div class='col-sm-12'>
+        <div class="col-sm-4">
+            <div class="panel panel-primary">
+                <div class="panel-heading">RINGKASAN JUALAN</div>
+                <div class="panel-body">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <th>Berat Jualan</th>
+                                <td class='text-right'><strong>{{ summary.jumlah_berat | number:2 }} g</strong></td>
+                            </tr>
+                            <tr>
+                                <th>Harga Modal</th>
+                                <td class="text-right"><strong>{{ summary.jumlah_modal | number:2}}</strong></td>
+                            </tr>
+                            <tr>
+                                <th>Harga Jual</th>
+                                <td class='text-right'><strong>{{ summary.jumlah_harga_jual | number:2 }}</strong></td>
+                            </tr>
+                            <tr>
+                                <th>Untung</th>
+                                <td class="text-right"><strong>{{ summary.jumlah_untung | number:2 }}</strong></td>
+                            </tr>
+                            <tr>
+                                <th>Peratus Untung (%)</th>
+                                <td class="text-right">
+                                    <strong>{{ (summary.jumlah_untung/summary.jumlah_harga_jual) * 100 | number:1 }}
+                                        %</strong></td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class='col-sm-8'>
             <div class='panel panel-primary'>
-                <div class='panel-heading'><i class='fas fa-clipboard'></i> Senarai Transaksi</div>
+                <div class='panel-heading'><i class='fas fa-clipboard'></i> Senarai Transaksi JUALAN EMAS</div>
                 <div class='panel-body'>
                     <form class='form-horizontal'>
                         <div class='form-group'>
                             <label class='col-sm-2 control-label'>Tarikh Mula</label>
                             <div class='col-sm-3'>
-                                <input type='text' class='form-control dp' name='tarikhMula' ng-model='tarikhMula'  
-                                       autocomplete="off" required/>
+                                <input type='text' class='form-control dp' name='tarikhMula' ng-model='tarikhMula'
+                                    autocomplete="off" required />
                             </div>
 
                             <label class='col-sm-2 control-label'>Tarikh Akhir</label>
                             <div class='col-sm-3'>
                                 <input type='text' class='form-control dp' name='tarikhAkhir' ng-model='tarikhAkhir'
-                                       autocomplete="off" required/>
+                                    autocomplete="off" required />
                             </div>
 
                             <div class='col-sm-2'>
-                                <button type="submit" class='btn btn-primary btn-block'><i class='fas fa-search'></i> Kemaskini</button>
+                                <button type="submit" class='btn btn-primary btn-block'><i class='fas fa-search'></i>
+                                    Kemaskini</button>
                             </div>
                         </div>
 
@@ -34,23 +70,26 @@
                 <table class='table table-bordered'>
                     <thead>
                         <tr>
-                            <th rowspan="2">No</th>
-                            <th rowspan="2">Tarikh Dan Masa</th>
-                            <th rowspan="2">Perkara</th>
-                            <th rowspan="2">Kakitangan</th>
-                            <th colspan="2" class='text-center table-bottom-border-none' style='border-bottom: none'>Jumlah</th>
-                            <th colspan="2" class='text-center table-bottom-border-none'>Emas</th>
-                        </tr>
-                        <tr>
-                            <th class='text-center table-bottom-border-none'>Masuk</th>
-                            <th class='text-center table-bottom-border-none'>Keluar</th>
-                            <th class='text-center table-bottom-border-none'>Berat (g)</th>
-                            <th class='text-center table-bottom-border-none'>Nilai</th>
+                            <th>No</th>
+                            <th class="text-uppercase">Cawangan</th>
+                            <th class='text-center table-bottom-border-none'>Berat Jual</th>
+                            <th class='text-center table-bottom-border-none'>Harga Modal</th>
+                            <th class='text-center table-bottom-border-none'>Harga Jual</th>
+                            <th class='text-center table-bottom-border-none'>Untung</th>
+                            <th class='text-center table-bottom-border-none'>%</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td colspan="8">-</td>
+                        <tr ng-repeat="jual in listEmasJual">
+                            <td>{{ $index +1 }}</td>
+                            <td>{{ jual.nama_cawangan }}</td>
+                            <td class="text-right">{{ jual.berat_jual | number:2}}</td>
+                            <td class="text-right">{{ jual.harga_modal | number:2}}</td>
+                            <td class="text-right">{{ jual.harga_jual | number:2}}</td>
+                            <td class="text-right">{{ jual.untung | number:2}}</td>
+                            <td class="text-center">
+                                {{ (jual.untung/jual.harga_jual)*100 | number:1 }} %
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -64,8 +103,8 @@
         $('.dp').datepicker({
             format: 'dd/mm/yyyy'
         })
-                .on('changeDate', function (ev) {
-                    $('.dp').datepicker('hide');
-                });
+            .on('changeDate', function (ev) {
+                $('.dp').datepicker('hide');
+            });
     })
 </script>
