@@ -1,4 +1,4 @@
-<div class='container-fluid' ng-controller="transactionController" >
+<div class='container-fluid' ng-controller="transactionController">
     <div class='page-header hidden-print'>
         <h1>Maklumat Transaksi</h1>
     </div>
@@ -13,19 +13,20 @@
                         <div class='form-group'>
                             <label class='col-xs-5 control-label'>Jual Kepada</label>
                             <div class='col-xs-6' style='margin-right:0'>
-                                <select class='form-control' ng-model='cawangan' ng-change='pickCawangan()' required >
-                                    <option ng-repeat="cawangan in listCawangan" ng-value='cawangan.id'>{{cawangan.nama_cawangan}}</option>
+                                <select class='form-control' ng-model='cawangan' ng-change='pickCawangan()' required>
+                                    <option ng-repeat="cawangan in listCawangan" ng-value='cawangan.id'>
+                                        {{cawangan.nama_cawangan}}</option>
                                 </select>
                             </div>
                             <div class='col-xs-1' style='padding-left:0; margin-left:-13px'>
-                                <div class='btn btn-default' data-toggle="modal" data-target="#myModal" >+</div>
+                                <div class='btn btn-default' data-toggle="modal" data-target="#myModal">+</div>
                             </div>
                         </div>
 
                         <div class='form-group'>
                             <label class='col-sm-5 control-label'>Tarikh</label>
                             <div class='col-sm-7'>
-                                <input type='text' class='form-control dp' name='tarikh' ng-model='tarikh'  required/>
+                                <input type='text' class='form-control dp' name='tarikh' ng-model='tarikh' required />
                             </div>
                         </div>
 
@@ -34,7 +35,7 @@
                         <div class='form-group'>
                             <label class='col-sm-5 control-label'>Perkara</label>
                             <div class='col-sm-7'>
-                                <input type='text' class='form-control text-uppercase' ng-model='perkara'  required/>
+                                <input type='text' class='form-control text-uppercase' ng-model='perkara' required />
                             </div>
                         </div>
 
@@ -42,18 +43,16 @@
                         <div class='form-group'>
                             <label class='col-sm-5 control-label'>Market</label>
                             <div class='col-sm-7'>
-                                <input type='text' class='form-control' ng-model="market"  
-                                    ng-required="market_required"
-                                       onkeypress="return isNumberKey(event,this)" ng-keyup="kiraHarga()" />
+                                <input type='text' class='form-control' ng-model="market" ng-required="market_required"
+                                    onkeypress="return isNumberKey(event,this)" ng-keyup="kiraHarga()" />
                             </div>
                         </div>
 
                         <div class='form-group'>
                             <label class='col-sm-5 control-label'>Tolak</label>
                             <div class='col-sm-7'>
-                                <input type='text' class='form-control' ng-model='tolak'  
-                                        ng-required="tolak_required"
-                                       onkeypress="return isNumberKey(event, this)" ng-keyup="kiraHarga()" />
+                                <input type='text' class='form-control' ng-model='tolak' ng-required="tolak_required"
+                                    onkeypress="return isNumberKey(event, this)" ng-keyup="kiraHarga()" />
                             </div>
                         </div>
 
@@ -61,12 +60,8 @@
                             <label class='col-sm-5 control-label'>Berat Jual</label>
                             <div class='col-sm-5'>
                                 <div class='input-group'>
-                                    <input type='text' 
-                                    class='form-control text-center' 
-                                    ng-model='berat'  
-                                    ng-change="kiraHarga()"
-                                    readonly
-                                    />
+                                    <input type='text' class='form-control text-center' ng-model='berat'
+                                        ng-change="kiraHarga()" readonly />
                                     <span class='input-group-addon'>g</span>
                                 </div>
                             </div>
@@ -81,18 +76,15 @@
                                             <td>{{ list.nama_cawangan }}</td>
                                             <td class='text-right'>{{ list.berat_jual | number:2}} g</td>
                                             <td class='text-center'>
-                                                <input type="checkbox" 
-                                                ng-model="berat_pilih[list.id]" 
-                                                ng-value="list.berat_jual"
-                                                ng-change="pilih_berat_ini(list.id)"
-                                                ng-disabled="berat_pilih_disabled[list.id]"
-                                                /></td>
+                                                <input type="checkbox" ng-model="berat_pilih[list.id]"
+                                                    ng-value="list.berat_jual" ng-change="pilih_berat_ini(list.id)"
+                                                    ng-disabled="berat_pilih_disabled[list.id]" /></td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-                        
+
                         <div class='form-group'>
                             <label class='col-sm-5 control-label'>Harga</label>
                             <div class='col-sm-7'>
@@ -109,7 +101,7 @@
                                     <input type='radio' ng-value='0' ng-model="zr" /> ZR 0%
                                 </label>
                                 <label class='radio-inline'>
-                                    <input type='radio' ng-value='0' ng-model='gst' ng-checked="true" checked/> SR 0%
+                                    <input type='radio' ng-value='0' ng-model='gst' ng-checked="true" checked /> SR 0%
                                 </label>
                             </div>
                         </div>
@@ -119,22 +111,24 @@
                         <div class='form-group'>
                             <div class='col-sm-12 text-right'>
                                 <button class='btn btn-default' type='reset'> Reset</button>
-                                <button class='btn btn-primary' type='button' ng-click='addToList()'> Masuk Senarai Jualan</button>
+                                <button class='btn btn-primary' type='button' ng-click='addToList()'> Masuk Senarai
+                                    Jualan</button>
                             </div>
                         </div>
-                    </form>        
+                    </form>
                 </div>
             </div>
 
         </div>
         <div class='col-sm-8 hidden-print'>
             <div class='panel panel-primary'>
-                <div class='panel-heading'>PREVIEW RESIT</div> 
+                <div class='panel-heading'>PREVIEW RESIT</div>
                 <div class='panel-body'>
                     <header>
                         <div class='row'>
                             <div class='col-xs-6 text-left'><strong>TAX INVOICE</strong></div>
-                            <div class='col-xs-6 text-right' style='right:120px;'><strong>NO BIL : {{ nobil }}</strong></div>
+                            <div class='col-xs-6 text-right' style='right:120px;'><strong>NO BIL : {{ nobil }}</strong>
+                            </div>
                         </div>
                         <div class='text-center'>
                             <h3>{{kedai.namakedai}}</h3>
@@ -175,8 +169,8 @@
                                     <th rowspan="2"></th>
                                 </tr>
                                 <tr>
-                                    <th class='text-center' >RM</th>
-                                    <th class='text-center' >SEN</th>
+                                    <th class='text-center'>RM</th>
+                                    <th class='text-center'>SEN</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -192,7 +186,8 @@
                                     <td class='text-right'>{{list.harga | number:0}}</td>
                                     <td class='text-left'>{{list.hargaSen}}</td>
                                     <td class="text-center" style="width:50px">
-                                        <div class="btn btn-danger btn-xs" ng-click="deleteInList($index)"><i class="fas fa-times"></i></div>
+                                        <div class="btn btn-danger btn-xs" ng-click="deleteInList($index)"><i
+                                                class="fas fa-times"></i></div>
                                     </td>
                                 </tr>
                             </tbody>
@@ -229,9 +224,12 @@
                     <footer></footer>
                 </div>
                 <div class='panel-footer text-right'>
-                    <button class='btn btn-primary' ng-click='printOnlyBtn(latestResit)' ng-class="printOnly">Cetak Resit</button>
-                    <button class='btn btn-primary' ng-click='postJualan()' ng-class="beforeSave">Simpan & Cetak Resit</button>
-                    <button class='btn btn-primary' ng-click='updateJualan(nobil)' ng-class="updateOnly">Kemaskini & Cetak Resit</button>
+                    <button class='btn btn-primary' ng-click='printOnlyBtn(latestResit)' ng-class="printOnly">Cetak
+                        Resit</button>
+                    <button class='btn btn-primary' ng-click='postJualan()' ng-class="beforeSave">Simpan & Cetak
+                        Resit</button>
+                    <button class='btn btn-primary' ng-click='updateJualan(nobil)' ng-class="updateOnly">Kemaskini &
+                        Cetak Resit</button>
                 </div>
             </div>
         </div>
@@ -243,7 +241,7 @@
 
             <!-- Modal content-->
             <div class="modal-content">
-                <form class="form-horizontal" >
+                <form class="form-horizontal">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                         <h4 class="modal-title">Tambah Cawangan Baru</h4>
@@ -278,7 +276,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="tambahCawangan()">Tambah Cawangan</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal"
+                            ng-click="tambahCawangan()">Tambah Cawangan</button>
                     </div>
                 </form>
             </div>
@@ -293,8 +292,8 @@
         $('.dp').datepicker({
             format: 'dd/mm/yyyy'
         })
-                .on('changeDate', function (ev) {
-                    $('.dp').datepicker('hide');
-                });
+            .on('changeDate', function (ev) {
+                $('.dp').datepicker('hide');
+            });
     })
 </script>

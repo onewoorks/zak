@@ -46,19 +46,26 @@
                         <div class='form-group'>
                             <label class='col-sm-2 control-label'>Tarikh Mula</label>
                             <div class='col-sm-3'>
-                                <input type='text' class='form-control dp' name='tarikhMula' ng-model='tarikhMula'
+                                <input type='text' class='form-control dp' 
+                                    ng-model='tarikhMula'
+                                    name="tarikh_mula"
                                     autocomplete="off" required />
                             </div>
 
                             <label class='col-sm-2 control-label'>Tarikh Akhir</label>
                             <div class='col-sm-3'>
-                                <input type='text' class='form-control dp' name='tarikhAkhir' ng-model='tarikhAkhir'
+                                <input type='text' class='form-control dp' 
+                                    ng-model='tarikhAkhir'
+                                    name="tarikh_akhir"
                                     autocomplete="off" required />
                             </div>
 
                             <div class='col-sm-2'>
-                                <button type="submit" class='btn btn-primary btn-block'><i class='fas fa-search'></i>
-                                    Kemaskini</button>
+                                <button 
+                                    type="button" ng-click="buatCarian()"
+                                    class='btn btn-primary btn-block'>
+                                    <i class='fas fa-search'></i>Buat Carian
+                                </button>
                             </div>
                         </div>
 
@@ -90,6 +97,10 @@
                             <td class="text-center">
                                 {{ (jual.untung/jual.harga_jual)*100 | number:1 }} %
                             </td>
+                        </tr>
+
+                        <tr ng-if="listEmasJual.length === 0">
+                            <td colspan="8"><i>Tiada rekod jualan bg tarikh pilihan</i></td>
                         </tr>
                     </tbody>
                 </table>
