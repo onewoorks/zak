@@ -14,7 +14,6 @@
                             <label class='col-xs-5 control-label'>Jual Kepada</label>
                             <div class='col-xs-6' style='margin-right:0'>
                                 <select class='form-control' ng-model='cawangan' ng-change='pickCawangan()' required >
-                                    <option value="">Sila Pilih</option>
                                     <option ng-repeat="cawangan in listCawangan" ng-value='cawangan.id'>{{cawangan.nama_cawangan}}</option>
                                 </select>
                             </div>
@@ -83,10 +82,10 @@
                                             <td class='text-right'>{{ list.berat_jual | number:2}} g</td>
                                             <td class='text-center'>
                                                 <input type="checkbox" 
-                                                ng-model="berat_pilih[$index]" 
+                                                ng-model="berat_pilih[list.id]" 
                                                 ng-value="list.berat_jual"
-                                                ng-change="pilih_berat_ini($index)"
-                                                ng-disabled="berat_pilih_disabled[$index]"
+                                                ng-change="pilih_berat_ini(list.id)"
+                                                ng-disabled="berat_pilih_disabled[list.id]"
                                                 /></td>
                                         </tr>
                                     </tbody>
@@ -187,7 +186,7 @@
                                 <tr ng-repeat="list in itemList">
                                     <td class='text-center'>{{$index + 1}}</td>
                                     <td class='text-center'>{{list.tarikh}}</td>
-                                    <td>{{list.perkara}}</td>
+                                    <td class='text-uppercase'>{{list.perkara}}</td>
                                     <td class='text-center'>{{list.market}}</td>
                                     <td class='text-center'>{{list.berat}} g</td>
                                     <td class='text-right'>{{list.harga | number:0}}</td>

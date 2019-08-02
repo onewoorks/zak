@@ -14,39 +14,41 @@ zakApp.controller('transactionController', ['$scope', '$http', '$location', 'Swe
     $scope.tolak_requred = true;
     $scope.berat_pilih = []
     $scope.berat_pilih_disabled = []
-    
+
     var beratEmasUntukJual = () => {
         $http.get(api_url + '/ambilemas/berat-untuk-jual')
-        .then(function(response){
-            $scope.berat = response.data.result.summary.berat_jual.toFixed(2)
-            $scope.list_emas = response.data.result.itemize;
-            for(var i =0 ; i < $scope.list_emas.length; i++){
-                $scope.berat_pilih[i] = true
-                $scope.berat_pilih_disabled[i] = false
-            }
-        })
+            .then(function (response) {
+                $scope.berat = response.data.result.summary.berat_jual.toFixed(2)
+                $scope.list_emas = response.data.result.itemize;
+                for (var i = 0; i < $scope.list_emas.length; i++) {
+                    $scope.berat_pilih[$scope.list_emas[i].id] = true
+                    $scope.berat_pilih_disabled[$scope.list_emas[i].id] = false
+                }
+            })
     }
 
     beratEmasUntukJual();
 
     $scope.pilih_berat_ini = (index) => {
-        var berat = parseFloat($scope.berat)
-        var current_pick = $scope.berat_pilih[index]
-        if(!current_pick){
-            berat = parseFloat(berat) - parseFloat($scope.list_emas[index].berat_jual)
+        let berat = parseFloat($scope.berat)
+        let current_pick = $scope.berat_pilih[index]
+        let berat_picked = $scope.list_emas.find(o => o.id === index)
+        if (!current_pick) {
+            berat = parseFloat(berat) - parseFloat(berat_picked.berat_jual)
         } else {
-            berat = parseFloat(berat) + parseFloat($scope.list_emas[index].berat_jual)
+            berat = parseFloat(berat) + parseFloat(berat_picked.berat_jual)
         }
         $scope.berat = berat.toFixed(2)
+        kiraHarga()
     }
 
     var removeBeratYangDahPilih = () => {
-        for(var i = 0; i < $scope.list_emas.length; i++){
-            if($scope.berat_pilih[i]){
-                $scope.berat_pilih[i] = false
-                $scope.berat_pilih_disabled[i] = true
+        for (var i = 0; i < $scope.list_emas.length; i++) {
+            if ($scope.berat_pilih[$scope.list_emas[i].id]) {
+                $scope.berat_pilih[$scope.list_emas[i].id] = false
+                $scope.berat_pilih_disabled[$scope.list_emas[i].id] = true
             } else {
-                $scope.berat_pilih[i] = true
+                $scope.berat_pilih[$scope.list_emas[i].id] = true
             }
         }
         kiraHarga()
@@ -55,10 +57,10 @@ zakApp.controller('transactionController', ['$scope', '$http', '$location', 'Swe
 
     var kiraBeratPilih = () => {
         var berat = 0
-        for(var i = 0; i < $scope.list_emas.length; i++){
-            if($scope.berat_pilih[i]){
+        for (var i = 0; i < $scope.list_emas.length; i++) {
+            if ($scope.berat_pilih[i]) {
                 berat = parseFloat(berat) + parseFloat($scope.list_emas[i].berat_jual)
-            } 
+            }
         }
         $scope.berat = parseFloat(berat).toFixed(2)
     }
@@ -110,6 +112,16 @@ zakApp.controller('transactionController', ['$scope', '$http', '$location', 'Swe
             });
     }
 
+    var resetBackPilihEmas = (id) => {
+        let berat = $scope.berat
+        id.map((key)=>{
+            $scope.berat_pilih[key.id] = true
+            $scope.berat_pilih_disabled[key.id] = false
+            berat = parseFloat(berat) + parseFloat(key.berat)
+        })
+        $scope.berat = berat.toFixed(2)
+    }
+
     $scope.deleteInList = (id) => {
         SweetAlert.swal({
             title: "Buang item ini?",
@@ -123,6 +135,7 @@ zakApp.controller('transactionController', ['$scope', '$http', '$location', 'Swe
         },
             function (isConfirm) {
                 if (isConfirm) {
+                    resetBackPilihEmas(itemList[id].emas_pilih)
                     itemList.splice(id, 1);
                     $scope.itemList = itemList;
                     jumlahJualan();
@@ -133,19 +146,32 @@ zakApp.controller('transactionController', ['$scope', '$http', '$location', 'Swe
             });
     };
 
-    $scope.kiraHarga = function () {
+    var kiraHarga = () => {
         var harga = ((($scope.market - $scope.tolak) * 0.02646) * $scope.berat).toFixed(2);
         $scope.harga_besar = isNaN(harga) ? '0.00' : harga;
+    }
+
+    $scope.kiraHarga = function () {
+        kiraHarga()
     };
 
     $scope.addToList = function () {
         var harga = ((($scope.market - $scope.tolak) * 0.02646) * $scope.berat).toFixed(2);
         var hargaSplit = harga.toString().split('.');
-        
-        removeBeratYangDahPilih()
 
         $scope.beforeSave = ($location.$$search.id !== undefined) ? 'hidden' : '';
         $scope.tarikhini = $('input[name=tarikh]').val();
+
+        let list_emas_pilih = []
+
+        for (var i = 0; i < $scope.list_emas.length; i++) {
+            if ($scope.berat_pilih[$scope.list_emas[i].id]) {
+                let emasnya = {}
+                emasnya['id'] = $scope.list_emas[i].id
+                emasnya['berat'] = $scope.list_emas[i].berat_jual
+                list_emas_pilih.push(emasnya)
+            }
+        }
 
         var formData = {
             cawangan: $scope.cawangan,
@@ -156,9 +182,10 @@ zakApp.controller('transactionController', ['$scope', '$http', '$location', 'Swe
             berat: $scope.berat,
             gst: $scope.gst,
             hargaGst: calculateGST(harga, $scope.gst),
-            harga: harga,
+            harga: hargaSplit[0],
             hargaSen: hargaSplit[1],
             hargaClean: harga,
+            emas_pilih: list_emas_pilih
         };
 
         if ($location.$$search.id !== undefined) {
@@ -166,6 +193,7 @@ zakApp.controller('transactionController', ['$scope', '$http', '$location', 'Swe
         }
 
         itemList.push(formData);
+        removeBeratYangDahPilih()
         jumlahJualan();
         clearForm();
     };
@@ -209,6 +237,8 @@ zakApp.controller('transactionController', ['$scope', '$http', '$location', 'Swe
         $http.get(api_url + '/cawangan')
             .then(function (response) {
                 $scope.listCawangan = response.data.result;
+                $scope.cawangan = $scope.listCawangan[0].id
+                $scope.pickCawangan()
             });
     };
 
