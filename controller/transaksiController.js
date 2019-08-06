@@ -327,6 +327,7 @@ zakApp.controller('transactionJualanController', ['$scope', '$http', '$location'
     $scope.kedai = kedai;
     $scope.tarikh = currentDate();
     $scope.harga_besar = 0;
+    $scope.cawangan = ''
 
     if ($location.$$search.id !== undefined) {
         $scope.updateOnly = '';
@@ -341,7 +342,7 @@ zakApp.controller('transactionJualanController', ['$scope', '$http', '$location'
                                 tarikh: value.tarikh_jual,
                                 perkara: value.perkara,
                                 market: value.market,
-                                berat: numberWithCommas(value.berat_jual),
+                                berat: value.berat_jual,
                                 harga: value.harga_jual,
                                 hargaSen: priceSplit(value.harga_jual, 1),
                                 hargaClean: value.harga_jual,
@@ -369,7 +370,6 @@ zakApp.controller('transactionJualanController', ['$scope', '$http', '$location'
                     $scope.jumlahBesarSen = priceSplit((parseFloat(result[0].total_gst) + parseFloat(result[0].total_harga)), 1);
                     $scope.nobil = result[0].resit;
                     $scope.cawangan = result[0].cawangan_id;
-
                     itemList = itemList_1;
                     $scope.itemList = itemList;
                 });
@@ -418,7 +418,7 @@ zakApp.controller('transactionJualanController', ['$scope', '$http', '$location'
             berat: $scope.berat,
             gst: $scope.gst,
             hargaGst: calculateGST(harga, $scope.gst),
-            harga: numberWithCommas(hargaSplit[0]),
+            harga: hargaSplit[0],
             hargaSen: hargaSplit[1],
             hargaClean: harga,
         };
@@ -426,7 +426,6 @@ zakApp.controller('transactionJualanController', ['$scope', '$http', '$location'
         if ($location.$$search.id !== undefined) {
             formData['nobil'] = $location.$$search.id 
         }
-        console.log(formData)
         
         itemList.push(formData);
         jumlahJualan();
@@ -544,4 +543,5 @@ zakApp.controller('transactionJualanController', ['$scope', '$http', '$location'
 
     $scope.itemList = itemList;
 
+    
 }]);
