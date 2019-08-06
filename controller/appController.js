@@ -21,6 +21,9 @@ zakApp.config(function ($routeProvider) {
         .when("/transaksi-jualan", {
             templateUrl: "pages/transaksi/jualan.html"
         })
+        .when("/transaksi-jualan-lama", {
+            templateUrl: "pages/transaksi/jualan-lama.html"
+        })
         .when('/transaksi-aliran-tunai', {
             templateUrl: "pages/transaksi/aliran-tunai.html"
         })
