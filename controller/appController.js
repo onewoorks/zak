@@ -18,11 +18,11 @@ zakApp.config(function ($routeProvider) {
         .when("/", {
             templateUrl: "pages/dashboard.html"
         })
+        .when("/transaksi-jualan-baru", {
+            templateUrl: "pages/transaksi/jualan-baru.html"
+        })
         .when("/transaksi-jualan", {
             templateUrl: "pages/transaksi/jualan.html"
-        })
-        .when("/transaksi-jualan-lama", {
-            templateUrl: "pages/transaksi/jualan-lama.html"
         })
         .when('/transaksi-aliran-tunai', {
             templateUrl: "pages/transaksi/aliran-tunai.html"
