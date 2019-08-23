@@ -508,7 +508,6 @@ zakApp.controller('transactionJualanController', ['$scope', '$http', '$location'
     };
 
     $scope.postJualanLama = function () {
-        console.log('tick')
         $http({
             headers: {
                 'Content-Type': 'application/json'
