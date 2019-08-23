@@ -506,6 +506,25 @@ zakApp.controller('transactionJualanController', ['$scope', '$http', '$location'
                     window.open(app_url + '/pages/cetak/resit-jualan.html?id=' + no_resit)
                 });
     };
+
+    $scope.postJualanLama = function () {
+        console.log('tick')
+        $http({
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            url: api_url + '/transaksi/jualan-lama',
+            method: "POST",
+            data: JSON.stringify(itemList)
+        })
+            .then(function (response) {
+                var no_resit = response.data.response.no_resit;
+                $scope.latestResit = no_resit;
+                $scope.printOnly = '';
+                $scope.beforeSave = 'hidden';
+                window.open(app_url + '/pages/cetak/resit-jualan.html?id=' + no_resit)
+            });
+    };
     
     $scope.updateJualan = (no_resit) => {
         var data = {
