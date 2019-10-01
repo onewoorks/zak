@@ -347,7 +347,7 @@ zakApp.controller('transactionJualanController', ['$scope', '$http', '$location'
                                 hargaSen: priceSplit(value.harga_jual, 1),
                                 hargaClean: value.harga_jual,
                                 gstClean: value.nilai_gst,
-                                cawangan: value.cawangan_id,
+                                cawangan: value.cawangan,
                                 tolak:value.tolak,
                                 gst: value.nilai_gst,
                                 hargaGst: value.nilai_gst,
