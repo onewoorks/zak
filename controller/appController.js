@@ -1,8 +1,8 @@
-// var api_url = 'http://localhost/zak_api/api';
-// var app_url = 'http://localhost/Zak_v2/public_html/home.html'
+var api_url = 'http://localhost/zak_api/api';
+var app_url = 'http://localhost/Zak_v2/public_html/home.html'
 
-var api_url = 'https://onewoorks-solutions.com/api/zak/api';
-var app_url = 'https://zak-v2.herokuapp.com';
+// var api_url = 'https://onewoorks-solutions.com/api/zak/api';
+// var app_url = 'https://zak-v2.herokuapp.com';
 
 var zakApp = angular.module('zakApp', ["ngRoute", "AngularPrint", 'oitozero.ngSweetAlert']);
 
@@ -75,8 +75,12 @@ zakApp.config(function ($routeProvider) {
             templateUrl: "pages/rekod/jualan.html",
             controller: 'rekodJualanController'
         })
-        .when("/tetapan-cawangan", {
+        .when("/cawangan", {
             templateUrl: "pages/tetapan/cawangan/cawangan.html",
+            controller: ''
+        })
+        .when("/daftar-cawangan", {
+            templateUrl: "pages/tetapan/cawangan/daftar-cawangan.html",
             controller: ''
         })
         .when("/tetapan-cawangan-jual-emas", {
@@ -696,6 +700,21 @@ zakApp.controller('cawanganController', ['$scope', '$http', '$location', functio
                 $scope.modalcawangan = {};
             });
     };
+
+    $scope.daftarCawangan = () => {
+        var cawangan = $scope.modalcawangan
+        $http({
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            url: `${api_url}/cawangan/tambah_cawangan`,
+            method: "POST",
+            data: JSON.stringify(cawangan)
+        })
+            .then(function(){
+                alert('ok')
+            })
+    }
     getListCawangan();
     getListCawanganLama();
 }]);
