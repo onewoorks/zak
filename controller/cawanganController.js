@@ -25,6 +25,7 @@ angular.module("zakApp").controller("cawanganController", [
             .then((response) => {
                 $scope.listCawanganAhli = response.data.result
                 $scope.semua_cawangan_ahli = response.data.result
+                $scope.tapisAhliCawangan()
             })
         }
 
@@ -60,8 +61,8 @@ angular.module("zakApp").controller("cawanganController", [
                     var cawangan = response.data.result
                     $scope.modalcawangan = {
                         nama: cawangan.nama_cawangan,
-                        alamat: cawangan.caw_alamat,
-                        notelefon: cawangan.caw_tel,
+                        alamat: cawangan.alamat,
+                        notelefon: cawangan.no_telefon,
                         nogst: cawangan.no_gst,
                         id: cawangan.id
                     }
@@ -236,12 +237,13 @@ angular.module("zakApp").controller("cawanganController", [
                 data: JSON.stringify(ahli)
             }).then(function() {
                 $scope.getListCawanganAhli()
-                $scope.modal_ahli_cawangan = {}
                 SweetAlert.swal(
                     "Berjaya!",
                     "Kemaskini cawangan ahli telah berjaya.",
                     "success"
                 )
+                $scope.modal_ahli_cawangan = {}
+                
             })
         }
         getListCawangan()
