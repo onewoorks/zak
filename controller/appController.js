@@ -83,6 +83,12 @@ zakApp.config(function ($routeProvider) {
             templateUrl: "pages/tetapan/cawangan/daftar-cawangan.html",
             controller: ''
         })
+        .when("/cawangan-ahli", {
+            templateUrl: "pages/tetapan/cawangan/cawangan-ahli.html"
+        })
+        .when("/cawangan-ahli-daftar", {
+            templateUrl: "pages/tetapan/cawangan/cawangan-ahli-daftar.html"
+        })
         .when("/tetapan-cawangan-jual-emas", {
             templateUrl: "pages/tetapan/cawangan/cawangan-jual-emas.html"
         })
@@ -653,70 +659,6 @@ zakApp.controller('rekodJualanController', ['$scope', '$http', '$location', 'Swe
     };
 
     getListJualan();
-}]);
-
-zakApp.controller('cawanganController', ['$scope', '$http', '$location', function ($scope, $http, $location) {
-    var getListCawangan = () => {
-        $http.get(api_url + '/cawangan')
-            .then(function (response) {
-                $scope.listCawangan = response.data.result;
-            });
-    };
-
-    var getListCawanganLama = () => {
-        $http.get(api_url + '/cawangan/cawangan-zak1')
-            .then(function (response) {
-                $scope.listCawanganLama = response.data.result;
-            });
-    };
-
-    $scope.openModalCawangan = (x) => {
-        $('#editCawangan').modal('show');
-        $http.get(api_url + '/cawangan/cawangan_detail?id=' + x)
-            .then(function (response) {
-                var cawangan = response.data.result;
-                $scope.modalcawangan = {
-                    nama: cawangan.nama_cawangan,
-                    alamat: cawangan.alamat,
-                    notelefon: cawangan.no_gst,
-                    nogst: cawangan.no_telefon,
-                    id: cawangan.id
-                };
-            });
-    };
-
-    $scope.kemaskiniCawangan = () => {
-        var cawangan = $scope.modalcawangan;
-        $http({
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            url: api_url + '/cawangan/kemaskini_cawangan',
-            method: "PUT",
-            data: JSON.stringify(cawangan)
-        })
-            .then(function () {
-                getListCawangan();
-                $scope.modalcawangan = {};
-            });
-    };
-
-    $scope.daftarCawangan = () => {
-        var cawangan = $scope.modalcawangan
-        $http({
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            url: `${api_url}/cawangan/tambah_cawangan`,
-            method: "POST",
-            data: JSON.stringify(cawangan)
-        })
-            .then(function(){
-                alert('ok')
-            })
-    }
-    getListCawangan();
-    getListCawanganLama();
 }]);
 
 zakApp.controller('laporanBulananController', ['$scope', '$http', function ($scope, $http) {
