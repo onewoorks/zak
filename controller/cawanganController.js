@@ -246,6 +246,44 @@ angular.module("zakApp").controller("cawanganController", [
                 
             })
         }
+
+        $scope.delete_ahli_cawangan = (staff_id) => {
+            SweetAlert.swal(
+                {
+                    title: "Pengesahan",
+                    text:
+                        "Adakah anda pasti untuk membuang ahli cawangan ini daripada senarai?",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3e8f3e",
+                    confirmButtonText: "Ya Buang!",
+                    cancelButtonText: "Batal!",
+                    closeOnConfirm: false,
+                    closeOnCancel: false
+                },
+                function(isConfirm) {
+                    if (isConfirm) {
+                        $http({
+                            url: api_url + "/cawangan/cawangan_ahli?id=" + staff_id,
+                            method: "DELETE"
+                        }).then(function() {
+                            $scope.getListCawanganAhli()
+                            SweetAlert.swal(
+                                "Berjaya!",
+                                "Ahli cawangan telah dibuang dari senarai.",
+                                "success"
+                            )
+                        })
+                    } else {
+                        SweetAlert.swal(
+                            "Pembatalan",
+                            "Ahli cawangan ini tidak dibuang dari senarai",
+                            "error"
+                        )
+                    }
+                }
+            )
+        }
         getListCawangan()
         getListCawanganLama()
     }

@@ -7,48 +7,48 @@
         <div class="panel-heading">
             <em class="far fa-building"></em> Maklumat Ahli
         </div>
-    </div>
 
-    <div class="panel-body">
-        <form style="padding:10px" class="form-horizontal">
-            <div class="form-group">
-                <label class="control-label col-xs-4">Nama Cawangan</label>
-                <div class="col-xs-6">
-                    <select ng-model="daftar_cawangan_ahli.cawangan_id" class="form-control">
-                        <option value='0'>SILA BUAT PILIHAN</option>
-                        <option ng-repeat="cawangan in listCawanganLama" ng-value='cawangan.id'>{{cawangan.cawangan_head}}</option>
-                    </select>
+        <div class="panel-body">
+            <form style="padding:10px" class="form-horizontal">
+                <div class="form-group">
+                    <label class="control-label col-xs-4">Nama Cawangan</label>
+                    <div class="col-xs-6">
+                        <select ng-model="daftar_cawangan_ahli.cawangan_id" class="form-control">
+                            <option value='0'>SILA BUAT PILIHAN</option>
+                            <option ng-repeat="cawangan in listCawanganLama" ng-value='cawangan.id'>{{cawangan.cawangan_head}}</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
-
-            <div class="form-group">
-                <label class="control-label col-xs-4">Nama</label>
-                <div class="col-xs-6">
-                    <input type="text" ng-model="daftar_cawangan_ahli.nama" class="form-control" />
+    
+                <div class="form-group">
+                    <label class="control-label col-xs-4">Nama</label>
+                    <div class="col-xs-6">
+                        <input type="text" ng-model="daftar_cawangan_ahli.nama" class="form-control" />
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label class="control-label col-xs-4">No Telefon</label>
-                <div class="col-xs-6">
-                    <input type="text" ng-model="daftar_cawangan_ahli.no_telefon" class="form-control" />
+                <div class="form-group">
+                    <label class="control-label col-xs-4">No Telefon</label>
+                    <div class="col-xs-6">
+                        <input type="text" ng-model="daftar_cawangan_ahli.no_telefon" class="form-control" />
+                    </div>
                 </div>
-            </div>
-
-            <div class="form-group">
-                <label class="control-label col-xs-4">Akaun Bank</label>
-                <div class="col-xs-6">
-                    <input type="text" ng-model="daftar_cawangan_ahli.akaun_bank" class="form-control" />
+    
+                <div class="form-group">
+                    <label class="control-label col-xs-4">Akaun Bank</label>
+                    <div class="col-xs-6">
+                        <input type="text" ng-model="daftar_cawangan_ahli.akaun_bank" class="form-control" />
+                    </div>
                 </div>
-            </div>
-
-            <div class='text-right'>
-                <button 
-                type="button" class="btn btn-default" 
-                data-dismiss="modal" 
-                ng-click="daftarAhliCawangan()">
-                    Daftar</button>
-            </div>
-        </form>
+    
+                <div class='text-right'>
+                    <button 
+                    type="button" class="btn btn-default" 
+                    data-dismiss="modal" 
+                    ng-click="daftarAhliCawangan()">
+                        Daftar</button>
+                </div>
+            </form>
+        </div>
     </div>
 
 </div>
