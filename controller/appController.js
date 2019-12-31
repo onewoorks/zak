@@ -8,6 +8,7 @@ var zakApp = angular.module('zakApp', ["ngRoute", "AngularPrint", 'oitozero.ngSw
 
 var localStorage = window.localStorage;
 var user_session = JSON.parse(localStorage.getItem('user_session'));
+console.log(user_session)
 
 zakApp.config(function ($routeProvider) {
     var localStorage = window.localStorage;

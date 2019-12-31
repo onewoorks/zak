@@ -1,5 +1,9 @@
 var api_url = 'https://onewoorks-solutions.com/api/zak/api';
 var app_url = 'https://zak-v2.herokuapp.com';
+
+// var api_url = 'http://localhost/zak_api/api';
+// var app_url = 'http://localhost/Zak_v2/public_html/home.html'
+
 var zakApp = angular.module('zakApp', []);
 
 zakApp.controller('loginController', ['$scope', '$http', function ($scope, $http) {
@@ -27,6 +31,7 @@ zakApp.controller('loginController', ['$scope', '$http', function ($scope, $http
                         if (!result.token) {
                             $scope.login.error = 'Nama pengguna dan password tidak sepadan.';
                         } else {
+                            
                             var lcUser = {
                                 uid: result.id,
                                 username:result.username,
