@@ -13,9 +13,9 @@ console.log(user_session)
 zakApp.config(function ($routeProvider) {
     var localStorage = window.localStorage;
 
-    if (localStorage.getItem('user_session') === null) {
-        window.location.href = './home.html';
-    }
+    // if (localStorage.getItem('user_session') === null) {
+    //     window.location.href = './home.html';
+    // }
 
     $routeProvider
         .when("/", {
