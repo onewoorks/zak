@@ -4,15 +4,7 @@ zakApp.controller("loginController", [
     "$scope",
     "$http",
     function($scope, $http) {
-        var keycloak = Keycloak({
-            realm: "pengurusan_emas",
-            "auth-server-url": "https://sso.onewoorks-solutions.com/auth/",
-            "ssl-required": "external",
-            resource: "zak-v2-demo",
-            "public-client": true,
-            "confidential-port": 0,
-            clientId: "zak-v2-demo"
-        })
+        var keycloak = Keycloak('./keycloak.json')
 
         let verify_session = () => {
             var user_session = window.localStorage.getItem("user_session")
@@ -42,16 +34,6 @@ zakApp.controller("loginController", [
             .catch(function() {
                 // alert('failed to initialize');
             })
-
-        let todo = location.search.split("d=")[1]
-        if (typeof todo !== "undefined") {
-            window.localStorage.removeItem("user_session")
-            keycloak.logout(
-                "https://sso.onewoorks-solutions.com/auth/realms/pengurusan_emas/protocol/openid-connect/logout?redirect_uri=encodedRedirectUri"
-            )
-            window.location.href = './login.html'
-        }
-
         verify_session()
     }
 ])
