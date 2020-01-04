@@ -19,8 +19,8 @@
     <script>
 
         var user_session = window.localStorage.getItem("user_session")
-        if (user_session !== null) {
-            window.location.href = "./home.html"
+        if (user_session === null) {
+            window.location.href = "./login.html"
         } else {
             var keycloak = Keycloak('./keycloak.json')
             keycloak
