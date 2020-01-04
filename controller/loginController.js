@@ -47,6 +47,7 @@ zakApp.controller("loginController", [
         verify_session()
         let todo = location.search.split("d=")[1]
         if (typeof todo !== "undefined") {
+            window.localStorage.removeItem("user_session")
             keycloak.logout(
                 "https://sso.onewoorks-solutions.com/auth/realms/pengurusan_emas/protocol/openid-connect/logout?redirect_uri=encodedRedirectUri"
             )
