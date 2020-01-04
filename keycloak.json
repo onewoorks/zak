@@ -2,8 +2,8 @@
     "realm": "pengurusan_emas",
     "auth-server-url": "https://sso.onewoorks-solutions.com/auth/",
     "ssl-required": "external",
-    "resource": "zak-v2-demo",
+    "resource": "zak-v2-dev",
     "public-client": true,
     "confidential-port": 0,
-    "clientId": "zak-v2-demo"
+    "clientId": "zak-v2-dev"
 }
