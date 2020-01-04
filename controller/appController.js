@@ -160,10 +160,16 @@ zakApp.controller('user_navigation', ['$scope', function ($scope) {
 
     var user_session = JSON.parse(window.localStorage.getItem('user_session'));
 
+    // $scope.profile = {
+    //     username: user_session.username,
+    //     full_name: user_session.full_name
+    // };
+
     $scope.profile = {
-        username: user_session.username,
-        full_name: user_session.full_name
+        username: 'keycloak',
+        full_name: 'keycloak full'
     };
+
 }]);
 
 zakApp.service("generalController", function ($http, $q) {
