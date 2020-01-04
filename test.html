@@ -1,44 +1,145 @@
 <!DOCTYPE html>
 
 <html ng-app="zakApp">
-    <head>
-        <title>ZAK V2</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script src="https://sso.onewoorks-solutions.com/auth/js/keycloak.js"></script>
-    </head>
-    <body>
-        keycloak plain js
-        <div onclick="logout()">logout</div>
+
+<head>
+    <title>ZAK V2</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZAK V2</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href='assets/bootstrap/css/bootstrap.min.css' />
+    <link rel="stylesheet" href='assets/bootstrap/css/bootstrap-theme.min.css' />
+    <link rel="stylesheet" href='assets/css/main.css' />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paper-css/0.3.0/paper.css" media="print" />
+    <link rel="stylesheet" href='assets/libs/datepicker/datepicker.css' />
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css' />
+    <link rel='stylesheet' href='assets/angular/sweetalert/sweetalert.css' />
+    <script src='assets/jquery/jquery-3.1.1.js'></script>
+    <script src='assets/bootstrap/js/bootstrap.min.js'></script>
+    <script src='assets/angular/angular.min.js'></script>
+    <script src="assets/angular/angular-route.js"></script>
+    <script src="assets/angular/angular-print.js"></script>
+    <script src='controller/appController.js'></script>
+    <script src='controller/emasController.js'></script>
+    <script src='controller/cawanganController.js'></script>
+    <script src='controller/transaksiController.js'></script>
+    <script src='controller/laporanController.js'></script>
+    <script src="controller/kakitanganController.js"></script>
+    <script src='assets/angular/sweetalert/sweetalert.min.js'></script>
+    <script src='assets/angular/sweetalert/ngSweetalert.js'></script>
+    <script src='assets/libs/datepicker/datepicker.js'></script>
+    <script src='assets/jquery/apps_function.js'></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
+    <script src="https://sso.onewoorks-solutions.com/auth/js/keycloak.js"></script>
+</head>
+
+<body>
+    <nav ng-controller="user_navigation" class="navbar navbar-default navbar-fixed-top navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">ZAK v2</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class=""><a href="#">Dashboard</a></li>
+                    <li class="dropdown">
+                        <a href="javascript:void()" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Transaksi <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#!transaksi-aliran-tunai">Aliran Tunai</a></li>
+                            <li><a href="#!transaksi-aliran-bank">Aliran Duit Bank</a></li>
+                            <li><a href="#!transaksi-jualan-lama">Jualan</a></li>
+                            <li><a href="#!transaksi-jualan">Jualan (BARU)</a></li>
+                            <li class='divider'></li>
+                            <li><a href="#!ambil-emas">Ambil Emas Dari Cawangan</a></li>
+                            <li class='divider'></li>
+                            <li><a href="#!transaksi-buang-aliran">Buang Rekod Aliran Wang</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="javascript:void()" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Rekod & Laporan <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li class='hide'><a href="#!rekod-stok-emas">Rekod Stok Emas</a></li>
+                            <li class=''><a href="#!rekod-ambil-emas">Rekod Emas Ambil</a></li>
+                            <li class=''><a href="#!rekod-proses-tarik">Rekod Proses Tarik</a></li>
+                            <li class=''><a href="#!rekod-tarik-untuk-jual">Rekod Emas Tarik Untuk Jual</a></li>
+                            <li class='divider'></li>
+                            <li><a href="#!rekod-transaksi-keseluruhan">Rekod Transaksi Keseluruhan</a></li>
+                            <li><a href="#!rekod-transaksi-keseluruhan-bank">Rekod Transaksi Keseluruhan Bank</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#!rekod-semakan-ikut-pilihan">Semakan Mengikut Rekod Pilihan</a></li>
+                            <li><a href="#!rekod-semakan-rekod-baki-terakhir">Semakan Rekod Baki Terakhir Pilihan</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#!rekod-laporan-bulanan">Laporan Bulanan</a></li>
+                            <li><a href="#!rekod-laporan-harian">Laporan Harian</a></li>
+                            <li><a href="#!rekod-laporan-keuntungan-jualan-emas">Laporan Keuntungan Jualan Emas</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#!rekod-jualan">Rekod Jualan</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="dropdown">
+                        <a href="javascript:void()" 
+                           class="dropdown-toggle" data-toggle="dropdown" role="button" 
+                           aria-haspopup="true" aria-expanded="false">Cawangan & Ahli <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li class="dropdown-header">Cawangan Hasil</li>
+                            <li><a href="#!cawangan">Senarai Cawangan</a></li>
+                            <li><a href="#!daftar-cawangan">Daftar Cawangan</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#!cawangan-ahli">Senarai Ahli Cawangan</a></li>
+                            <li><a href="#!cawangan-ahli-daftar">Daftar Ahli</a></li>
+                            <li class="divider"></li>
+                            <li class="dropdown-header">Cawangan Jual Emas (Jual Emas Sahaja)</li>
+                            <li><a href="#!tetapan-cawangan-jual-emas">Senarai Cawangan</a></li>
+                            <li class="divider"></li>
+                            <li class="dropdown-header">Kakitangan</li>
+                            <li><a href="#!tetapan-kakitangan">Senarai Kakitangan</a></li>
+                        </ul>
+                    </li>
+
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="javascript:void()" class="dropdown-toggle" 
+                           data-toggle="dropdown" role="button" 
+                           aria-haspopup="true" aria-expanded="false"><i class='fas fa-user'></i> {{ profile.full_name}}<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" ng-click="logout();"><i class='fas fa-sign-out-alt'></i> Logout</a></li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div>
+    </nav>
+
+    <div ng-view style="margin-top: 30px;"></div>
+
+        <footer class="text-center">
+            <hr>
+            <div style="color:grey; font-style: italic">Sistem Pengurusan ZAK versi 2</div>
+            <br>
+        </footer>
+        
         <script>
-            var keycloak = Keycloak({
-  "realm": "pengurusan_emas",
-  "auth-server-url": "https://sso.onewoorks-solutions.com/auth/",
-  "ssl-required": "external",
-  "resource": "zak-v2",
-  "public-client": true,
-  "confidential-port": 0,
-  "clientId":"zak-v2"
-});
-
-            keycloak.init({ 
-                onLoad: 'login-required',
-                promiseType: 'native'
-             })
-                .then(function(authenticated) {
-                    // alert(authenticated ? 'authenticated' : 'not authenticated');
-                    console.log(authenticated)
-                    console.log(keycloak)
-                })
-                .catch(function() {
-                    alert('failed to initialize');
-            });    
-
-            function logout() {
-                //
-                keycloak.logout('https://sso.onewoorks-solutions.com/auth/realms/pengurusan_emas/protocol/openid-connect/logout?redirect_uri=encodedRedirectUri')
-                //alert("Logged Out");
-            }
+            $(function () {
+                var navMain = $(".navbar-collapse");
+                
+                navMain.on("click", "a", null, function () {
+                    if (!$(this).hasClass("dropdown-toggle")) {
+                        navMain.collapse('hide');
+                    }
+                });
+            });
         </script>
-    </body>
+</body>
+
 </html>

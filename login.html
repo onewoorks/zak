@@ -11,83 +11,13 @@
         <link rel="stylesheet" href='assets/libs/datepicker/datepicker.css' />
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
         <link rel='stylesheet' href='assets/angular/sweetalert/sweetalert.css' />
-        <style>
-            html,body{
-                height: 100%;
-            }
+        <script src="https://sso.onewoorks-solutions.com/auth/js/keycloak.js"></script>
 
-            div.well{
-                height: 250px;
-            } 
-
-            .Absolute-Center {
-                display: table;
-                margin: auto;
-                position: absolute;
-                top: 0; left: 0; bottom: 0; right: 0;
-            }
-            .absolute-content {
-                display: table-cell;
-                vertical-align: middle;
-            }
-
-            .Absolute-Center.is-Responsive {
-                width: 50%; 
-                height: 50%;
-                min-width: 200px;
-                max-width: 400px;
-                padding: 40px;
-            }
-
-            #logo-container{
-                margin: auto;
-                margin-bottom: 10px;
-                width:200px;
-                height:30px;
-            }
-
-
-            .bg {
-                background-image: url("assets/images/bg-1.jpg");
-                height: 100%; 
-                background-position: center;
-                background-repeat: no-repeat;
-                background-size: cover;
-            }
-
-
-
-        </style>
     </head>
     <body>
         <div class='bg'>
             <div ng-controller="loginController" class="container">
-                <div class="row">
-                    <div class="Absolute-Center is-Responsive" style='background-color: rgba(0,0,0,0.2)'>
-                        <div class="absolute-content text-center">
-                            <h1 style='font-size:3em'>ZAK SERVICES</h1>
-                            <div id="logo-container"></div>
-                            <div class="col-sm-12 col-md-12">
-                                <div class='alert alert-danger' ng-show='login.error'>{{ login.error}}</div>
-                                <form id="loginForm" ng-submit="login()" method="POST">
-                                    <div class="form-group input-group">
-                                        <span class="input-group-addon"><i class="fas fa-user"></i></span>
-                                        <input class="form-control" type="text" name='username' placeholder="username"
-                                               ng-model="username" autocomplete="off" />
-                                    </div>
-                                    <div class="form-group input-group">
-                                        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                        <input class="form-control" type="password" name='password' placeholder="password"
-                                               ng-model="password" autocomplete="off"/>
-                                    </div>
-                                    <div class="form-group">
-                                        <button type="submit" class="btn btn-primary btn-block">Login</button>
-                                    </div>
-                                </form>        
-                            </div> 
-                        </div>
-                    </div>    
-                </div>
+                
             </div>
         </div>
         <script src='assets/angular/angular.min.js'></script>
