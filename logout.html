@@ -22,20 +22,7 @@
         if (user_session === null) {
             window.location.href = "./login.html"
         } else {
-            var keycloak = Keycloak('./keycloak.json')
-            keycloak
-                .init({
-                    onLoad: "login-required",
-                    promiseType: "native"
-                })
-                .then(function (authenticated) {
-                    keycloak.logout(
-                        "https://sso.onewoorks-solutions.com/auth/realms/pengurusan_emas/protocol/openid-connect/logout?redirect_uri=https%3A%2F%2Fzak-v2.herokuapp.com%2Flogin.html"
-                    )
-                })
-                .catch(function () {
-                    // alert('failed to initialize');
-                })
+           window.location.href = "https://sso.onewoorks-solutions.com/auth/realms/pengurusan_emas/protocol/openid-connect/logout?redirect_uri=https%3A%2F%2Fzak-v2.herokuapp.com%2Flogin.html"
         }
 
 
