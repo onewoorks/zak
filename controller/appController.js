@@ -14,7 +14,7 @@ zakApp.config(function ($routeProvider) {
     var localStorage = window.localStorage;
 
     if (localStorage.getItem('user_session') === null) {
-        window.location.href = './login.html';
+        window.location.href = './home.html';
     }
 
     $routeProvider
