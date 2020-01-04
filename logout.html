@@ -1,35 +1,45 @@
 <!DOCTYPE html>
 
 <html ng-app="zakApp">
-    <head>
-        <title>ZAK V2</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script src="https://sso.onewoorks-solutions.com/auth/js/keycloak.js"></script>
 
-    </head>
-    <body>
-        <div class='bg'>
-            <div id="message">
-                Proses menghapuskan sesi anda...
-            </div>
+<head>
+    <title>ZAK V2</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://sso.onewoorks-solutions.com/auth/js/keycloak.js"></script>
+
+</head>
+
+<body>
+    <div class='bg'>
+        <div id="message">
+            Proses menghapuskan sesi anda...
         </div>
-        <script>
+    </div>
+    <script>
+
+        var user_session = window.localStorage.getItem("user_session")
+        if (user_session !== null) {
+            window.location.href = "./home.html"
+        } else {
             var keycloak = Keycloak('./keycloak.json')
             keycloak
-            .init({
-                onLoad: "login-required",
-                promiseType: "native"
-            })
-            .then(function(authenticated) {
-                keycloak.logout(
-                    "https://sso.onewoorks-solutions.com/auth/realms/pengurusan_emas/protocol/openid-connect/logout?redirect_uri=encodedRedirectUri"
-                )
-            })
-            .catch(function() {
-                // alert('failed to initialize');
-            })
-            
-        </script>
-    </body>
+                .init({
+                    onLoad: "login-required",
+                    promiseType: "native"
+                })
+                .then(function (authenticated) {
+                    keycloak.logout(
+                        "https://sso.onewoorks-solutions.com/auth/realms/pengurusan_emas/protocol/openid-connect/logout?redirect_uri=encodedRedirectUri"
+                    )
+                })
+                .catch(function () {
+                    // alert('failed to initialize');
+                })
+        }
+
+
+    </script>
+</body>
+
 </html>

@@ -166,7 +166,6 @@ zakApp.controller("user_navigation", [
         }
 
         $scope.logout = () => {
-            window.localStorage.removeItem("user_session")
             window.location.href = './logout.html'
         }
 

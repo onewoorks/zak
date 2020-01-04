@@ -34,6 +34,7 @@ zakApp.controller("loginController", [
             .catch(function() {
                 // alert('failed to initialize');
             })
+
         verify_session()
     }
 ])
