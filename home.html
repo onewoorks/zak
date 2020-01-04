@@ -132,7 +132,11 @@
                   "secret": "9def21c0-bb02-4146-9572-4162388822ff"
                 },
                 "clientId":"zak-v2",
-                "confidential-port": 0
+                "confidential-port": 0,
+                "enable-cors": true,
+                "initOptions": {
+                    "flow": 'implicit',
+              }
               });
 
             keycloak.init({ 
