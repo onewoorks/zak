@@ -43,8 +43,6 @@ zakApp.controller("loginController", [
                 // alert('failed to initialize');
             })
 
-
-        verify_session()
         let todo = location.search.split("d=")[1]
         if (typeof todo !== "undefined") {
             window.localStorage.removeItem("user_session")
@@ -53,5 +51,7 @@ zakApp.controller("loginController", [
             )
             window.location.href = './login.html'
         }
+
+        verify_session()
     }
 ])
