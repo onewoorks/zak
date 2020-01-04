@@ -167,7 +167,7 @@ zakApp.controller("user_navigation", [
 
         $scope.logout = () => {
             window.localStorage.removeItem('user_session')
-            window.location.href = "https://sso.onewoorks-solutions.com/auth/realms/pengurusan_emas/protocol/openid-connect/logout?redirect_uri=http%3A%2F%2Flocalhost%2Fzak%2flogin.html"
+            window.location.href = "https://sso.onewoorks-solutions.com/auth/realms/pengurusan_emas/protocol/openid-connect/logout?redirect_uri=https%3A%2F%2Fzak-v2.herokuapp.com%2Flogin.html"
         }
 
         verify_session()
