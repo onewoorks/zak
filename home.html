@@ -11,7 +11,6 @@
         <link rel="stylesheet" href='assets/libs/datepicker/datepicker.css' />
         <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css' />
         <link rel='stylesheet' href='assets/angular/sweetalert/sweetalert.css' />
-        <script src="https://sso.onewoorks-solutions.com/auth/js/keycloak.js"></script>
         <script src='assets/jquery/jquery-3.1.1.js'></script>
         <script src='assets/bootstrap/js/bootstrap.min.js'></script>
         <script src='assets/angular/angular.min.js'></script>
@@ -122,41 +121,7 @@
             <div style="color:grey; font-style: italic">Sistem Pengurusan ZAK versi 2</div>
             <br>
         </footer>
-        <script>
-            var keycloak = Keycloak({
-                "realm": "pengurusan_emas",
-                "auth-server-url": "https://sso.onewoorks-solutions.com/auth/",
-                "ssl-required": "external",
-                "resource": "zak-v2",
-                "credentials": {
-                  "secret": "9def21c0-bb02-4146-9572-4162388822ff"
-                },
-                "clientId":"zak-v2",
-                "confidential-port": 0,
-                "enable-cors": true,
-                "initOptions": {
-                    "flow": 'implicit',
-              }
-              });
-
-            keycloak.init({ 
-                onLoad: 'login-required',
-                promiseType: 'native'
-             })
-                .then(function(authenticated) {
-                    alert(authenticated ? 'authenticated' : 'not authenticated');
-                    console.log(authenticated)
-                })
-                .catch(function() {
-                    alert('failed to initialize');
-            });    
-
-            function logout() {
-                //
-                keycloak.logout('https://sso.onewoorks-solutions.com/auth/realms/pengurusan_emas/protocol/openid-connect/logout?redirect_uri=encodedRedirectUri')
-                //alert("Logged Out");
-            }
-        </script>
+        
         <script>
             $(function () {
                 var navMain = $(".navbar-collapse");

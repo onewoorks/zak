@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+
+<html ng-app="zakApp">
+    <head>
+        <title>ZAK V2</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://sso.onewoorks-solutions.com/auth/js/keycloak.js"></script>
+    </head>
+    <body>
+        keycloak plain js
+        <div onclick="logout()">logout</div>
+        <script>
+            var keycloak = Keycloak({
+  "realm": "pengurusan_emas",
+  "auth-server-url": "https://sso.onewoorks-solutions.com/auth/",
+  "ssl-required": "external",
+  "resource": "zak-v2",
+  "public-client": true,
+  "confidential-port": 0,
+  "clientId":"zak-v2"
+});
+
+            keycloak.init({ 
+                onLoad: 'login-required',
+                promiseType: 'native'
+             })
+                .then(function(authenticated) {
+                    // alert(authenticated ? 'authenticated' : 'not authenticated');
+                    console.log(authenticated)
+                    console.log(keycloak)
+                })
+                .catch(function() {
+                    alert('failed to initialize');
+            });    
+
+            function logout() {
+                //
+                keycloak.logout('https://sso.onewoorks-solutions.com/auth/realms/pengurusan_emas/protocol/openid-connect/logout?redirect_uri=encodedRedirectUri')
+                //alert("Logged Out");
+            }
+        </script>
+    </body>
+</html>
