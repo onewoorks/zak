@@ -30,7 +30,7 @@
                 })
                 .then(function (authenticated) {
                     keycloak.logout(
-                        "https://sso.onewoorks-solutions.com/auth/realms/pengurusan_emas/protocol/openid-connect/logout?redirect_uri=encodedRedirectUri"
+                        "https://sso.onewoorks-solutions.com/auth/realms/pengurusan_emas/protocol/openid-connect/logout?redirect_uri=https%3A%2F%2Fzak-v2.herokuapp.com%2Flogin.html"
                     )
                 })
                 .catch(function () {
