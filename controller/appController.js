@@ -440,7 +440,7 @@ zakApp.controller("alirantunaiController", [
         $scope.beratEmas = ""
         $scope.nilai = ""
         $scope.transaksi = {
-            jenis: "masuk",
+            jenis: "keluar",
             account_zak: 1
         }
         $scope.selectKakitangan = false
