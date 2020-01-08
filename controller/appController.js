@@ -1,5 +1,5 @@
-//var api_url = 'http://localhost/zak_api/api';
-//var app_url = 'http://localhost/Zak_v2/public_html/home.html'
+// var api_url = 'http://localhost/zak_api/api';
+// var app_url = 'http://localhost/Zak_v2/public_html/home.html'
 
 var api_url = "https://onewoorks-solutions.com/api/zak/api"
 var app_url = "https://zak-v2.herokuapp.com"
@@ -588,41 +588,6 @@ zakApp.controller("transaksiKeseluruhanController", [
     }
 ])
 
-zakApp.controller("transaksiKeseluruhanBankController", [
-    "$scope",
-    "$http",
-    function($scope, $http) {
-        var getAliranBank = () => {
-            $http
-                .get(api_url + "/rekod/semua-aliran-bank")
-                .then(function(response) {
-                    $scope.listAliranBank = response.data.result
-                })
-        }
-
-        $scope.tapis = {}
-
-        $scope.tapisPilihan = () => {
-            var tarikh_mula = $("[name=tarikhMula]").val()
-            var tarikh_akhir = $("[name=tarikhAkhir]").val()
-            $http({
-                url: api_url + "/rekod/semua-aliran-bank",
-                type: "get",
-                params: {
-                    tarikh_mula: dBdate(tarikh_mula),
-                    tarikh_akhir: dBdate(tarikh_akhir)
-                }
-            }).then(function(response) {
-                if (response.data.result.list.length > 0) {
-                    $scope.listAliranBank = response.data.result
-                }
-            })
-        }
-
-        getAliranBank()
-    }
-])
-
 zakApp.controller("stokController", [
     "$scope",
     "$http",
@@ -781,94 +746,6 @@ zakApp.controller("laporanHarianController", [
                 })
         }
         getLaporanHarian()
-    }
-])
-
-zakApp.controller("aliranbankController", [
-    "$scope",
-    "$http",
-    "generalController",
-    "SweetAlert",
-    function($scope, $http, generalController, SweetAlert) {
-        angular.extend($scope, generalController)
-        $scope.listBank().then(function(response) {
-            $scope.listOfBanks = response
-            $scope.bank_akaun = $scope.listOfBanks[0]
-        })
-
-        $scope.tarikh = currentDate()
-
-        var listAliran = []
-        $scope.transaksi = "masuk"
-
-        $scope.addToList = () => {
-            addToList()
-        }
-
-        $scope.listAliranBank = listAliran
-
-        var clearForm = () => {
-            $scope.perkara = ""
-            $scope.nilai = ""
-            $scope.tarikh = currentDate()
-        }
-
-        var kiraJumlah = () => {
-            var masuk = 0
-            var keluar = 0
-
-            angular.forEach(listAliran, function(value, key) {
-                masuk = parseFloat(masuk) + parseFloat(value.jenis_masuk)
-                keluar = parseFloat(keluar) + parseFloat(value.jenis_keluar)
-            })
-
-            var jumlah = {
-                masuk: masuk,
-                keluar: keluar
-            }
-
-            return jumlah
-        }
-
-        var addToList = () => {
-            var data = {
-                tarikh: $scope.tarikh,
-                perkara: $scope.perkara,
-                bank: $scope.bank_akaun,
-                kategori: $scope.transaksi === "masuk" ? 1 : 2,
-                jumlah: Number($scope.nilai || 0),
-                nama_bank: $scope.bank_akaun.bank_name,
-                jenis_masuk:
-                    $scope.transaksi === "masuk"
-                        ? Number($scope.nilai || 0)
-                        : 0,
-                jenis_keluar:
-                    $scope.transaksi === "keluar"
-                        ? Number($scope.nilai || 0)
-                        : 0
-            }
-            listAliran.push(data)
-            $scope.jumlah = kiraJumlah()
-            clearForm()
-        }
-
-        $scope.rekodAb = () => {
-            $http({
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                url: api_url + "/transaksi/aliran-bank",
-                method: "POST",
-                data: JSON.stringify($scope.listAliranBank)
-            }).then(function(response) {
-                $scope.listAliranBank = []
-                SweetAlert.swal(
-                    "Berjaya!",
-                    "Pendaftaran aliran bank telah berjaya.",
-                    "success"
-                )
-            })
-        }
     }
 ])
 

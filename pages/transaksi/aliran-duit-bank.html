@@ -12,6 +12,15 @@
                     <form class='form-horizontal' 
                           name='form_ab' 
                           ng-submit="addToList()" >
+
+                          <div class='form-group'>
+                            <label class='col-sm-5 control-label'>Tarikh</label>
+                            <div class='col-sm-7'>
+                                <input type='text' class='form-control dp' 
+                                       name='tarikh' ng-model='tarikh'  required autocomplete="off" ng-required='true' />
+                            </div>
+                        </div>
+                        
                         <div class='form-group'>
                             <label class='col-sm-5 control-label'>Perkara</label>
                             <div class='col-sm-7'>
@@ -29,14 +38,6 @@
                             </div>
                             <div class='col-xs-1' style='padding-left:0; margin-left:-13px'>
                                 <div class='btn btn-default' data-toggle="modal" data-target="#myModal" >+</div>
-                            </div>
-                        </div>
-
-                        <div class='form-group'>
-                            <label class='col-sm-5 control-label'>Tarikh</label>
-                            <div class='col-sm-7'>
-                                <input type='text' class='form-control dp' 
-                                       name='tarikh' ng-model='tarikh'  required autocomplete="off" ng-required='true' />
                             </div>
                         </div>
 
@@ -67,8 +68,8 @@
 
                         <div class='form-group'>
                             <div class='col-sm-12 text-right'>
-                                <button class='btn btn-default' type='reset'> Reset</button>
-                                <button class='btn btn-primary' type='submit'><i class='fas fa-plus'></i> Daftar Aliran Bank</button>
+                                <button class='btn btn-default btn-sm' type='reset'> Reset</button>
+                                <button class='btn btn-primary btn-sm' type='submit'><i class='fas fa-plus'></i> Daftar Aliran Bank</button>
                             </div>
                         </div>
                     </form>        
@@ -111,7 +112,7 @@
                         </tfoot>
                     </table>
                     <div ng-if="listAliranBank.length > 0" class="text-right">
-                        <div class="btn btn-primary" ng-click='rekodAb()'><i class='fas fa-save'></i> Daftar Aliran Diatas</div>
+                        <div class="btn btn-primary btn-sm" ng-click='rekodAb()'><i class='fas fa-save'></i> Daftar Aliran Diatas</div>
                     </div>
                 </div>
             </div>

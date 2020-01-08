@@ -11,72 +11,84 @@
                         <div class='form-group'>
                             <label class='col-sm-2 control-label'>Tarikh Mula</label>
                             <div class='col-sm-3'>
-                                <input type='text' class='form-control dp' name='tarikhMula' ng-model='tapis.tarikh.mula'  
-                                       autocomplete="off" required/>
+                                <input type='text' class='form-control input-sm dp' name='tarikhMula'
+                                    ng-model='tapis.tarikh.mula' autocomplete="off" required />
                             </div>
-                            
+
                             <label class='col-sm-2 control-label'>Tarikh Akhir</label>
                             <div class='col-sm-3'>
-                                <input type='text' class='form-control dp' name='tarikhAkhir' ng-model='tapis.tarikh.akhir' 
-                                       autocomplete="0" required/>
+                                <input type='text' class='form-control input-sm dp' name='tarikhAkhir'
+                                    ng-model='tapis.tarikh.akhir' autocomplete="0" required />
                             </div>
-                            
+
                             <div class='col-sm-2'>
-                                <button type="submit" class='btn btn-primary btn-block'><i class='fas fa-search'></i> Cari</button>
+                                <button type="submit" class='btn btn-primary btn-sm btn-block'><i class='fas fa-search'></i>
+                                    Cari</button>
                             </div>
                         </div>
-                        
+
                     </form>
-                    
+
                     <hr>
-                
+
                 </div>
-                
+
                 <div class="table-responsive">
                     <table class='table table-bordered table-condensed'>
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Tarikh Dan Masa</th>
-                            <th>Perkara</th>
-                            <th class='text-center'>Masuk</th>
-                            <th class='text-center'>Keluar</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="aliran in listAliranBank.list">
-                            <td>{{($index+1)}}</td>
-                            <td>{{aliran.tarikh}}</td>
-                            <td>{{aliran.perkara}}</td>
-                            <td class="text-right">{{ (aliran.kategori=='1') ? (aliran.jumlah | number:2) : '' }}</td>
-                            <td class="text-right">{{ (aliran.kategori=='2') ? (aliran.jumlah | number:2) : ''}}</td>
-                        </tr>
-                    </tbody>
-                </table>
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Tarikh Dan Masa</th>
+                                <th>Perkara</th>
+                                <th class='text-center'>Masuk</th>
+                                <th class='text-center'>Keluar</th>
+                                <th class='text-center'>Tindakan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="aliran in listAliranBank.list" ng-show="aliran.kategori < 5">
+                                <td>{{($index+1)}}</td>
+                                <td>{{aliran.tarikh}}</td>
+                                <td>{{aliran.perkara}}</td>
+                                <td class="text-right">{{ (aliran.kategori=='1') ? (aliran.jumlah | number:2) : '' }}
+                                </td>
+                                <td class="text-right">{{ (aliran.kategori=='2') ? (aliran.jumlah | number:2) : ''}}
+                                </td>
+                                <td class='text-center'>
+                                    <div class="btn btn-xs btn-danger"
+                                        ng-click="deleteTransaksi(aliran.id)"
+                                    >
+                                        <em class="fa fa-trash-alt"></em>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
-        
+
         <div class="col-sm-3">
             <div class="panel panel-primary">
                 <div class="panel-heading">RINGKASAN JUMLAH TRANSAKSI</div>
                 <div class="table-responsive">
-                <table class="table">
-                    <tbody>
-                        <tr>
-                            <th>Masuk</th>
-                            <td class="text-right">{{listAliranBank.summary.masuk | number:2}}</td>
-                        </tr>
-                        <tr>
-                            <th>Keluar</th>
-                            <td class="text-right">{{listAliranBank.summary.keluar | number:2}}</td>
-                        </tr>
-                        <tr>
-                            <th>Dalam Bank</th>
-                            <td class="text-right">{{(listAliranBank.summary.masuk - listAliranBank.summary.keluar) | number:2}}</td>
-                        </tr>
-                    </tbody>
-                </table>
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <th>Masuk</th>
+                                <td class="text-right">{{listAliranBank.summary.masuk | number:2}}</td>
+                            </tr>
+                            <tr>
+                                <th>Keluar</th>
+                                <td class="text-right">{{listAliranBank.summary.keluar | number:2}}</td>
+                            </tr>
+                            <tr>
+                                <th>Dalam Bank</th>
+                                <td class="text-right">
+                                    {{(listAliranBank.summary.masuk - listAliranBank.summary.keluar) | number:2}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -88,8 +100,8 @@
         $('.dp').datepicker({
             format: 'dd/mm/yyyy'
         })
-                .on('changeDate', function (ev) {
-                    $('.dp').datepicker('hide');
-                });
+            .on('changeDate', function (ev) {
+                $('.dp').datepicker('hide');
+            });
     })
 </script>
