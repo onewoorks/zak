@@ -58,7 +58,7 @@
                             <td>{{aliran.at_perkara}}</td>
                             <td>{{aliran.stf_nama}}</td>
                             <td class="text-right">{{ (aliran.at_kategori=='1') ? (aliran.at_jumlah | number:2) : '' }}</td>
-                            <td class="text-right">{{ (aliran.at_kategori=='2' && aliran.at_jumlah > 0) ? (aliran.at_jumlah | number:2) : ''}}</td>
+                            <td class="text-right">{{ (aliran.at_kategori=='2') ? (aliran.at_jumlah | number:2) : ''}}</td>
                             <td class="text-right">{{ (aliran.at_beratEmas>0) ? (aliran.at_beratEmas | number:2) : ''}}</td>
                             <td class="text-right">{{ (aliran.at_guna>0) ? (aliran.at_guna | number:2) : ''}}</td>
                         </tr>
