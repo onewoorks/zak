@@ -8,17 +8,18 @@
                 <div class='panel-heading'><i class='fas fa-clipboard'></i> Senarai Transaksi</div>
                 <div class='panel-body'>
                     <form ng-submit="tapisPilihan()" class='form-horizontal'>
+                        {{ tarikh_mula }}
                         <div class='form-group'>
                             <label class='col-sm-2 control-label'>Tarikh Mula</label>
                             <div class='col-sm-3'>
-                                <input type='text' class='form-control input-sm dp' name='tarikh_mula' ng-model='tapis.tarikh.mula' 
+                                <input type='text' class='form-control input-sm dp' name='tarikh_mula' ng-model='tapis.tarikh_mula' 
                                        autocomplete="off"
                                        required/>
                             </div>
                             
                             <label class='col-sm-2 control-label'>Tarikh Akhir</label>
                             <div class='col-sm-3'>
-                                <input type='text' class='form-control input-sm dp' name='tarikh_akhir' ng-model='tapis.tarikh.akhir' 
+                                <input type='text' class='form-control input-sm dp' name='tarikh_akhir' ng-model='tapis.tarikh_akhir' 
                                        autocomplete="off" required/>
                             </div>
                             

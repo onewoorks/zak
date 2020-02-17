@@ -120,7 +120,7 @@ const currentDate = () => {
     return day + "/" + month + "/" + year
 }
 
-const dBdate = date => {
+const dBdate = (date) => {
     var arr = date.split("/")
     return arr["2"] + "-" + arr[1] + "-" + arr[0]
 }
@@ -167,7 +167,7 @@ zakApp.controller("user_navigation", [
 
         $scope.logout = () => {
             window.localStorage.removeItem('user_session')
-            // window.location.href = "https://sso.onewoorks-solutions.com/auth/realms/pengurusan_emas/protocol/openid-connect/logout?redirect_uri=https%3A%2F%2Flocalhost%2Fzal%2Flogin.html"
+            // window.location.href = "https://sso.onewoorks-solutions.com/auth/realms/pengurusan_emas/protocol/openid-connect/logout?redirect_uri=http%3A%2F%2Flocalhost%2Fzak%2Flogin.html"
             window.location.href = "https://sso.onewoorks-solutions.com/auth/realms/pengurusan_emas/protocol/openid-connect/logout?redirect_uri=https%3A%2F%2Fzak-v2.herokuapp.com%2Flogin.html"
         }
 
@@ -259,6 +259,11 @@ zakApp.service("generalController", function($http, $q) {
                 return $q.reject(response.data.result)
             }
         )
+    }
+
+    generalFunction.dBdate = date => {
+        var arr = date.split("/")
+        return arr["2"] + "-" + arr[1] + "-" + arr[0]
     }
 
     return generalFunction
@@ -552,39 +557,6 @@ zakApp.controller("alirantunaiController", [
                 )
             })
         }
-    }
-])
-
-zakApp.controller("transaksiKeseluruhanController", [
-    "$scope",
-    "$http",
-    function($scope, $http) {
-        var getAliranTunai = () => {
-            $http.get(api_url + "/rekod").then(function(response) {
-                $scope.listAliranTunai = response.data.result
-            })
-        }
-
-        $scope.tapis = {}
-
-        $scope.tapisPilihan = () => {
-            var tarikh_mula = $("[name=tarikhMula]").val()
-            var tarikh_akhir = $("[name=tarikhAkhir]").val()
-            $http({
-                url: api_url + "/rekod/aliran-tunai",
-                type: "get",
-                params: {
-                    tarikh_mula: dBdate(tarikh_mula),
-                    tarikh_akhir: dBdate(tarikh_akhir)
-                }
-            }).then(function(response) {
-                if (response.data.result.list.length > 0) {
-                    $scope.listAliranBank = response.data.result
-                }
-            })
-        }
-
-        getAliranTunai()
     }
 ])
 
