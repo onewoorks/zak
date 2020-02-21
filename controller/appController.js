@@ -129,7 +129,7 @@ var isNumberKey = (evt, val) => {
     var key = evt.key
     var obj = {}
     var str = $(val).val()
-    for (x = 0, length = str.length; x < length; x++) {
+    for (let x = 0, length = str.length; x < length; x++) {
         var l = str.charAt(x)
         if (l === ".") {
             obj["dot"] = 1
@@ -502,7 +502,7 @@ zakApp.controller("alirantunaiController", [
             return jumlah
         }
 
-        addToList = () => {
+        const addToList = () => {
             var data = {
                 pid: awlist.length,
                 tarikh: $scope.tarikh,
@@ -540,7 +540,7 @@ zakApp.controller("alirantunaiController", [
             $scope.awlist = awlist
         }
 
-        daftarAw = () => {
+        const daftarAw = () => {
             $http({
                 headers: {
                     "Content-Type": "application/json"
