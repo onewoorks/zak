@@ -1,6 +1,6 @@
 {
     "realm": "pengurusan_emas",
-    "auth-server-url": "https://sso.onewoorks-solutions.com/auth/",
+    "auth-server-url": "https://sso.pengurusanemas.my/auth/",
     "ssl-required": "external",
     "resource": "zak",
     "public-client": true,
