@@ -2,7 +2,7 @@
 // var app_url = 'http://localhost/Zak_v2/public_html/home.html'
 
 var api_url = "https://onewoorks-solutions.com/api/zak/api"
-var app_url = "https://zak-v2.herokuapp.com"
+var app_url = "http://3.0.21.3:8060"
 
 var zakApp = angular.module("zakApp", [
     "ngRoute",
@@ -167,8 +167,9 @@ zakApp.controller("user_navigation", [
 
         $scope.logout = () => {
             window.localStorage.removeItem('user_session')
+            window.location.href = "/"
             // window.location.href = "https://sso.onewoorks-solutions.com/auth/realms/pengurusan_emas/protocol/openid-connect/logout?redirect_uri=http%3A%2F%2Flocalhost%2Fzak%2Flogin.html"
-            window.location.href = "https://sso.onewoorks-solutions.com/auth/realms/pengurusan_emas/protocol/openid-connect/logout?redirect_uri=https%3A%2F%2Fzak-v2.herokuapp.com%2Flogin.html"
+            // window.location.href = "https://sso.onewoorks-solutions.com/auth/realms/pengurusan_emas/protocol/openid-connect/logout?redirect_uri=https%3A%2F%2Fzak-v2.herokuapp.com%2Flogin.html"
         }
 
         verify_session()
