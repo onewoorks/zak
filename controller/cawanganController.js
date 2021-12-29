@@ -87,6 +87,7 @@ angular.module("zakApp").controller("cawanganController", [
         $scope.kemaskiniCawanganLama = () => {
             var cawangan = $scope.modalcawangan
             cawangan["profile"] = user_session.uid
+            // cawangan["profile"] = 1
             $http({
                 headers: {
                     "Content-Type": "application/json"
@@ -150,6 +151,7 @@ angular.module("zakApp").controller("cawanganController", [
         $scope.daftarCawanganLama = () => {
             var cawangan = $scope.modalcawangan
             cawangan["profile"] = user_session.uid
+            
             $http({
                 headers: {
                     "Content-Type": "application/json"
